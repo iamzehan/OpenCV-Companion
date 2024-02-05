@@ -1,6 +1,7 @@
 import cv2 as cv
 import numpy as np
 import streamlit as st
+
 def bytes_to_image(byte_string):
     # Convert the byte string to a NumPy array
     image_array = np.frombuffer(byte_string, dtype=np.uint8)
@@ -9,11 +10,12 @@ def bytes_to_image(byte_string):
     return image
 
 def video_capture():
-    start = st.button("Run it :green[▶️]")
+    _, col1, col2, _ = st.columns([2,2,2,2])
+    start = col1.button("Run it :green[▶️]", use_container_width=True)
     if start:
         cap = cv.VideoCapture(0)
         video_placeholder = st.empty()
-        stop = st.button("Stop :red[🟥]")
+        stop = col2.button("Stop :red[🟥]", use_container_width=True)
         if not cap.isOpened():
             st.error("Cannot open camera")
             exit()
