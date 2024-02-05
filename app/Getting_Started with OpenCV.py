@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.set_page_config(page_icon="https://upload.wikimedia.org/wikipedia/commons/5/53/OpenCV_Logo_with_text.png")
+st.set_page_config(page_icon="app\\assets\\OpenCV_Logo_with_text.png")
 st.markdown("""
             <h1 align="center"><img src="https://upload.wikimedia.org/wikipedia/commons/5/53/OpenCV_Logo_with_text.png" height="40" width="auto"> Companion</h1> 
             <h6 align="center"> A Companion website to play around with OpenCV in realtime</h6>
