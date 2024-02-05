@@ -16,9 +16,10 @@ st.markdown("""
 
 st.subheader("Capture Video from Camera with `cv.VideoCapture()`")
 col1, col2,_, _ = st.columns([1,1,1,1])
-start = col1.button("Run it :green[▶️]", use_container_width=True)
+start = col1.button("Run :green[▶️]", key="Run 1")
 if start: 
     video_capture(col2)
+    
 else:
     st.code("""
     import numpy as np
@@ -83,10 +84,10 @@ video_file_name='vtest.avi'
 video_file = st.file_uploader("Upload a video to see how it works", type=["mp4", "avi", "mov"])
 if video_file:
     video_file_name = video_file.name
-    c1, c2,_ = st.columns([1,1,1])
-    start = c1.button("Run :green[▶️]", use_container_width=True)
+    col1, col2,_,_ = st.columns([1,1,1,1])
+    start = col1.button("Run :green[▶️]", key="Run 2")
     if start and video_file:
-        process_uploaded_video(video_file, c2)
+        process_uploaded_video(video_file, col2)
     else:
         st.code(f"""
     import numpy as np
