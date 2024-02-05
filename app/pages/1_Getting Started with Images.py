@@ -1,5 +1,8 @@
 import streamlit as st
-from utils.images import bytes_to_image, read_image
+from utils.images import (
+    bytes_to_image,
+    read_image
+    )
 
 def note(image_file_name):
     st.error("Please upload an image to see results")
