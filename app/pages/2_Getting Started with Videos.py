@@ -11,6 +11,7 @@ st.markdown("""
             """,
             unsafe_allow_html=True)
 
+st.subheader("`cv.VideoCapture()`")
 st.subheader("Sample Code")
 st.code("""
 import numpy as np
