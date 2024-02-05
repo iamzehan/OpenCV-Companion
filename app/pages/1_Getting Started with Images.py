@@ -40,7 +40,7 @@ st.markdown("""
 
 
 img_file_name = 'Lenna.png'
-img_file = st.file_uploader("Upload an Image to see how the code changes:")
+img_file = st.file_uploader("Upload an Image to see how the code changes:", type=["PNG","JPG"])
 
 if img_file:
     img_file_name = img_file.name
