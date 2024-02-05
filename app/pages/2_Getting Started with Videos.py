@@ -11,8 +11,9 @@ st.markdown("""
             """,
             unsafe_allow_html=True)
 
-st.subheader("`cv.VideoCapture()`")
-st.subheader("Sample Code")
+st.subheader("Working with `cv.VideoCapture()`")
+video_capture()
+
 st.code("""
 import numpy as np
 import cv2 as cv
@@ -36,7 +37,8 @@ while True:
 # When everything done, release the capture
 cap.release()
 cv.destroyAllWindows()
-""")
+""", line_numbers=True)
+
 with st.expander("Details", expanded=False):
     st.markdown("""
 `cap.read()` returns a bool (`True/False`). If the frame is read correctly,
@@ -60,6 +62,6 @@ Just use `ret = cap.set(cv.CAP_PROP_FRAME_WIDTH,320)` and `ret = cap.set(cv.CAP_
 **Note**
 > If you are getting an error, make sure your camera is working fine using any other camera application (like Cheese in Linux).
 """)
-video_capture()
+
 
 
