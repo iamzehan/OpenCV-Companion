@@ -31,10 +31,15 @@ st.markdown("""<style>
 <table align="center">
 <tr style="border: none;">
 <td style="border: none;">
-<a href="https://docs.opencv.org/3.4/d5/de5/tutorial_py_setup_in_windows.html" class="button-link" target="_blank">🪟 Windows</a>
+<a href="https://docs.opencv.org/3.4/d5/de5/tutorial_py_setup_in_windows.html" class="button-link" target="_blank">
+    🪟 Windows
+</a>
 </td>
 <td style="border: none;">
-<a href="https://docs.opencv.org/3.4/dd/dd5/tutorial_py_setup_in_fedora.html" class="button-link" target="_blank"> <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Fedora_icon_%282021%29.svg" alt="Ubuntu" style="vertical-align:middle;height:20px;"> Fedora</a>
+<a href="https://docs.opencv.org/3.4/dd/dd5/tutorial_py_setup_in_fedora.html" class="button-link" target="_blank"> 
+    <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Fedora_icon_%282021%29.svg" alt="Ubuntu" style="vertical-align:middle;height:20px;"> 
+Fedora
+</a>
 </td>
 <td style="border: none;">
 <a href="https://docs.opencv.org/3.4/d2/de6/tutorial_py_setup_in_ubuntu.html" class="button-link" target="_blank">
