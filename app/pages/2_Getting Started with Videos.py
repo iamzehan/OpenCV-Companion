@@ -1,5 +1,8 @@
 import streamlit as st 
-from utils.essentials import video_capture
+from utils.videos import (
+    video_capture,
+    process_uploaded_video
+)
 st.set_page_config(page_icon="https://upload.wikimedia.org/wikipedia/commons/5/53/OpenCV_Logo_with_text.png", page_title="Getting Started with Videos")
 
 st.markdown("""
@@ -11,7 +14,7 @@ st.markdown("""
             """,
             unsafe_allow_html=True)
 
-st.subheader("Working with `cv.VideoCapture()`")
+st.subheader("Capture Video from Camera with `cv.VideoCapture()`")
 col1, col2,_, _ = st.columns([1,1,1,1])
 start = col1.button("Run it :green[▶️]", use_container_width=True)
 if start: 
@@ -66,5 +69,64 @@ Just use `ret = cap.set(cv.CAP_PROP_FRAME_WIDTH,320)` and `ret = cap.set(cv.CAP_
 > If you are getting an error, make sure your camera is working fine using any other camera application (like Cheese in Linux).
 """)
 
+st.subheader("Playing Video from file")
+st.markdown("""Playing video from file is the same as capturing it from camera,
+            just change the camera index to a video file name. 
+            Also while displaying the frame, use appropriate time for cv.waitKey().
+            If it is too less, video will be very fast and if it is too high, 
+            video will be slow (Well, that is how you can display videos in slow motion). 
+            25 milliseconds will be OK in normal cases.""")
 
+video_file_name='vtest.avi'
+
+video_file = st.file_uploader("Upload a video to see how it works", type=["mp4", "avi", "mov"])
+if video_file:
+    video_file_name = video_file.name
+    c1, c2,_ = st.columns([1,1,1])
+    start = c1.button("Run :green[▶️]", use_container_width=True)
+    if start and video_file:
+        process_uploaded_video(video_file, c2)
+    else:
+        st.code(f"""
+    import numpy as np
+    import cv2 as cv
+    cap = cv.VideoCapture('{video_file_name}')
+    while cap.isOpened():
+        ret, frame = cap.read()
+        # if frame is read correctly ret is True
+        if not ret:
+            print("Can't receive frame (stream end?). Exiting ...")
+            break
+        gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+        cv.imshow('frame', gray)
+        if cv.waitKey(1) == ord('q'):
+            break
+    cap.release()
+    cv.destroyAllWindows()
+    """, line_numbers=True)
+else:
+    st.code(f"""
+    import numpy as np
+    import cv2 as cv
+    cap = cv.VideoCapture('{video_file_name}')
+    while cap.isOpened():
+        ret, frame = cap.read()
+        # if frame is read correctly ret is True
+        if not ret:
+            print("Can't receive frame (stream end?). Exiting ...")
+            break
+        gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+        cv.imshow('frame', gray)
+        if cv.waitKey(1) == ord('q'):
+            break
+    cap.release()
+    cv.destroyAllWindows()
+    """, line_numbers=True)
+
+st.markdown("""
+**Note**
+> Make sure a proper version of `ffmpeg` or `gstreamer` is installed. 
+Sometimes it is a headache to work with video capture, mostly due to wrong installation of 
+`ffmpeg/gstreamer`.
+""")
 
