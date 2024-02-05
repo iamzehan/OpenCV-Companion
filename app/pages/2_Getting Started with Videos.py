@@ -56,7 +56,8 @@ If it is `True`, OK. Otherwise open it using `cap.open()`.
 You can also access some of the features of this video using `cap.get(propId)` method where 
 `propId` is a number from `0` to `18`. Each number denotes a property of the video 
 (if it is applicable to that video). 
-Full details can be seen here: [`cv::VideoCapture::get()`](https://docs.opencv.org/3.4/d8/dfe/classcv_1_1VideoCapture.html#aa6480e6972ef4c00d74814ec841a2939). 
+Full details can be seen here: 
+[`cv::VideoCapture::get()`](https://docs.opencv.org/3.4/d8/dfe/classcv_1_1VideoCapture.html#aa6480e6972ef4c00d74814ec841a2939). 
 Some of these values can be modified using `cap.set(propId, value)`. 
 Value is the new value you want.
 
