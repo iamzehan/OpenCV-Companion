@@ -3,7 +3,7 @@ from utils.videos import (
     video_capture,
     process_uploaded_video
 )
-st.set_page_config(page_icon="https://upload.wikimedia.org/wikipedia/commons/5/53/OpenCV_Logo_with_text.png", page_title="Getting Started with Videos")
+st.set_page_config(page_icon="app\\assets\\OpenCV_Logo_with_text.png", page_title="Getting Started with Videos")
 
 st.markdown("""
             # Getting Started with Videos 📽️
