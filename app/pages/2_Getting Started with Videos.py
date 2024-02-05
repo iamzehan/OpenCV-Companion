@@ -1,5 +1,5 @@
 import streamlit as st 
-
+from utils.essentials import video_capture
 st.set_page_config(page_icon="https://upload.wikimedia.org/wikipedia/commons/5/53/OpenCV_Logo_with_text.png", page_title="Getting Started with Videos")
 
 st.markdown("""
@@ -59,5 +59,6 @@ Just use `ret = cap.set(cv.CAP_PROP_FRAME_WIDTH,320)` and `ret = cap.set(cv.CAP_
 **Note**
 > If you are getting an error, make sure your camera is working fine using any other camera application (like Cheese in Linux).
 """)
+video_capture()
 
-st.button("Run it :green[▶️]")
+
