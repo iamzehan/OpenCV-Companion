@@ -4,7 +4,7 @@ from utils.images import (
     read_image
     )
 
-def note(image_file_name):
+def note(img_file_name):
     st.error("Please upload an image to see results")
 
     st.markdown("""Because we want our window to be displayed
