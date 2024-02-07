@@ -114,34 +114,34 @@ def Draw_Circle():
                     """)
         st.info("Feel free to fiddle around with the parameters")
         
-        with st.container(border=True):
-            st.markdown("<center style='color:red'><h3>Parameters</h3></center>", unsafe_allow_html=True)
-            
-            col1, col2 = st.columns(2)
-            col1.markdown("<center>Center</center>", unsafe_allow_html=True)
-            center_x, center_y = col1.slider("`x - coordinate`",value=447,max_value=512),\
-                                 col1.slider("` y - coordinate`", value=63, max_value= 512)
+        
+        with st.sidebar:
+            st.markdown("<center>Center</center>", unsafe_allow_html=True)
+            center_x, center_y = st.sidebar.slider("`x - coordinate`",value=447,max_value=512),\
+                                st.slider("` y - coordinate`", value=63, max_value= 512)
             center = (center_x, center_y)
             
-            col1.markdown("<center>Radius</center>", unsafe_allow_html=True)
-            radius= col1.number_input("`r`", value=63, max_value=512)
+            st.markdown("<center>Radius</center>", unsafe_allow_html=True)
+            radius= st.sidebar.number_input("`r`", value=63, max_value=512)
             
-            col1.markdown("<center>Color</center>", unsafe_allow_html=True)
-            color = col1.color_picker("Pick a color",value="#00ff00", label_visibility="hidden")
+            st.markdown("<center>Color</center>", unsafe_allow_html=True)
+            color = st.color_picker("Pick a color",value="#00ff00", label_visibility="hidden")
             color = ImageColor.getcolor(f'{color}','RGB')
             
-            col1.markdown("<center>Thickness</center>", unsafe_allow_html=True)
-            thickness=col1.number_input("Thickness",value=-1,
+            st.markdown("<center>Thickness</center>", unsafe_allow_html=True)
+            thickness=st.number_input("Thickness",value=2,
                                         max_value=10, label_visibility="hidden")
             
-            if col1.checkbox("Fill Circle", value=True): thickness=-1
-            
-            col2.markdown("<center>Output</center>", unsafe_allow_html=True)
-            col2.image(draw_circle( center, 
+            if st.checkbox("Fill Circle", value=True): thickness=-1
+        
+        with st.container(border=True): 
+            st.markdown("<center>Output</center>", unsafe_allow_html=True)
+            st.image(draw_circle( center, 
                                     radius, 
                                     color,
                                     thickness ),
-                       'Draw Circle')
+                       'Draw Circle',
+                       width=200, use_column_width=True)
             
                 
         with st.container(border=True):
@@ -156,6 +156,7 @@ def Draw_Circle():
         """)
 
 def Draw_Ellipse():
+    
     with st.container(border=True):
         st.subheader("Drawing Ellipse")
         st.markdown("""
@@ -174,54 +175,57 @@ def Draw_Ellipse():
         with st.container(border=True):
             st.markdown("<center style='color:red'><h3>Parameters</h3></center>", unsafe_allow_html=True)
             
-            col1, col2 = st.columns(2)
-            col1.markdown("<center>Center</center>", unsafe_allow_html=True)
-            center_x, center_y = col1.slider("`x - coordinate`",value=447,max_value=512),\
-                                 col1.slider("` y - coordinate`", value=63, max_value= 512)
-            center = (center_x, center_y)
+            with st.sidebar:
             
-            col1.markdown("<center>Axes Length</center>", unsafe_allow_html=True)
-            axes_length= col1.number_input("`axes_length - major`", value=100, max_value=512), col1.number_input("`axes_length - minor`", value=50, max_value=512)
+                st.markdown("<center>Center</center>", unsafe_allow_html=True)
+                center_x, center_y = st.slider("`x - coordinate`",value=447,max_value=512),\
+                                    st.slider("` y - coordinate`", value=63, max_value= 512)
+                center = (center_x, center_y)
+                
+                st.markdown("<center>Axes Length</center>", unsafe_allow_html=True)
+                axes_length= st.slider("`axes_length - major`", value=100, max_value=512),\
+                            st.slider("`axes_length - minor`", value=50, max_value=512)
+                
+                st.markdown("<center>Angle</center>", unsafe_allow_html=True)
+                angle = st.slider("`angle`", value = 0, max_value=360)
+                
+                st.markdown("<center>Start Angle</center>", unsafe_allow_html=True)
+                start_angle = st.slider("`start_angle`", value = 0, max_value=360)
+                
+                st.markdown("<center>End Angle</center>", unsafe_allow_html=True)
+                end_angle = st.slider("`end_angle`", value = 180, max_value=360)
+                
+                st.markdown("<center>Color</center>", unsafe_allow_html=True)
+                color = st.color_picker("Pick a color",value="#ff0000", label_visibility="hidden")
+                color = ImageColor.getcolor(f'{color}','RGB')
+                
+                st.markdown("<center>Thickness</center>", unsafe_allow_html=True)
+                thickness=st.slider("Thickness",value=2, min_value=-1,
+                                            max_value=10, label_visibility="hidden")
+                
+                if st.checkbox("Fill Circle", value=True): thickness=-1
             
-            col1.markdown("<center>Angle</center>", unsafe_allow_html=True)
-            angle = col1.number_input("`angle`", value = 0, max_value=360)
-            
-            col1.markdown("<center>Start Angle</center>", unsafe_allow_html=True)
-            start_angle = col1.number_input("`start_angle`", value = 0, max_value=360)
-            
-            col1.markdown("<center>End Angle</center>", unsafe_allow_html=True)
-            end_angle = col1.number_input("`end_angle`", value = 180, max_value=360)
-            
-            col1.markdown("<center>Color</center>", unsafe_allow_html=True)
-            color = col1.color_picker("Pick a color",value="#ff0000", label_visibility="hidden")
-            color = ImageColor.getcolor(f'{color}','RGB')
-            
-            col1.markdown("<center>Thickness</center>", unsafe_allow_html=True)
-            thickness=col1.number_input("Thickness",value=-1,
-                                        max_value=10, label_visibility="hidden")
-            
-            if col1.checkbox("Fill Circle", value=True): thickness=-1
-            
-            col2.markdown("<center>Output</center>", unsafe_allow_html=True)
-            col2.image(draw_ellipse( center, 
+            st.markdown("<center>Output</center>", unsafe_allow_html=True)
+            st.image(draw_ellipse( center, 
                                     axes_length,
                                     angle,
                                     start_angle,
                                     end_angle,
                                     color,
                                     thickness ),
-                       'Draw Ellipse')
+                       'Draw Ellipse',
+                       use_column_width=True)
             
                 
         with st.container(border=True):
             st.markdown("### Code")
             st.code(f"""
-                    import numpy as np
-                    import cv2 as cv
-                    # Create a black image
-                    img = np.zeros((512,512,3), np.uint8)
-                    # Draw a diagonal blue line with thickness of 5 px
-                    cv.ellipse(img,{center},{axes_length},{angle},{start_angle},{end_angle}, {color},{thickness})
+                import numpy as np
+                import cv2 as cv
+                # Create a black image
+                img = np.zeros((512,512,3), np.uint8)
+                # Draw a diagonal blue line with thickness of 5 px
+                cv.ellipse(img,{center}, {axes_length}, {angle}, {start_angle}, {end_angle}, {color}, {thickness})
         """)
 
 def Draw_Polygon():
