@@ -171,3 +171,62 @@ def Play_Video_from_File():
     Sometimes it is a headache to work with video capture, mostly due to wrong installation of 
     `ffmpeg/gstreamer`.
     """)
+    
+def Save_Video():
+    st.markdown("""
+                # Video Processing and Saving in OpenCV
+
+When working with videos, capturing and processing frames frame-by-frame is a common task. Unlike images, saving videos involves a bit more effort. In OpenCV, for images, you can use `cv.imwrite()`. However, for videos, you need to create a `VideoWriter` object.
+
+To save a video, follow these steps:
+
+1. Create a `VideoWriter` object.
+   - Specify the output file name (e.g., output.avi).
+   - Specify the FourCC code (details in the next paragraph).
+   - Provide the frames per second (fps) and frame size.
+   - Set the isColor flag. If it's True, the encoder expects color frames; otherwise, it works with grayscale frames.
+
+2. FourCC (Four-Character Code):
+   - FourCC is a 4-byte code used to specify the video codec.
+   - The list of available codes can be found on [fourcc.org](http://www.fourcc.org/).
+   - It is platform-dependent.
+   - Example codes for different platforms:
+     - In Fedora: DIVX, XVID, MJPG, X264, WMV1, WMV2. (XVID is preferable; MJPG results in high-size video; X264 gives very small size video)
+     - In Windows: DIVX (More to be tested and added)
+     - In OSX: MJPG (.mp4), DIVX (.avi), X264 (.mkv).
+   - FourCC code can be passed as `cv.VideoWriter_fourcc('M','J','P','G')` or `cv.VideoWriter_fourcc(*'MJPG')` for MJPG.
+
+3. Example code:
+   The following code captures from a camera, flips every frame in the vertical direction, and saves the video.
+
+```python
+import cv2 as cv
+
+# Set up video capture
+cap = cv.VideoCapture(0)  # 0 represents the default camera
+
+# Define the codec and create a VideoWriter object
+fourcc = cv.VideoWriter_fourcc(*'XVID')  # Example codec (XVID)
+out = cv.VideoWriter('output.avi', fourcc, 20.0, (640, 480))
+
+while cap.isOpened():
+    ret, frame = cap.read()
+    if not ret:
+        break
+
+    # Flip the frame vertically
+    frame = cv.flip(frame, 1)
+
+    # Write the flipped frame to the output video file
+    out.write(frame)
+
+    cv.imshow('Flipped Video', frame)
+
+    if cv.waitKey(1) & 0xFF == ord('q'):
+        break
+
+# Release everything when done
+cap.release()
+out.release()
+cv.destroyAllWindows()
+""")

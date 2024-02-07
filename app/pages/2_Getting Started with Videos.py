@@ -1,7 +1,8 @@
 import streamlit as st 
 from utils.videos import (
     Capture_Video_from_Webcam,
-    Play_Video_from_File
+    Play_Video_from_File,
+    Save_Video
 )
 
 if __name__ == "__main__":
@@ -16,12 +17,14 @@ if __name__ == "__main__":
                 """,
                 unsafe_allow_html=True)
 
-    
-    options = st.selectbox("Select:", options=["Capture Video from Camera", "Playing Video from file"])
+    st.sidebar.subheader("Navigation")
+    options = st.sidebar.selectbox("", options=["Capture Video from Camera", "Playing Video from File", "Save Video"], label_visibility="collapsed" )
     
     if options == "Capture Video from Camera":
         Capture_Video_from_Webcam()
-    elif options == "Playing Video from file":
+    elif options == "Playing Video from File":
         Play_Video_from_File()
+    elif options== "Save Video":
+        Save_Video()
         
 
