@@ -3,7 +3,8 @@ from PIL import ImageColor
 from utils.gui.drawing import (
     Draw_Line,
     Draw_Rectangle,
-    Draw_Circle
+    Draw_Circle,
+    Draw_Ellipse
 )
 
 if __name__ == "__main__":
@@ -32,7 +33,8 @@ if __name__ == "__main__":
     options = st.sidebar.selectbox(label="Navigation",
                                    options=["Drawing Line",
                                             "Drawing Rectangle",
-                                            "Drawing Circle"])
+                                            "Drawing Circle",
+                                            "Draw Ellipse"])
     
     if options == "Drawing Line":
         Draw_Line()
@@ -42,3 +44,6 @@ if __name__ == "__main__":
         
     if options == "Drawing Circle":
         Draw_Circle()
+        
+    if options == "Draw Ellipse":
+        Draw_Ellipse()
