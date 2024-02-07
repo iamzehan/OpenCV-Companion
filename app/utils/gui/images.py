@@ -31,6 +31,7 @@ def Read_and_Show_Image(img_file, img_file_name, upload=False):
             st.markdown("""Yes the color looks weird, 
                         because OpenCV reads image in BGR format. 
                         We'll learn about those in the future.""")
+            
     # 3. This shows the footnote
     def show_note(img_file_name):
         st.markdown("""Because we want our window to be displayed
