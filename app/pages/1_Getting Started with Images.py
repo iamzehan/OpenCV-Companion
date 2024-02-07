@@ -1,34 +1,6 @@
 import streamlit as st
+from utils.gui.images import Read_and_Show_Image
 
-from utils.opencv.images import (
-    bytes_to_image,
-    read_image
-    )
-
-from utils.gui.images import (
-    show_code,
-    show_image,
-    show_note
-)
-
-
-# This brings the whole rendition together
-def render(img_file, img_file_name, upload=False):
-    # checks if it's an upload
-    if upload:
-        show_code(img_file_name)
-        show_image(bytes_to_image(img_file.read()))
-        st.success("You are viewing results for your uploaded image")
-        show_note(img_file_name)
-        
-    else:
-        show_code(img_file_name)
-        show_image(read_image("app/assets/Lenna.png"))
-        st.error("Please upload an image to see different results")
-        show_note(img_file_name)
-        
-
-    
 if __name__ == "__main__":
     
     # Page Configurations
@@ -54,9 +26,9 @@ if __name__ == "__main__":
         # extracting name img_file object of the Upload class
         img_file_name = img_file.name
         # rendition of the whole view
-        render(img_file, img_file_name, upload=True)
+        Read_and_Show_Image(img_file, img_file_name, upload=True)
     else:
-        render(img_file, img_file_name)
+        Read_and_Show_Image(img_file, img_file_name)
         
 
 
