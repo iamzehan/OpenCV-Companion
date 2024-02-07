@@ -21,7 +21,8 @@ def show_code(img_file_name):
 def show_image(img_file):
     with st.container(border=True):
         _, col, _ = st.columns([4,4,4])
-        col.markdown("Display window")
+        col.markdown("<center>Display window</center>", 
+                        unsafe_allow_html=True)
         col.image(img_file)
         st.markdown("""Yes the color looks weird, 
                     because OpenCV reads image in BGR format. 
