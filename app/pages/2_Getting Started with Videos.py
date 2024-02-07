@@ -1,12 +1,13 @@
 import streamlit as st 
-from utils.videos import (
+from utils.gui.videos import (
     Capture_Video_from_Webcam,
     Play_Video_from_File,
     Save_Video
 )
 
 if __name__ == "__main__":
-    st.set_page_config(page_icon="app\\assets\\OpenCV_Logo_with_text.png", page_title="Getting Started with Videos")
+    st.set_page_config(page_icon="app\\assets\\OpenCV_Logo_with_text.png",
+                       page_title="Getting Started with Videos")
 
     st.markdown("""
                 # Getting Started with Videos 📽️
@@ -17,8 +18,11 @@ if __name__ == "__main__":
                 """,
                 unsafe_allow_html=True)
 
-    st.sidebar.subheader("Navigation")
-    options = st.sidebar.selectbox("", options=["Capture Video from Camera", "Playing Video from File", "Save Video"], label_visibility="collapsed" )
+    st.sidebar.subheader("Video Options")
+    options = st.sidebar.selectbox("Select:", options=["Capture Video from Camera",
+                                                "Playing Video from File",
+                                                "Save Video"],
+                                   label_visibility="collapsed" )
     
     if options == "Capture Video from Camera":
         Capture_Video_from_Webcam()
