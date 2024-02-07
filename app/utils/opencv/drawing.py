@@ -22,3 +22,15 @@ def draw_circle(center=(447, 63), radius=63, color=(0, 0, 255), thickness=-1):
     img = np.zeros((512,512,3), np.uint8)
     cv.circle(img,center, radius, color, thickness)
     return img
+
+def draw_ellipse(center_coordinates = (256,256),
+                 axesLength = (100, 50), 
+                 angle = 0, 
+                 startAngle=0, 
+                 endAngle=180, 
+                 color=(255,0,0),
+                 thickness=-1):
+    img = np.zeros((512,512,3), np.uint8)
+    cv.ellipse(img, center_coordinates, axesLength, 
+           angle, startAngle, endAngle, color, thickness) 
+    return img

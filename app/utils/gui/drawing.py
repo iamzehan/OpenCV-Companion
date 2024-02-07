@@ -1,6 +1,9 @@
 import streamlit as st
 from PIL import ImageColor
-from utils.opencv.drawing import draw_line, draw_rectangle, draw_circle
+from utils.opencv.drawing import (draw_line,
+                                  draw_rectangle,
+                                  draw_circle,
+                                  draw_ellipse)
 
 # Draw Line Parameters
 def Draw_Line():
@@ -61,7 +64,7 @@ def Draw_Rectangle():
         st.info("Feel free to fiddle around with the parameters")
         
         with st.container(border=True):
-            st.markdown("<center style='color:red'><h3>Parameters</h3></center>", unsafe_allow_html=True)
+            st.markdown("<center><h3>Parameters</h3></center>", unsafe_allow_html=True)
             
             col1, col2 = st.columns(2)
             
@@ -151,3 +154,78 @@ def Draw_Circle():
                     # Draw a diagonal blue line with thickness of 5 px
                     cv.circle(img,{center},{radius},{color},{thickness})
         """)
+
+def Draw_Ellipse():
+    with st.container(border=True):
+        st.subheader("Drawing Ellipse")
+        st.markdown("""
+                    To draw the ellipse, we need to pass several arguments.
+                    One argument is the center location (x,y).
+                    Next argument is axes lengths (major axis length, minor axis length).
+                    `angle` is the angle of rotation of ellipse in anti-clockwise direction. 
+                    `startAngle` and `endAngle` denotes the starting and ending of ellipse 
+                    arc measured in clockwise direction from major axis. 
+                    i.e. giving values 0 and 360 gives the full ellipse.
+                    For more details, check the documentation of cv.ellipse().
+                    Below example draws a half ellipse at the center of the image.
+                    """)
+        st.info("Feel free to fiddle around with the parameters")
+        
+        with st.container(border=True):
+            st.markdown("<center style='color:red'><h3>Parameters</h3></center>", unsafe_allow_html=True)
+            
+            col1, col2 = st.columns(2)
+            col1.markdown("<center>Center</center>", unsafe_allow_html=True)
+            center_x, center_y = col1.slider("`x - coordinate`",value=447,max_value=512),\
+                                 col1.slider("` y - coordinate`", value=63, max_value= 512)
+            center = (center_x, center_y)
+            
+            col1.markdown("<center>Axes Length</center>", unsafe_allow_html=True)
+            axes_length= col1.number_input("`axes_length - major`", value=100, max_value=512), col1.number_input("`axes_length - minor`", value=50, max_value=512)
+            
+            col1.markdown("<center>Angle</center>", unsafe_allow_html=True)
+            angle = col1.number_input("`angle`", value = 0, max_value=360)
+            
+            col1.markdown("<center>Start Angle</center>", unsafe_allow_html=True)
+            start_angle = col1.number_input("`start_angle`", value = 0, max_value=360)
+            
+            col1.markdown("<center>End Angle</center>", unsafe_allow_html=True)
+            end_angle = col1.number_input("`end_angle`", value = 180, max_value=360)
+            
+            col1.markdown("<center>Color</center>", unsafe_allow_html=True)
+            color = col1.color_picker("Pick a color",value="#ff0000", label_visibility="hidden")
+            color = ImageColor.getcolor(f'{color}','RGB')
+            
+            col1.markdown("<center>Thickness</center>", unsafe_allow_html=True)
+            thickness=col1.number_input("Thickness",value=-1,
+                                        max_value=10, label_visibility="hidden")
+            
+            if col1.checkbox("Fill Circle", value=True): thickness=-1
+            
+            col2.markdown("<center>Output</center>", unsafe_allow_html=True)
+            col2.image(draw_ellipse( center, 
+                                    axes_length,
+                                    angle,
+                                    start_angle,
+                                    end_angle,
+                                    color,
+                                    thickness ),
+                       'Draw Ellipse')
+            
+                
+        with st.container(border=True):
+            st.markdown("### Code")
+            st.code(f"""
+                    import numpy as np
+                    import cv2 as cv
+                    # Create a black image
+                    img = np.zeros((512,512,3), np.uint8)
+                    # Draw a diagonal blue line with thickness of 5 px
+                    cv.ellipse(img,{center},{axes_length},{angle},{start_angle},{end_angle}, {color},{thickness})
+        """)
+
+def Draw_Polygon():
+    pass
+
+def Draw_Text():
+    pass
