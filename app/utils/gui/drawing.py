@@ -171,7 +171,7 @@ def Draw_Ellipse():
                     For more details, check the documentation of cv.ellipse().
                     Below example draws a half ellipse at the center of the image.
                     """)
-        st.info("Feel free to fiddle around with the parameters")
+        st.sidebar.info("Feel free to fiddle around with the parameters")
         
         with st.container(border=True):
             st.markdown("<center style='color:red'><h3>Parameters</h3></center>", unsafe_allow_html=True)
