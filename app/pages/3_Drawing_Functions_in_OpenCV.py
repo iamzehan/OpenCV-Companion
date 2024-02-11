@@ -4,7 +4,8 @@ from utils.gui.drawing import (
     Draw_Line,
     Draw_Rectangle,
     Draw_Circle,
-    Draw_Ellipse
+    Draw_Ellipse,
+    Draw_Polygon
 )
 
 if __name__ == "__main__":
@@ -34,7 +35,8 @@ if __name__ == "__main__":
                                    options=["Drawing Line",
                                             "Drawing Rectangle",
                                             "Drawing Circle",
-                                            "Draw Ellipse"],
+                                            "Draw Ellipse",
+                                            "Drawing Polygon"],
                                    label_visibility="collapsed")
     st.sidebar.subheader("Parameters")
     
@@ -49,3 +51,6 @@ if __name__ == "__main__":
         
     if options == "Draw Ellipse":
         Draw_Ellipse()
+    
+    if options == "Drawing Polygon":
+        Draw_Polygon()
