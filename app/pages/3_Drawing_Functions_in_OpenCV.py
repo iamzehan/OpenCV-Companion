@@ -5,7 +5,8 @@ from utils.gui.drawing import (
     Draw_Rectangle,
     Draw_Circle,
     Draw_Ellipse,
-    Draw_Polygon
+    Draw_Polygon,
+    Draw_Text
 )
 
 if __name__ == "__main__":
@@ -36,7 +37,8 @@ if __name__ == "__main__":
                                             "Drawing Rectangle",
                                             "Drawing Circle",
                                             "Draw Ellipse",
-                                            "Drawing Polygon"],
+                                            "Drawing Polygon",
+                                            "Adding Texts"],
                                    label_visibility="collapsed")
     
     if options == "Drawing Line":
@@ -53,3 +55,6 @@ if __name__ == "__main__":
     
     if options == "Drawing Polygon":
         Draw_Polygon()
+        
+    if options == "Adding Texts":
+        Draw_Text()
