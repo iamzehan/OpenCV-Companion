@@ -3,7 +3,8 @@ from PIL import ImageColor
 from utils.opencv.drawing import (draw_line,
                                   draw_rectangle,
                                   draw_circle,
-                                  draw_ellipse)
+                                  draw_ellipse,
+                                  draw_polygon)
 
 # Draw Line Parameters
 def Draw_Line():
@@ -229,7 +230,32 @@ def Draw_Ellipse():
         """)
 
 def Draw_Polygon():
-    pass
+    
+    with st.container(border=True):
+        st.subheader("Drawing Polygons")
+        st.markdown("""
+                    To draw a polygon, first you need coordinates of vertices.
+                    Make those points into an array of shape ROWSx1x2 where ROWS
+                    are number of vertices and it should be of type int32. 
+                    Here we draw a small polygon of with four vertices in yellow color.""")
+        st.info("Feel free to fiddle around with the parameters")
+    
+    with st.sidebar.container(border=True):
+        points = st.number_input("How many points for your Polygon?")
+        pts = []
+        if points:
+            for i in range(points):
+                x = st.slider(f"$x_{i}$:", key=f"x{i}")
+                y = st.slider(f"$y_{i}$:", key=f"y{i}")
+                pts.append([x, y])
+                
+        join = st.checkbox("Join?", value=True)
+        color = st.color_picker("Color:", value=(0, 255, 255))
+        generate = st.button("Generate Polgon", use_container_width=True)
+        if generate: 
+            draw_polygon(pts, join, color)
+        else:
+            draw_polygon()
 
 def Draw_Text():
     pass
