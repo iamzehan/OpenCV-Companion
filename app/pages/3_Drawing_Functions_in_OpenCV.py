@@ -38,7 +38,6 @@ if __name__ == "__main__":
                                             "Draw Ellipse",
                                             "Drawing Polygon"],
                                    label_visibility="collapsed")
-    st.sidebar.subheader("Parameters")
     
     if options == "Drawing Line":
         Draw_Line()
