@@ -115,14 +115,14 @@ def Draw_Circle():
         st.info("Feel free to fiddle around with the parameters")
         
         
-        with st.sidebar:
+        with st.sidebar.container(border=True):
             st.markdown("<center>Center</center>", unsafe_allow_html=True)
-            center_x, center_y = st.sidebar.slider("`x - coordinate`",value=447,max_value=512),\
+            center_x, center_y = st.slider("`x - coordinate`",value=447,max_value=512),\
                                 st.slider("` y - coordinate`", value=63, max_value= 512)
             center = (center_x, center_y)
             
             st.markdown("<center>Radius</center>", unsafe_allow_html=True)
-            radius= st.sidebar.number_input("`r`", value=63, max_value=512)
+            radius= st.number_input("`r`", value=63, max_value=512)
             
             st.markdown("<center>Color</center>", unsafe_allow_html=True)
             color = st.color_picker("Pick a color",value="#00ff00", label_visibility="hidden")
@@ -175,7 +175,7 @@ def Draw_Ellipse():
         with st.container(border=True):
             st.markdown("<center style='color:red'><h3>Parameters</h3></center>", unsafe_allow_html=True)
             
-            with st.sidebar:
+            with st.sidebar.container(border=True):
             
                 st.markdown("<center>Center</center>", unsafe_allow_html=True)
                 center_x, center_y = st.slider("`x - coordinate`",value=447,max_value=512),\
