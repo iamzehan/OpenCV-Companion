@@ -46,12 +46,30 @@ def draw_polygon(pts=[[10,5],[20,30],[70,20],[50,10]],
 
 def draw_text(text='OpenCV',
               position=(10, 500),
-              font=cv.FONT_HERSHEY_SIMPLEX,
+              font='HERSHEY_SIMPLEX',
               font_scale=4,
               color = (255,255,255),
               thickness=2,
-              lineType=cv.LINE_AA):
+              lineType='LINE_AA'):
     
+    font_dict = {
+    'HERSHEY_SIMPLEX': cv.FONT_HERSHEY_SIMPLEX,
+    'HERSHEY_PLAIN': cv.FONT_HERSHEY_PLAIN,
+    'HERSHEY_DUPLEX': cv.FONT_HERSHEY_DUPLEX,
+    'HERSHEY_COMPLEX': cv.FONT_HERSHEY_COMPLEX,
+    'HERSHEY_TRIPLEX': cv.FONT_HERSHEY_TRIPLEX,
+    'HERSHEY_COMPLEX_SMALL': cv.FONT_HERSHEY_COMPLEX_SMALL,
+    'HERSHEY_SCRIPT_SIMPLEX': cv.FONT_HERSHEY_SCRIPT_SIMPLEX,
+    'HERSHEY_SCRIPT_COMPLEX': cv.FONT_HERSHEY_SCRIPT_COMPLEX,
+}
+    line_type_dict = {
+    'LINE_AA': cv.LINE_AA,
+    'LINE_4': cv.LINE_4,
+    'LINE_8': cv.LINE_8,
+    'LINE_AA_8': cv.LINE_AA | cv.LINE_8,
+}
+    font = font_dict[font]
+    lineType=line_type_dict[lineType]
     img = np.zeros((512,512,3), np.uint8)
     cv.putText(img, text, position, font,
                font_scale, color, thickness, lineType)

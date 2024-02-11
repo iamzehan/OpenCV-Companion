@@ -4,7 +4,8 @@ from utils.opencv.drawing import (draw_line,
                                   draw_rectangle,
                                   draw_circle,
                                   draw_ellipse,
-                                  draw_polygon)
+                                  draw_polygon,
+                                  draw_text)
 
 # Draw Line Parameters
 def Draw_Line():
@@ -292,4 +293,93 @@ def Draw_Polygon():
         
 
 def Draw_Text():
-    pass
+    
+    def write_code(text='OpenCV',
+              position=(10, 500),
+              font='cv.FONT_HERSHEY_SIMPLEX',
+              font_scale=4,
+              color = (255,255,255),
+              thickness=2,
+              lineType='cv.LINE_AA'):
+        font_dict = {
+    'HERSHEY_SIMPLEX': 'cv.FONT_HERSHEY_SIMPLEX',
+    'HERSHEY_PLAIN': 'cv.FONT_HERSHEY_PLAIN',
+    'HERSHEY_DUPLEX': 'cv.FONT_HERSHEY_DUPLEX',
+    'HERSHEY_COMPLEX': 'cv.FONT_HERSHEY_COMPLEX',
+    'HERSHEY_TRIPLEX': 'cv.FONT_HERSHEY_TRIPLEX',
+    'HERSHEY_COMPLEX_SMALL': 'cv.FONT_HERSHEY_COMPLEX_SMALL',
+    'HERSHEY_SCRIPT_SIMPLEX': 'cv.FONT_HERSHEY_SCRIPT_SIMPLEX',
+    'HERSHEY_SCRIPT_COMPLEX': 'cv.FONT_HERSHEY_SCRIPT_COMPLEX'
+}
+        line_type_dict = {
+    'LINE_AA': 'cv.LINE_AA',
+    'LINE_4': 'cv.LINE_4',
+    'LINE_8': 'cv.LINE_8'
+}
+        return f"""
+            import numpy as np
+            import cv2 as cv
+            # Create a black image
+            img = np.zeros((512,512,3), np.uint8)
+            cv.putText(img, '{text}', {position}, {font_dict[font]},
+                        {font_scale}, {color}, {thickness}, {line_type_dict[lineType]})
+            """
+                
+    with st.container(border=True):
+        st.subheader("Adding Text to Images")
+        st.markdown("""
+                    To put texts in images, you need specify following things.
+
+                    - Text data that you want to write
+                    - Position coordinates of where you want put it (i.e. bottom-left corner where data starts).
+                    - Font type (Check cv.putText() docs for supported fonts)
+                    - Font Scale (specifies the size of font)
+                    - regular things like color, thickness, lineType etc. For better look, lineType = cv.LINE_AA is recommended.
+                    
+                    We will write OpenCV on our image in white color.""")
+                
+        image_container=st.empty()
+        code_container = st.empty().container(border=True)
+        
+    st.sidebar.info("Feel free to fiddle around with the parameters")
+    
+    st.sidebar.subheader("Parameters")
+    
+    with st.sidebar.container(border=True):
+        text=st.text_input("Add text", placeholder="Add some text...")
+        position = st.slider("Position - `x`", value=10, max_value=500),\
+                    st.slider("Position - `y`", value=500)
+        
+        font= st.selectbox(label="Select font: ", options=['HERSHEY_SIMPLEX', 
+                                                   'HERSHEY_PLAIN', 
+                                                   'HERSHEY_DUPLEX', 
+                                                   'HERSHEY_COMPLEX', 
+                                                   'HERSHEY_TRIPLEX', 
+                                                   'HERSHEY_COMPLEX_SMALL', 
+                                                   'HERSHEY_SCRIPT_SIMPLEX', 
+                                                   'HERSHEY_SCRIPT_COMPLEX'])
+        
+        font_scale=st.number_input(label="Font Scale", value=4, min_value=1, max_value=10)
+        
+        color = st.color_picker("Color:", value="#fff")
+        color = ImageColor.getcolor(f'{color}','RGB')
+        
+        thickness=st.number_input(label="Thickness", value=2, min_value=1, max_value=10)
+        lineType= st.selectbox(label="Select Line Type: ",
+                               options=['LINE_AA', 
+                                        'LINE_4', 
+                                        'LINE_8'])
+        
+        live = st.checkbox("Edit Live?", value=False)
+        add_text=st.button("Add Text", type="primary", use_container_width=True)
+        
+    with image_container.container(border=True):
+        st.markdown("<center> Output </center>", unsafe_allow_html=True)
+        if add_text or live: 
+            st.image(draw_text(text, position, font, font_scale, color, thickness, lineType), caption="Drawing Polygon", use_column_width=True)
+            code_container.markdown("### Code")
+            code_container.code(write_code(text, position, font, font_scale, color, thickness, lineType))
+        else:
+            st.image(draw_text(), caption="Drawing Polygon", use_column_width=True)
+            code_container.markdown("### Code")
+            code_container.code(write_code())
