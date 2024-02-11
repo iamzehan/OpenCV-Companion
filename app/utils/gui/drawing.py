@@ -177,7 +177,8 @@ def Draw_Ellipse():
             
             with st.sidebar.container(border=True):
             
-                st.markdown("<center>Center</center>", unsafe_allow_html=True)
+                st.markdown("<center>Center</center>",
+                            unsafe_allow_html=True)
                 center_x, center_y = st.slider("`x - coordinate`",value=447,max_value=512),\
                                     st.slider("` y - coordinate`", value=63, max_value= 512)
                 center = (center_x, center_y)
@@ -268,7 +269,7 @@ def Draw_Polygon():
         join = st.checkbox("Join?", value=True)
         color = st.color_picker("Color:", value="#00ffff")
         color = ImageColor.getcolor(f'{color}','RGB')
-        generate = st.checkbox("Generate Polygon live?", value = True)
+        generate = st.checkbox("Generate Polygon live?", value = False)
     
     with image_container.container(border=True):
         st.markdown("<center> Output </center>", unsafe_allow_html=True)
