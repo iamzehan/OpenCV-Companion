@@ -174,7 +174,6 @@ def Draw_Ellipse():
         st.sidebar.info("Feel free to fiddle around with the parameters")
         
         with st.container(border=True):
-            st.markdown("<center style='color:red'><h3>Parameters</h3></center>", unsafe_allow_html=True)
             
             with st.sidebar.container(border=True):
             
