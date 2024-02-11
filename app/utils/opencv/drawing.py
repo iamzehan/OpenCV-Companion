@@ -34,3 +34,13 @@ def draw_ellipse(center_coordinates = (256,256),
     cv.ellipse(img, center_coordinates, axesLength, 
            angle, startAngle, endAngle, color, thickness) 
     return img
+
+def draw_polygon(pts=[[10,5],[20,30],[70,20],[50,10]],
+                 join=True, color=(0, 255,255)):
+    
+    img = np.zeros((512,512,3), np.uint8)
+    pts =  np.array(pts, np.int32)
+    pts = pts.reshape((-1, 1, 2))
+    cv.polylines(img, [pts], join, color)
+    return img
+
