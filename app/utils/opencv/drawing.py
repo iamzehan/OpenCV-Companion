@@ -44,3 +44,16 @@ def draw_polygon(pts=[[10,5],[20,30],[70,20],[50,10]],
     cv.polylines(img, [pts], join, color)
     return img
 
+def draw_text(text='OpenCV',
+              position=(10, 500),
+              font=cv.FONT_HERSHEY_SIMPLEX,
+              font_scale=4,
+              color = (255,255,255),
+              thickness=2,
+              lineType=cv.LINE_AA):
+    
+    img = np.zeros((512,512,3), np.uint8)
+    cv.putText(img, text, position, font,
+               font_scale, color, thickness, lineType)
+    return img
+
