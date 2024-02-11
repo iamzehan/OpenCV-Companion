@@ -34,7 +34,9 @@ if __name__ == "__main__":
                                    options=["Drawing Line",
                                             "Drawing Rectangle",
                                             "Drawing Circle",
-                                            "Draw Ellipse"], label_visibility="collapsed")
+                                            "Draw Ellipse"],
+                                   label_visibility="collapsed")
+    st.sidebar.subheader("Parameters")
     
     if options == "Drawing Line":
         Draw_Line()
