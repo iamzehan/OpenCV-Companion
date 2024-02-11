@@ -30,11 +30,11 @@ if __name__ == "__main__":
     """)
 
     st.sidebar.subheader("Drawing Options")
-    options = st.sidebar.selectbox(label="Navigation",
+    options = st.sidebar.selectbox(label="Select:",
                                    options=["Drawing Line",
                                             "Drawing Rectangle",
                                             "Drawing Circle",
-                                            "Draw Ellipse"])
+                                            "Draw Ellipse"], label_visibility="collapsed")
     
     if options == "Drawing Line":
         Draw_Line()
