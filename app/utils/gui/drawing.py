@@ -238,24 +238,54 @@ def Draw_Polygon():
                     Make those points into an array of shape ROWSx1x2 where ROWS
                     are number of vertices and it should be of type int32. 
                     Here we draw a small polygon of with four vertices in yellow color.""")
-        st.info("Feel free to fiddle around with the parameters")
+                
+        image_container=st.empty()
+        code_container = st.empty().container(border=True)
     
+    st.sidebar.info("Feel free to fiddle around with the parameters")
     with st.sidebar.container(border=True):
-        points = st.number_input("How many points for your Polygon?")
+        
+        points = st.number_input("How many points for your Polygon?", value=0)
         pts = []
         if points:
             for i in range(points):
-                x = st.slider(f"$x_{i}$:", key=f"x{i}")
-                y = st.slider(f"$y_{i}$:", key=f"y{i}")
+                st.markdown(f"Coordinates for point : `{i+1}`")
+                x = st.slider(f"$x_{i+1}$:", key=f"x{i}")
+                y = st.slider(f"$y_{i+1}$:", key=f"y{i}")
                 pts.append([x, y])
                 
         join = st.checkbox("Join?", value=True)
-        color = st.color_picker("Color:", value=(0, 255, 255))
-        generate = st.button("Generate Polgon", use_container_width=True)
+        color = st.color_picker("Color:", value="#fff")
+        color = ImageColor.getcolor(f'{color}','RGB')
+        generate = st.checkbox("Generate Polygon live?", value = True)
+    
+    with image_container.container(border=True):
+        st.markdown("<center> Output </center>", unsafe_allow_html=True)
         if generate: 
-            draw_polygon(pts, join, color)
+            st.image(draw_polygon(pts, join, color), caption="Drawing Polygon", use_column_width=True)
+            code_container.markdown("### Code")
+            code_container.code(f"""
+                import numpy as np
+                import cv2 as cv
+                # Create a black image
+                img = np.zeros((512,512,3), np.uint8)
+                pts = np.array({pts}, np.int32)
+                pts = pts.reshape((-1,1,2))
+                cv.polylines(img,[pts], {join}, {color})
+                """)
         else:
-            draw_polygon()
+            st.image(draw_polygon(), caption="Drawing Polygon", use_column_width=True)
+            code_container.markdown("### Code")
+            code_container.code(f"""
+                import numpy as np
+                import cv2 as cv
+                # Create a black image
+                img = np.zeros((512,512,3), np.uint8)
+                pts = np.array([[10,5],[20,30],[70,20],[50,10]], np.int32)
+                pts = pts.reshape((-1,1,2))
+                cv.polylines(img,[pts], {join}, {color})
+                """)
+        
 
 def Draw_Text():
     pass
