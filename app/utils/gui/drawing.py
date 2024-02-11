@@ -269,11 +269,11 @@ def Draw_Polygon():
         join = st.checkbox("Join?", value=True)
         color = st.color_picker("Color:", value="#00ffff")
         color = ImageColor.getcolor(f'{color}','RGB')
-        generate = st.checkbox("Generate Polygon live?", value = False)
+        live = st.checkbox("Generate Polygon live?", value = False)
     
     with image_container.container(border=True):
         st.markdown("<center> Output </center>", unsafe_allow_html=True)
-        if generate: 
+        if live: 
             st.image(draw_polygon(pts, join, color), caption="Drawing Polygon", use_column_width=True)
             code_container.markdown("### Code")
             code_container.code(write_code(pts, join, color))
