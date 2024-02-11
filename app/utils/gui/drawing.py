@@ -296,11 +296,11 @@ def Draw_Text():
     
     def write_code(text='OpenCV',
               position=(10, 500),
-              font='cv.FONT_HERSHEY_SIMPLEX',
+              font='HERSHEY_SIMPLEX',
               font_scale=4,
               color = (255,255,255),
               thickness=2,
-              lineType='cv.LINE_AA'):
+              lineType='LINE_AA'):
         font_dict = {
     'HERSHEY_SIMPLEX': 'cv.FONT_HERSHEY_SIMPLEX',
     'HERSHEY_PLAIN': 'cv.FONT_HERSHEY_PLAIN',
@@ -346,7 +346,10 @@ def Draw_Text():
     st.sidebar.subheader("Parameters")
     
     with st.sidebar.container(border=True):
+        
         text=st.text_input("Add text", placeholder="Add some text...")
+        text_info=st.empty()
+        
         position = st.slider("Position - `x`", value=10, max_value=500),\
                     st.slider("Position - `y`", value=500)
         
@@ -370,16 +373,25 @@ def Draw_Text():
                                         'LINE_4', 
                                         'LINE_8'])
         
-        live = st.checkbox("Edit Live?", value=False)
+        live = False
         add_text=st.button("Add Text", type="primary", use_container_width=True)
         
+        if not text:
+            text_info.error('Please Add text to see difference')
+        else:
+            live=True
+            
     with image_container.container(border=True):
         st.markdown("<center> Output </center>", unsafe_allow_html=True)
         if add_text or live: 
-            st.image(draw_text(text, position, font, font_scale, color, thickness, lineType), caption="Drawing Polygon", use_column_width=True)
+            st.image(draw_text(text, position, font, font_scale, color, thickness, lineType), caption="Adding Texts to Images", use_column_width=True)
+            st.success("Your output")
             code_container.markdown("### Code")
+            code_container.success("Your modified code")
             code_container.code(write_code(text, position, font, font_scale, color, thickness, lineType))
         else:
-            st.image(draw_text(), caption="Drawing Polygon", use_column_width=True)
+            st.image(draw_text(), caption="Adding Texts to Images", use_column_width=True)
+            st.info("Example output")
             code_container.markdown("### Code")
+            code_container.info("Example code")
             code_container.code(write_code())
