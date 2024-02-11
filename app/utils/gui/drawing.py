@@ -1,11 +1,12 @@
 import streamlit as st
 from PIL import ImageColor
-from utils.opencv.drawing import (draw_line,
-                                  draw_rectangle,
-                                  draw_circle,
-                                  draw_ellipse,
-                                  draw_polygon,
-                                  draw_text)
+from utils.opencv.drawing import \
+    (draw_line,
+    draw_rectangle,
+    draw_circle,
+    draw_ellipse,
+    draw_polygon,
+    draw_text)
 
 # Draw Line Parameters
 def Draw_Line():
@@ -13,8 +14,11 @@ def Draw_Line():
     with st.container(border=True):
         
         st.subheader("Drawing Line")
-        st.markdown("""To draw a line, you need to pass starting and ending coordinates of line. 
-                    We will create a black image and draw a blue line on it from top-left to bottom-right corners.""")
+        st.markdown("""
+                    To draw a line, you need to pass starting and ending coordinates of line. 
+                    We will create a black image and draw a blue line on it from top-left to 
+                    bottom-right corners.
+                    """)
         st.info("Feel free to fiddle around with the parameters")
         
         with st.container(border=True):
@@ -222,12 +226,12 @@ def Draw_Ellipse():
         with st.container(border=True):
             st.markdown("### Code")
             st.code(f"""
-                import numpy as np
-                import cv2 as cv
-                # Create a black image
-                img = np.zeros((512,512,3), np.uint8)
-                # Draw a diagonal blue line with thickness of 5 px
-                cv.ellipse(img,{center}, {axes_length}, {angle}, {start_angle}, {end_angle}, {color}, {thickness})
+            import numpy as np
+            import cv2 as cv
+            # Create a black image
+            img = np.zeros((512,512,3), np.uint8)
+            # Draw a diagonal blue line with thickness of 5 px
+            cv.ellipse(img,{center}, {axes_length}, {angle}, {start_angle}, {end_angle}, {color}, {thickness})
         """)
 
 def Draw_Polygon():
@@ -255,9 +259,15 @@ def Draw_Polygon():
         code_container = st.empty().container(border=True)
         st.markdown("""
                     #### Note
-                    > If third argument is False, you will get a polylines joining all the points, not a closed shape.
-                    `cv.polylines()` can be used to draw multiple lines. Just create a list of all the lines you want to draw and pass it to the function.
-                    All lines will be drawn individually. It is a much better and faster way to draw a group of lines than calling cv.line() for each line.""")
+                    > If third argument is False, you will get a polylines
+                    joining all the points, not a closed shape.
+                    `cv.polylines()` can be used to draw multiple lines. 
+                    Just create a list of all the lines you want to draw 
+                    and pass it to the function.
+                    All lines will be drawn individually. 
+                    It is a much better and faster way to draw a group of lines
+                    than calling cv.line() for each line.
+                    """)
     
     live = False
     points = st.sidebar.number_input("How many points for your Polygon?", value=0)
@@ -301,21 +311,23 @@ def Draw_Text():
               color = (255,255,255),
               thickness=2,
               lineType='LINE_AA'):
+        
         font_dict = {
-    'HERSHEY_SIMPLEX': 'cv.FONT_HERSHEY_SIMPLEX',
-    'HERSHEY_PLAIN': 'cv.FONT_HERSHEY_PLAIN',
-    'HERSHEY_DUPLEX': 'cv.FONT_HERSHEY_DUPLEX',
-    'HERSHEY_COMPLEX': 'cv.FONT_HERSHEY_COMPLEX',
-    'HERSHEY_TRIPLEX': 'cv.FONT_HERSHEY_TRIPLEX',
-    'HERSHEY_COMPLEX_SMALL': 'cv.FONT_HERSHEY_COMPLEX_SMALL',
-    'HERSHEY_SCRIPT_SIMPLEX': 'cv.FONT_HERSHEY_SCRIPT_SIMPLEX',
-    'HERSHEY_SCRIPT_COMPLEX': 'cv.FONT_HERSHEY_SCRIPT_COMPLEX'
-}
+            'HERSHEY_SIMPLEX': 'cv.FONT_HERSHEY_SIMPLEX',
+            'HERSHEY_PLAIN': 'cv.FONT_HERSHEY_PLAIN',
+            'HERSHEY_DUPLEX': 'cv.FONT_HERSHEY_DUPLEX',
+            'HERSHEY_COMPLEX': 'cv.FONT_HERSHEY_COMPLEX',
+            'HERSHEY_TRIPLEX': 'cv.FONT_HERSHEY_TRIPLEX',
+            'HERSHEY_COMPLEX_SMALL': 'cv.FONT_HERSHEY_COMPLEX_SMALL',
+            'HERSHEY_SCRIPT_SIMPLEX': 'cv.FONT_HERSHEY_SCRIPT_SIMPLEX',
+            'HERSHEY_SCRIPT_COMPLEX': 'cv.FONT_HERSHEY_SCRIPT_COMPLEX'
+        }
         line_type_dict = {
-    'LINE_AA': 'cv.LINE_AA',
-    'LINE_4': 'cv.LINE_4',
-    'LINE_8': 'cv.LINE_8'
-}
+            'LINE_AA': 'cv.LINE_AA',
+            'LINE_4': 'cv.LINE_4',
+            'LINE_8': 'cv.LINE_8'
+        }
+        
         return f"""
             import numpy as np
             import cv2 as cv
@@ -331,10 +343,12 @@ def Draw_Text():
                     To put texts in images, you need specify following things.
 
                     - Text data that you want to write
-                    - Position coordinates of where you want put it (i.e. bottom-left corner where data starts).
+                    - Position coordinates of where you want put it 
+                    (i.e. bottom-left corner where data starts).
                     - Font type (Check cv.putText() docs for supported fonts)
                     - Font Scale (specifies the size of font)
-                    - regular things like color, thickness, lineType etc. For better look, lineType = cv.LINE_AA is recommended.
+                    - regular things like color, thickness, lineType etc. 
+                    For better look, lineType = cv.LINE_AA is recommended.
                     
                     We will write OpenCV on our image in white color.""")
                 
@@ -384,7 +398,8 @@ def Draw_Text():
     with image_container.container(border=True):
         st.markdown("<center> Output </center>", unsafe_allow_html=True)
         if add_text or live: 
-            st.image(draw_text(text, position, font, font_scale, color, thickness, lineType), caption="Adding Texts to Images", use_column_width=True)
+            st.image(draw_text(text, position, font, font_scale, color, thickness, lineType),
+                     caption="Adding Texts to Images", use_column_width=True)
             st.success("Your output")
             code_container.markdown("### Code")
             code_container.success("Your modified code")
