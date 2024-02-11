@@ -252,14 +252,23 @@ def Draw_Polygon():
                 
         image_container=st.empty()
         code_container = st.empty().container(border=True)
+        st.markdown("""
+                    #### Note
+                    > If third argument is False, you will get a polylines joining all the points, not a closed shape.
+                    `cv.polylines()` can be used to draw multiple lines. Just create a list of all the lines you want to draw and pass it to the function.
+                    All lines will be drawn individually. It is a much better and faster way to draw a group of lines than calling cv.line() for each line.""")
     
+    live = False
+    points = st.sidebar.number_input("How many points for your Polygon?", value=0)
     st.sidebar.info("Feel free to fiddle around with the parameters")
+    
+    st.sidebar.subheader("Parameters")
     with st.sidebar.container(border=True):
         
-        points = st.number_input("How many points for your Polygon?", value=0)
         pts = []
         
         if points:
+            live=True
             for i in range(points):
                 st.markdown(f"Coordinates for point : `{i+1}`")
                 x = st.slider(f"$x_{i+1}$:", key=f"x{i}")
@@ -269,8 +278,7 @@ def Draw_Polygon():
         join = st.checkbox("Join?", value=True)
         color = st.color_picker("Color:", value="#00ffff")
         color = ImageColor.getcolor(f'{color}','RGB')
-        live = st.checkbox("Generate Polygon live?", value = False)
-    
+        
     with image_container.container(border=True):
         st.markdown("<center> Output </center>", unsafe_allow_html=True)
         if live: 
