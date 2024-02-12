@@ -6,10 +6,19 @@ from utils.gui.videos import (
 )
 
 if __name__ == "__main__":
+    
     st.set_page_config(page_icon="app\\assets\\OpenCV_Logo_with_text.png",
                        page_title="Getting Started with Videos")
 
-    st.markdown("""
+    st.sidebar.subheader("Video Options")
+    options = st.sidebar.selectbox("Select:", options=["Introduction",
+                                                       "Capture Video from Camera",
+                                                        "Playing Video from File",
+                                                        "Save Video"],
+                                   label_visibility="collapsed" )
+    
+    if options == "Introduction":
+        st.markdown("""
                 # Getting Started with Videos 📽️
                 ## Goals
                 * Learn to read video, display video, and save video.
@@ -17,17 +26,13 @@ if __name__ == "__main__":
                 * You will learn these functions : `cv.VideoCapture()`, `cv.VideoWriter()`
                 """,
                 unsafe_allow_html=True)
-
-    st.sidebar.subheader("Video Options")
-    options = st.sidebar.selectbox("Select:", options=["Capture Video from Camera",
-                                                "Playing Video from File",
-                                                "Save Video"],
-                                   label_visibility="collapsed" )
-    
+        
     if options == "Capture Video from Camera":
         Capture_Video_from_Webcam()
+        
     elif options == "Playing Video from File":
         Play_Video_from_File()
+        
     elif options== "Save Video":
         Save_Video()
         
