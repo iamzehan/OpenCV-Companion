@@ -2,62 +2,69 @@ import streamlit as st
 from utils.opencv.videos import video_capture, process_uploaded_video
 
 def Capture_Video_from_Webcam():
+    
     st.subheader("Capture Video from Camera with `cv.VideoCapture()`")
-    button_space = st.empty()
+    st.sidebar.info("Press :green[▶️] to capture")
+    main_container = st.empty().container()
+    button_space = st.sidebar.empty()
     start = button_space.button("Run :green[▶️]", key="Run 1")
-    if start: 
-        video_capture(button_space)
+    
+    if start:
+        with main_container:
+            video_capture(button_space)
         
     else:
-        st.code("""
-        import numpy as np
-        import cv2 as cv
-        cap = cv.VideoCapture(0)
-        if not cap.isOpened():
-            print("Cannot open camera")
-            exit()
-        while True:
-            # Capture frame-by-frame
-            ret, frame = cap.read()
-            # if frame is read correctly ret is True
-            if not ret:
-                print("Can't receive frame (stream end?). Exiting ...")
-                break
-            # Our operations on the frame come here
-            gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
-            # Display the resulting frame
-            cv.imshow('frame', gray)
-            if cv.waitKey(1) == ord('q'):
-                break
-        # When everything done, release the capture
-        cap.release()
-        cv.destroyAllWindows()
-        """, line_numbers=True)
+        with main_container:
+            st.subheader("Code")
+            st.code("""
+            import numpy as np
+            import cv2 as cv
+            cap = cv.VideoCapture(0)
+            if not cap.isOpened():
+                print("Cannot open camera")
+                exit()
+            while True:
+                # Capture frame-by-frame
+                ret, frame = cap.read()
+                # if frame is read correctly ret is True
+                if not ret:
+                    print("Can't receive frame (stream end?). Exiting ...")
+                    break
+                # Our operations on the frame come here
+                gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+                # Display the resulting frame
+                cv.imshow('frame', gray)
+                if cv.waitKey(1) == ord('q'):
+                    break
+            # When everything done, release the capture
+            cap.release()
+            cv.destroyAllWindows()
+            """, line_numbers=True)
+            
+            with st.expander("Details", expanded=False):
+                st.markdown("""
+            `cap.read()` returns a bool (`True/False`). If the frame is read correctly,
+            it will be `True`. So you can check for the end of the video by checking this returned value.
+            Sometimes, cap may not have initialized the capture. In that case, this code shows an error. 
+            You can check whether it is initialized or not by the method `cap.isOpened()`. 
+            If it is `True`, OK. Otherwise open it using `cap.open()`.
 
-    with st.expander("Details", expanded=False):
-        st.markdown("""
-    `cap.read()` returns a bool (`True/False`). If the frame is read correctly,
-    it will be `True`. So you can check for the end of the video by checking this returned value.
-    Sometimes, cap may not have initialized the capture. In that case, this code shows an error. 
-    You can check whether it is initialized or not by the method `cap.isOpened()`. 
-    If it is `True`, OK. Otherwise open it using `cap.open()`.
+            You can also access some of the features of this video using `cap.get(propId)` method where 
+            `propId` is a number from `0` to `18`. Each number denotes a property of the video 
+            (if it is applicable to that video). 
+            Full details can be seen here: 
+            [`cv::VideoCapture::get()`](https://docs.opencv.org/3.4/d8/dfe/classcv_1_1VideoCapture.html#aa6480e6972ef4c00d74814ec841a2939). 
+            Some of these values can be modified using `cap.set(propId, value)`. 
+            Value is the new value you want.
 
-    You can also access some of the features of this video using `cap.get(propId)` method where 
-    `propId` is a number from `0` to `18`. Each number denotes a property of the video 
-    (if it is applicable to that video). 
-    Full details can be seen here: 
-    [`cv::VideoCapture::get()`](https://docs.opencv.org/3.4/d8/dfe/classcv_1_1VideoCapture.html#aa6480e6972ef4c00d74814ec841a2939). 
-    Some of these values can be modified using `cap.set(propId, value)`. 
-    Value is the new value you want.
+            For example, I can check the frame width and height by `cap.get(cv.CAP_PROP_FRAME_WIDTH)` 
+            and `cap.get(cv.CAP_PROP_FRAME_HEIGHT)`. It gives me `640x480` by default. 
+            But I want to modify it to 320x240. 
+            Just use `ret = cap.set(cv.CAP_PROP_FRAME_WIDTH,320)` and `ret = cap.set(cv.CAP_PROP_FRAME_HEIGHT,240)`.
 
-    For example, I can check the frame width and height by `cap.get(cv.CAP_PROP_FRAME_WIDTH)` 
-    and `cap.get(cv.CAP_PROP_FRAME_HEIGHT)`. It gives me `640x480` by default. 
-    But I want to modify it to 320x240. 
-    Just use `ret = cap.set(cv.CAP_PROP_FRAME_WIDTH,320)` and `ret = cap.set(cv.CAP_PROP_FRAME_HEIGHT,240)`.
-
-    **Note**
-    > If you are getting an error, make sure your camera is working fine using any other camera application (like Cheese in Linux).
-    """)
+            **Note**
+            > If you are getting an error, make sure your camera is working fine using any other camera application (like Cheese in Linux).
+            """)
 
 
 
@@ -91,10 +98,10 @@ def Play_Video_from_File():
         """, line_numbers=True)
 
     video_file_name='vtest.avi'
-    video_file = st.file_uploader("Upload a video to see how it works", type=["mp4", "avi", "mov"])
+    video_file = st.sidebar.file_uploader("Upload a video to see how it works", type=["mp4", "avi", "mov"], label_visibility="collapsed")
     if video_file:
         video_file_name = video_file.name
-        button_space=st.empty()
+        button_space=st.sidebar.empty()
         start = button_space.button("Run :green[▶️]", key="Run 2")
         if start and video_file:
             process_uploaded_video(video_file, button_space)
@@ -102,6 +109,7 @@ def Play_Video_from_File():
             show_code(video_file_name)
             st.success("**Notice:** How the path have changed❗")
     else:
+        st.sidebar.info("Upload your video here")
         st.subheader("Code")
         show_code(video_file_name)
         st.error("Please upload a video to see how it works")
