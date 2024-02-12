@@ -19,7 +19,7 @@ if __name__ == "__main__":
     
     # File and name handling
     img_file_name = 'Lenna.png'
-    render = st.empty().container(border=True)
+    render = st.empty().container()
     render.subheader("Code")
     st.sidebar.info("Upload an image to see changes")
     img_file = st.sidebar.file_uploader("Upload an Image to see how the code changes:", type=["PNG","JPG"], label_visibility="collapsed")
