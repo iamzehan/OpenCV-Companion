@@ -27,7 +27,7 @@ def Draw_Line():
     
     defaults=[(0, 0), (511, 511), (255, 0, 0), 5]
     
-    main_container = st.empty().container(border=True)
+    main_container = st.empty().container()
     main_container.subheader("Drawing Line")
     main_container.markdown("""
                 To draw a line, you need to pass starting and ending coordinates of line. 
@@ -93,7 +93,7 @@ def Draw_Rectangle():
         
     defaults = [(384, 0), (510, 128), (0, 255, 0), 5]
     
-    main_container = st.empty().container(border=True)
+    main_container = st.empty().container()
     main_container.subheader("Drawing Rectangle")
     main_container.markdown("""
                 To draw a rectangle, you need the top-left corner and bottom-right corner of the rectangle. 
@@ -169,7 +169,7 @@ def Draw_Circle():
         
     defaults = [(447, 63),63,(0, 255, 0),-1]
      
-    main_container = st.container(border=True)
+    main_container = st.container()
     main_container.subheader("Drawing Circle")
     main_container.markdown("""
                 To draw a circle, you need its center coordinates and radius.
@@ -269,7 +269,7 @@ def Draw_Ellipse():
     # the `cv.ellipse()` function. It also creates an image container and a code container within the
     # main container.
     
-    main_container = st.container(border=True)
+    main_container = st.container()
     main_container.subheader("Drawing Ellipse")
     main_container.markdown("""
                     To draw the ellipse, we need to pass several arguments.
@@ -395,7 +395,7 @@ def Draw_Polygon():
     
     defaults = [[[10,5],[20,30],[70,20],[50,10]], True, (255,255,255)]
     
-    main_container = st.empty().container(border=True)
+    main_container = st.empty().container()
     
     main_container.subheader("Drawing Polygons")
     main_container.markdown("""
@@ -490,7 +490,7 @@ def Draw_Text():
             
     defaults = ['OpenCV', (10, 500), 'HERSHEY_SIMPLEX', 4.0, (255, 255, 255), 2, 'LINE_AA']        
     
-    main_container = st.container(border=True)
+    main_container = st.container()
     main_container.subheader("Adding Text to Images")
     main_container.markdown("""
                 To put texts in images, you need specify following things.
