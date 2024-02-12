@@ -74,4 +74,3 @@ def draw_text(text='OpenCV',
     cv.putText(img, text, position, font,
                font_scale, color, thickness, lineType)
     return img
-

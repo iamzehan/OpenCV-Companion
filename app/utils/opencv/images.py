@@ -11,5 +11,3 @@ def bytes_to_image(byte_string):
     # Decode the NumPy array to an image using OpenCV
     image = cv.imdecode(image_array, cv.IMREAD_COLOR)
     return image
-
-

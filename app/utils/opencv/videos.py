@@ -60,4 +60,3 @@ def process_uploaded_video(video_file, button_space=st):
     
     # Release the VideoCapture object
     cap.release()
-    
