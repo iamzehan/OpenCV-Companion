@@ -19,32 +19,30 @@ def Draw_Line():
                     We will create a black image and draw a blue line on it from top-left to 
                     bottom-right corners.
                     """)
-        st.info("Feel free to fiddle around with the parameters")
-        
-        with st.container(border=True):
+
+        with st.sidebar:
+            
             st.markdown("<center style='color:red'><h3>Parameters</h3></center>", unsafe_allow_html=True)
+            st.info("Feel free to fiddle around with the parameters")
             
-            col1, col2 = st.columns(2)
-            
-            col1.markdown("<center>Start</center>", unsafe_allow_html=True)
-            start_x, start_y =  col1.slider("`x - coordinate`", max_value=512),\
-                                col1.slider("` y - coordinate`", max_value= 512)
-            start = (start_x, start_y)
-            
-            col1.markdown("<center>End</center>", unsafe_allow_html=True)
-            end_x, end_y =  col1.slider("`x - coordinate`", value=511),\
-                            col1.slider("` y - coordinate`", value=511)
-            end = (end_x, end_y)
-            
-            col1.markdown("<center>Color</center>", unsafe_allow_html=True)
-            color = col1.color_picker("Pick a color",value="#ff0000", label_visibility="hidden")
-            color = ImageColor.getcolor(f'{color}','RGB')
-            
-            col1.markdown("<center>Thickness</center>", unsafe_allow_html=True)
-            thickness = col1.slider("Thickness",value=5, min_value=1, max_value=10, label_visibility="hidden")
-            
-            col2.markdown("<center>Output</center>", unsafe_allow_html=True)
-            col2.image(draw_line(start, end, color, thickness),'Draw Line')
+            with st.container(border=True):
+                st.markdown("<center>Start</center>", unsafe_allow_html=True)
+                start =  st.slider("`x - coordinate`", max_value=512),\
+                                    st.slider("` y - coordinate`", max_value= 512)
+                
+                st.markdown("<center>End</center>", unsafe_allow_html=True)
+                end =  st.slider("`x - coordinate`", value=511),\
+                                st.slider("` y - coordinate`", value=511)
+                
+                st.markdown("<center>Color</center>", unsafe_allow_html=True)
+                color = st.color_picker("Pick a color",value="#ff0000", label_visibility="hidden")
+                color = ImageColor.getcolor(f'{color}','RGB')
+                
+                st.markdown("<center>Thickness</center>", unsafe_allow_html=True)
+                thickness = st.slider("Thickness",value=5, min_value=1, max_value=10, label_visibility="hidden")
+                
+        st.markdown("<center>Output</center>", unsafe_allow_html=True)
+        st.image(draw_line(start, end, color, thickness),'Draw Line', use_column_width=True)
                 
         with st.container(border=True):
             st.markdown("### Code")
