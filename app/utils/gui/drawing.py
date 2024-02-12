@@ -21,47 +21,52 @@ def Draw_Line():
                     cv.line(img,{start},{end},{color},{thickness})
         """
         
-    with st.container(border=True):
+    main_container = st.empty().container(border=True)
+    
+    main_container.subheader("Drawing Line")
+    main_container.markdown("""
+                To draw a line, you need to pass starting and ending coordinates of line. 
+                We will create a black image and draw a blue line on it from top-left to 
+                bottom-right corners.
+                """)
+    
+    image_container = main_container.empty().container(border=True)
+    code_container = main_container.empty().container(border=True)
+    
+    image_container.subheader("Output")
+    code_container.subheader("Code")
+    
+    with st.sidebar:
         
-        st.subheader("Drawing Line")
-        st.markdown("""
-                    To draw a line, you need to pass starting and ending coordinates of line. 
-                    We will create a black image and draw a blue line on it from top-left to 
-                    bottom-right corners.
-                    """)
-
-        with st.sidebar:
+        st.markdown("<center style='color:red'><h3>Parameters</h3></center>", unsafe_allow_html=True)
+        st.info("Feel free to fiddle around with the parameters")
             
-            st.markdown("<center style='color:red'><h3>Parameters</h3></center>", unsafe_allow_html=True)
-            st.info("Feel free to fiddle around with the parameters")
-            
-            with st.container(border=True):
-                st.markdown("<center>Start</center>", unsafe_allow_html=True)
-                start =  st.slider("`x - coordinate`", max_value=512),\
-                                    st.slider("` y - coordinate`", max_value= 512)
-                
-                st.markdown("<center>End</center>", unsafe_allow_html=True)
-                end =  st.slider("`x - coordinate`", value=511),\
-                                st.slider("` y - coordinate`", value=511)
-                
-                st.markdown("<center>Color</center>", unsafe_allow_html=True)
-                color = st.color_picker("Pick a color",value="#ff0000", label_visibility="hidden")
-                color = ImageColor.getcolor(f'{color}','RGB')
-                
-                st.markdown("<center>Thickness</center>", unsafe_allow_html=True)
-                thickness = st.slider("Thickness",value=5, min_value=1, max_value=10, label_visibility="hidden")
-                
-        st.markdown("<center>Output</center>", unsafe_allow_html=True)
-        st.image(draw_line(start, end, color, thickness),'Draw Line', use_column_width=True)
-                
         with st.container(border=True):
-            st.markdown("### Code")
-            if start!=(0,0) or end!=(511,511) or color!=(255,0,0) or thickness!=5: 
-                st.success("Your modified code")
-                st.code(write_code(start, end, color[::-1], thickness))
-            else:
-                st.info("Example Code")
-                st.code(write_code())
+            st.markdown("<center>Start</center>", unsafe_allow_html=True)
+            start =  st.slider("`x - coordinate`", max_value=512),\
+                                st.slider("` y - coordinate`", max_value= 512)
+            
+            st.markdown("<center>End</center>", unsafe_allow_html=True)
+            end =  st.slider("`x - coordinate`", value=511),\
+                            st.slider("` y - coordinate`", value=511)
+            
+            st.markdown("<center>Color</center>", unsafe_allow_html=True)
+            color = st.color_picker("Pick a color",value="#ff0000", label_visibility="hidden")
+            color = ImageColor.getcolor(f'{color}','RGB')
+            
+            st.markdown("<center>Thickness</center>", unsafe_allow_html=True)
+            thickness = st.slider("Thickness",value=5, min_value=1, max_value=10, label_visibility="hidden")
+
+    if start!=(0,0) or end!=(511,511) or color!=(255,0,0) or thickness!=5: 
+        image_container.image(draw_line(start, end, color, thickness),'Draw Line', use_column_width=True)
+        code_container.success("Your code")
+        code_container.code(write_code(start, end, color[::-1], thickness))
+        image_container.success("Your Output")
+    else:
+        image_container.image(draw_line(),'Draw Line', use_column_width=True)
+        code_container.info("Example Code")
+        code_container.code(write_code())
+        image_container.info("Example Output")
 
 
 def Draw_Rectangle():
