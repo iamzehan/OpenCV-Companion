@@ -71,57 +71,71 @@ def Draw_Line():
 
 def Draw_Rectangle():
     
-    with st.container(border=True):
-        
-        st.subheader("Drawing Rectangle")
-        st.markdown("""
-                    To draw a rectangle, you need the top-left corner and bottom-right corner of the rectangle. 
-                    This time, we will draw a green rectangle at the top-right corner of the image.
-                    """)
-        st.info("Feel free to fiddle around with the parameters")
-        
-        with st.container(border=True):
-            st.markdown("<center><h3>Parameters</h3></center>", unsafe_allow_html=True)
-            
-            col1, col2 = st.columns(2)
-            
-            col1.markdown("<center>Top-left</center>", unsafe_allow_html=True)
-            top_left_x, top_left_y = col1.number_input("`x - coordinate`",value=384,max_value=512),\
-                                     col1.number_input("` y - coordinate`", value=0, max_value= 512)
-            top_left = (top_left_x, top_left_y)
-            
-            col1.markdown("<center>Bottom-Right</center>", unsafe_allow_html=True)
-            bottom_right_x, bottom_right_y = col1.number_input("`x - coordinate`", value=510, max_value=512),\
-                                             col1.number_input("` y - coordinate`", value=128, max_value= 512)
-            bottom_right = (bottom_right_x, bottom_right_y)
-            
-            col1.markdown("<center>Color</center>", unsafe_allow_html=True)
-            color = col1.color_picker("Pick a color",value="#00ff00", label_visibility="hidden")
-            color = ImageColor.getcolor(f'{color}','RGB')
-            
-            col1.markdown("<center>Thickness</center>", unsafe_allow_html=True)
-            thickness = col1.number_input("Thickness",value=5, min_value=1,
-                                        max_value=10, label_visibility="hidden")
-            
-            if col1.checkbox("Fill rectangle"): thickness=-1
-            
-            col2.markdown("<center>Output</center>", unsafe_allow_html=True)
-            col2.image(draw_rectangle(top_left, 
-                                      bottom_right, 
-                                      color, thickness),
-                       'Draw Rectangle')
-            
-                
-        with st.container(border=True):
-            st.markdown("### Code")
-            st.code(f"""
+    def write_code(top_left, bottom_right, color, thickness):
+        return f"""
                     import numpy as np
                     import cv2 as cv
                     # Create a black image
                     img = np.zeros((512,512,3), np.uint8)
                     # Draw a diagonal blue line with thickness of 5 px
-                    cv.rectangle(img,{top_left},{bottom_right},{color},{thickness})
-        """)
+                    cv.rectangle(img,{top_left},{bottom_right},{color[::-1]},{thickness})
+        """
+        
+    defaults = [(384, 0), (510, 128), (0, 255, 0), 5]
+    
+    main_container = st.empty().container(border=True)
+    main_container.subheader("Drawing Rectangle")
+    main_container.markdown("""
+                To draw a rectangle, you need the top-left corner and bottom-right corner of the rectangle. 
+                This time, we will draw a green rectangle at the top-right corner of the image.
+                """)
+    main_container.info("Feel free to fiddle around with the parameters")
+    
+    image_container = main_container.container(border=True)
+    code_container = main_container.container(border=True)
+    
+    with st.sidebar:
+        st.markdown("<center><h5>Parameters</h5></center>", unsafe_allow_html=True)
+        st.markdown("<center>Top-left</center>", unsafe_allow_html=True)
+        
+        top_left = st.number_input("`x - coordinate`",value=384,max_value=512),\
+                                    st.number_input("` y - coordinate`", value=0, max_value= 512)
+        
+        st.markdown("<center>Bottom-Right</center>", unsafe_allow_html=True)
+        bottom_right = st.number_input("`x - coordinate`", value=510, max_value=512),\
+                                            st.number_input("` y - coordinate`", value=128, max_value= 512)
+        
+        st.markdown("<center>Color</center>", unsafe_allow_html=True)
+        color = st.color_picker("Pick a color",value="#00ff00", label_visibility="hidden")
+        color = ImageColor.getcolor(f'{color}','RGB')
+        
+        st.markdown("<center>Thickness</center>", unsafe_allow_html=True)
+        thickness = st.number_input("Thickness",value=5, min_value=1,
+                                    max_value=10, label_visibility="hidden")
+        
+        if st.checkbox("Fill rectangle"): thickness=-1
+        
+    image_container.subheader("Output")
+    code_container.subheader("Code")
+            
+    if [top_left, bottom_right, color, thickness] != defaults:
+        image_container.image(draw_rectangle(top_left, 
+                                bottom_right, 
+                                color, thickness),
+                'Draw Rectangle',
+                use_column_width=True)
+        image_container.success("Your Output")
+        code_container.code(write_code(top_left, bottom_right, color[::-1], thickness))
+        code_container.success("Your code")
+    
+    else:
+        image_container.image(draw_rectangle(),
+                'Draw Rectangle',
+                use_column_width=True)
+        image_container.info("Example Output")
+        
+        code_container.code(write_code(*defaults))
+        code_container.info("Example code")
             
 def Draw_Circle():
     with st.container(border=True):
