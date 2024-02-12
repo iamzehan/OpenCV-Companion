@@ -11,6 +11,16 @@ from utils.opencv.drawing import \
 # Draw Line Parameters
 def Draw_Line():
     
+    def write_code(start = (0, 0), end=(511, 511), color=(255, 0, 0), thickness=5):
+        return f"""
+                    import numpy as np
+                    import cv2 as cv
+                    # Create a black image
+                    img = np.zeros((512,512,3), np.uint8)
+                    # Draw a diagonal red line with thickness of 5 px
+                    cv.line(img,{start},{end},{color},{thickness})
+        """
+        
     with st.container(border=True):
         
         st.subheader("Drawing Line")
@@ -46,14 +56,12 @@ def Draw_Line():
                 
         with st.container(border=True):
             st.markdown("### Code")
-            st.code(f"""
-                    import numpy as np
-                    import cv2 as cv
-                    # Create a black image
-                    img = np.zeros((512,512,3), np.uint8)
-                    # Draw a diagonal red line with thickness of 5 px
-                    cv.line(img,{start},{end},{color},{thickness})
-        """)
+            if start!=(0,0) or end!=(511,511) or color!=(255,0,0) or thickness!=5: 
+                st.success("Your modified code")
+                st.code(write_code(start, end, color[::-1], thickness))
+            else:
+                st.info("Example Code")
+                st.code(write_code())
 
 
 def Draw_Rectangle():
