@@ -11,16 +11,16 @@ from utils.opencv.drawing import \
 # Draw Line Parameters
 def Draw_Line():
     
-    def write_code(start = (0, 0), end=(511, 511), color=(255, 0, 0), thickness=5):
+    def write_code(start, end, color, thickness):
         return f"""
                     import numpy as np
                     import cv2 as cv
                     # Create a black image
                     img = np.zeros((512,512,3), np.uint8)
                     # Draw a diagonal red line with thickness of 5 px
-                    cv.line(img,{start},{end},{color},{thickness})
+                    cv.line(img,{start},{end},{color[::-1]},{thickness})
         """
-        
+    defaults=[(0, 0), (511, 511), (255, 0, 0), 5]
     main_container = st.empty().container(border=True)
     
     main_container.subheader("Drawing Line")
@@ -57,15 +57,15 @@ def Draw_Line():
             st.markdown("<center>Thickness</center>", unsafe_allow_html=True)
             thickness = st.slider("Thickness",value=5, min_value=1, max_value=10, label_visibility="hidden")
 
-    if start!=(0,0) or end!=(511,511) or color!=(255,0,0) or thickness!=5: 
+    if [start, end, color, thickness] != defaults: 
         image_container.image(draw_line(start, end, color, thickness),'Draw Line', use_column_width=True)
         code_container.success("Your code")
-        code_container.code(write_code(start, end, color[::-1], thickness))
+        code_container.code(write_code(start, end, color, thickness))
         image_container.success("Your Output")
     else:
         image_container.image(draw_line(),'Draw Line', use_column_width=True)
         code_container.info("Example Code")
-        code_container.code(write_code())
+        code_container.code(write_code(*defaults))
         image_container.info("Example Output")
 
 
