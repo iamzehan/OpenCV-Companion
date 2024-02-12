@@ -43,12 +43,12 @@ def Draw_Line():
             
         with st.container(border=True):
             st.markdown("<center>Start</center>", unsafe_allow_html=True)
-            start =  st.slider("`x - coordinate`", max_value=512),\
-                                st.slider("` y - coordinate`", max_value= 512)
+            start = st.slider("`x - coordinate`", max_value=512),\
+                    st.slider("` y - coordinate`", max_value= 512)
             
             st.markdown("<center>End</center>", unsafe_allow_html=True)
-            end =  st.slider("`x - coordinate`", value=511),\
-                            st.slider("` y - coordinate`", value=511)
+            end = st.slider("`x - coordinate`", value=511),\
+                  st.slider("` y - coordinate`", value=511)
             
             st.markdown("<center>Color</center>", unsafe_allow_html=True)
             color = st.color_picker("Pick a color",value="#ff0000", label_visibility="hidden")
