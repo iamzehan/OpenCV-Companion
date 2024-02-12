@@ -199,7 +199,7 @@ def Draw_Circle():
             
             st.markdown("<center>Thickness</center>", unsafe_allow_html=True)
             thickness = st.number_input("Thickness",
-                                        value=2, 
+                                        value=-1, 
                                         min_value=-1,
                                         max_value=10, 
                                         label_visibility="collapsed")
