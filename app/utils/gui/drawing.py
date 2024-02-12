@@ -39,8 +39,8 @@ def Draw_Line():
     
     with st.sidebar:
         
-        st.markdown("<center style='color:red'><h3>Parameters</h3></center>", unsafe_allow_html=True)
-        st.info("Feel free to fiddle around with the parameters")
+        st.markdown("<center style='color:red'><h5>Parameters</h5></center>", unsafe_allow_html=True)
+        st.info("Change Parameters to see differences")
             
         with st.container(border=True):
             st.markdown("<center>Start</center>", unsafe_allow_html=True)
@@ -91,31 +91,34 @@ def Draw_Rectangle():
                 To draw a rectangle, you need the top-left corner and bottom-right corner of the rectangle. 
                 This time, we will draw a green rectangle at the top-right corner of the image.
                 """)
-    main_container.info("Feel free to fiddle around with the parameters")
     
     image_container = main_container.container(border=True)
     code_container = main_container.container(border=True)
     
     with st.sidebar:
+        
         st.markdown("<center><h5>Parameters</h5></center>", unsafe_allow_html=True)
-        st.markdown("<center>Top-left</center>", unsafe_allow_html=True)
+        st.info("Change Parameters to see differences")
         
-        top_left = st.number_input("`x - coordinate`",value=384,max_value=512),\
-                                    st.number_input("` y - coordinate`", value=0, max_value= 512)
-        
-        st.markdown("<center>Bottom-Right</center>", unsafe_allow_html=True)
-        bottom_right = st.number_input("`x - coordinate`", value=510, max_value=512),\
-                                            st.number_input("` y - coordinate`", value=128, max_value= 512)
-        
-        st.markdown("<center>Color</center>", unsafe_allow_html=True)
-        color = st.color_picker("Pick a color",value="#00ff00", label_visibility="hidden")
-        color = ImageColor.getcolor(f'{color}','RGB')
-        
-        st.markdown("<center>Thickness</center>", unsafe_allow_html=True)
-        thickness = st.number_input("Thickness",value=5, min_value=1,
-                                    max_value=10, label_visibility="hidden")
-        
-        if st.checkbox("Fill rectangle"): thickness=-1
+        with st.container(border=True):
+            st.markdown("<center>Top-left</center>", unsafe_allow_html=True)
+            
+            top_left = st.number_input("`x - coordinate`",value=384,max_value=512),\
+                                        st.number_input("` y - coordinate`", value=0, max_value= 512)
+            
+            st.markdown("<center>Bottom-Right</center>", unsafe_allow_html=True)
+            bottom_right = st.number_input("`x - coordinate`", value=510, max_value=512),\
+                                                st.number_input("` y - coordinate`", value=128, max_value= 512)
+            
+            st.markdown("<center>Color</center>", unsafe_allow_html=True)
+            color = st.color_picker("Pick a color",value="#00ff00", label_visibility="hidden")
+            color = ImageColor.getcolor(f'{color}','RGB')
+            
+            st.markdown("<center>Thickness</center>", unsafe_allow_html=True)
+            thickness = st.number_input("Thickness",value=5, min_value=1,
+                                        max_value=10, label_visibility="hidden")
+            
+            if st.checkbox("Fill rectangle"): thickness=-1
         
     image_container.subheader("Output")
     code_container.subheader("Code")
@@ -145,7 +148,7 @@ def Draw_Circle():
         st.markdown("""
                     To draw a circle, you need its center coordinates and radius.
                     """)
-        st.info("Feel free to fiddle around with the parameters")
+        st.info("Change Parameters to see differences")
         
         
         with st.sidebar.container(border=True):
@@ -204,7 +207,7 @@ def Draw_Ellipse():
                     For more details, check the documentation of cv.ellipse().
                     Below example draws a half ellipse at the center of the image.
                     """)
-        st.sidebar.info("Feel free to fiddle around with the parameters")
+        st.sidebar.info("Change Parameters to see differences")
         
         with st.container(border=True):
             
@@ -301,7 +304,7 @@ def Draw_Polygon():
     
     live = False
     points = st.sidebar.number_input("How many points for your Polygon?", value=0)
-    st.sidebar.info("Feel free to fiddle around with the parameters")
+    st.sidebar.info("Change Parameters to see differences")
     
     st.sidebar.subheader("Parameters")
     with st.sidebar.container(border=True):
@@ -386,7 +389,7 @@ def Draw_Text():
         image_container=st.empty()
         code_container = st.empty().container(border=True)
         
-    st.sidebar.info("Feel free to fiddle around with the parameters")
+    st.sidebar.info("Change Parameters to see differences")
     
     st.sidebar.subheader("Parameters")
     
