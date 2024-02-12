@@ -183,7 +183,7 @@ def Draw_Circle():
                     # Create a black image
                     img = np.zeros((512,512,3), np.uint8)
                     # Draw a diagonal blue line with thickness of 5 px
-                    cv.circle(img,{center},{radius},{color},{thickness})
+                    cv.circle(img,{center},{radius},{color[::-1]},{thickness})
         """)
 
 def Draw_Ellipse():
@@ -256,7 +256,7 @@ def Draw_Ellipse():
             # Create a black image
             img = np.zeros((512,512,3), np.uint8)
             # Draw a diagonal blue line with thickness of 5 px
-            cv.ellipse(img,{center}, {axes_length}, {angle}, {start_angle}, {end_angle}, {color}, {thickness})
+            cv.ellipse(img,{center}, {axes_length}, {angle}, {start_angle}, {end_angle}, {color[::-1]}, {thickness})
         """)
 
 def Draw_Polygon():
@@ -359,7 +359,7 @@ def Draw_Text():
             # Create a black image
             img = np.zeros((512,512,3), np.uint8)
             cv.putText(img, '{text}', {position}, {font_dict[font]},
-                        {font_scale}, {color}, {thickness}, {line_type_dict[lineType]})
+                        {font_scale}, {color[::-1]}, {thickness}, {line_type_dict[lineType]})
             """
                 
     with st.container(border=True):
