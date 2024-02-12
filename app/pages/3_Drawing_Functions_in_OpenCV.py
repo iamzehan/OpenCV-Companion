@@ -8,6 +8,7 @@ from utils.gui.drawing import (
     Draw_Polygon,
     Draw_Text
 )
+from utils.gui.footer import footer
 
 if __name__ == "__main__":
     
@@ -62,4 +63,5 @@ if __name__ == "__main__":
         
     if options == "Adding Texts":
         Draw_Text()
-        
+    
+    footer()

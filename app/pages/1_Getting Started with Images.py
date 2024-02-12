@@ -1,4 +1,5 @@
 import streamlit as st
+from utils.gui.footer import footer
 from utils.gui.images import Read_and_Show_Image
 
 if __name__ == "__main__":
@@ -32,3 +33,5 @@ if __name__ == "__main__":
         Read_and_Show_Image(img_file, img_file_name, render, upload=True)
     else:
         Read_and_Show_Image(img_file, img_file_name, render)
+    
+    footer()

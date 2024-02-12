@@ -1,4 +1,5 @@
 import streamlit as st
+from utils.gui.footer import footer
 
 st.set_page_config(page_icon="app\\assets\\OpenCV_Logo_with_text.png")
 st.markdown("""
@@ -56,3 +57,4 @@ st.markdown("Check version:")
 st.code("""
         import cv2 as cv
         print(cv.__version__)""", language="python", line_numbers=True)
+footer()

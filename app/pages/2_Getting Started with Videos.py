@@ -4,6 +4,7 @@ from utils.gui.videos import (
     Play_Video_from_File,
     Save_Video
 )
+from utils.gui.footer import footer
 
 if __name__ == "__main__":
     
@@ -35,5 +36,6 @@ if __name__ == "__main__":
         
     elif options== "Save Video":
         Save_Video()
-        
+    
+    footer()
 
