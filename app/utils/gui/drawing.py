@@ -31,8 +31,8 @@ def Draw_Line():
                 bottom-right corners.
                 """)
     
-    image_container = main_container.empty().container(border=True)
-    code_container = main_container.empty().container(border=True)
+    image_container = main_container.container(border=True)
+    code_container = main_container.container(border=True)
     
     image_container.subheader("Output")
     code_container.subheader("Code")
