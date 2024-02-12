@@ -3,10 +3,10 @@ from utils.opencv.videos import video_capture, process_uploaded_video
 
 def Capture_Video_from_Webcam():
     st.subheader("Capture Video from Camera with `cv.VideoCapture()`")
-    col1, col2,_, _ = st.columns([1,1,1,1])
-    start = col1.button("Run :green[▶️]", key="Run 1")
+    button_space = st.empty()
+    start = button_space.button("Run :green[▶️]", key="Run 1")
     if start: 
-        video_capture(col2)
+        video_capture(button_space)
         
     else:
         st.code("""
@@ -94,14 +94,15 @@ def Play_Video_from_File():
     video_file = st.file_uploader("Upload a video to see how it works", type=["mp4", "avi", "mov"])
     if video_file:
         video_file_name = video_file.name
-        col1, col2,_, _ = st.columns([1,1,1,1])
-        start = col1.button("Run :green[▶️]", key="Run 2")
+        button_space=st.empty()
+        start = button_space.button("Run :green[▶️]", key="Run 2")
         if start and video_file:
-            process_uploaded_video(video_file, col2)
+            process_uploaded_video(video_file, button_space)
         else:
             show_code(video_file_name)
             st.success("**Notice:** How the path have changed❗")
     else:
+        st.subheader("Code")
         show_code(video_file_name)
         st.error("Please upload a video to see how it works")
 

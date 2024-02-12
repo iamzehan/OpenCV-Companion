@@ -2,10 +2,10 @@ import tempfile
 import cv2 as cv
 import streamlit as st
 
-def video_capture(col2=st, path=None):
+def video_capture(button_space=st, path=None):
     cap = cv.VideoCapture(path) if path else cv.VideoCapture(0) 
     video_placeholder = st.empty()
-    stop = col2.button("Stop :red[🟥]")
+    stop = button_space.button("Stop :red[🟥]")
     if not cap.isOpened():
         st.error("Cannot open camera")
         exit()
@@ -30,13 +30,13 @@ def video_capture(col2=st, path=None):
     cap.release()
     cv.destroyAllWindows()
     
-def process_uploaded_video(video_file, col2=st):
+def process_uploaded_video(video_file, button_space=st):
     # Convert the video content to a NumPy array
     tfile = tempfile.NamedTemporaryFile(delete=False)
     tfile.write(video_file.read())
     # Create a VideoCapture object using the NumPy array as input
     cap = cv.VideoCapture(tfile.name)
-    stop = col2.button("Stop :red[🟥]")
+    stop = button_space.button("Stop :red[🟥]")
     video_placeholder = st.empty()
     # Check if the VideoCapture object was created successfully
     if not cap.isOpened():
