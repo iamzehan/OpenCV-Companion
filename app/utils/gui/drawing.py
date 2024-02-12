@@ -488,7 +488,7 @@ def Draw_Text():
             cv.imshow('Output', img)
             """
             
-    defaults = ['OpenCV', (10, 500), 'HERSHEY_SIMPLEX', 4, (255, 255, 255), 2, 'LINE_AA']        
+    defaults = ['OpenCV', (10, 500), 'HERSHEY_SIMPLEX', 4.0, (255, 255, 255), 2, 'LINE_AA']        
     
     main_container = st.container(border=True)
     main_container.subheader("Adding Text to Images")
@@ -527,8 +527,8 @@ def Draw_Text():
                                                    'HERSHEY_SCRIPT_SIMPLEX', 
                                                    'HERSHEY_SCRIPT_COMPLEX'])
         
-        font_scale=st.number_input(label="Font Scale", value=4, min_value=1, max_value=10)
-        
+        font_scale=st.number_input(label="Font Scale", value=0.1, step=0.1, min_value=0.1, max_value=10.0)
+        font_scale=round(font_scale, 1)
         color = st.color_picker("Color:", value="#fff")
         color = ImageColor.getcolor(f'{color}','RGB')
         
