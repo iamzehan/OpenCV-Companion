@@ -130,7 +130,7 @@ def Draw_Rectangle():
                 'Draw Rectangle',
                 use_column_width=True)
         image_container.success("Your Output")
-        code_container.code(write_code(top_left, bottom_right, color[::-1], thickness))
+        code_container.code(write_code(top_left, bottom_right, color, thickness))
         code_container.success("Your code")
     
     else:
@@ -143,46 +143,9 @@ def Draw_Rectangle():
         code_container.info("Example code")
             
 def Draw_Circle():
-    with st.container(border=True):
-        st.subheader("Drawing Circle")
-        st.markdown("""
-                    To draw a circle, you need its center coordinates and radius.
-                    """)
-        st.info("Change Parameters to see differences")
-        
-        
-        with st.sidebar.container(border=True):
-            st.markdown("<center>Center</center>", unsafe_allow_html=True)
-            center_x, center_y = st.slider("`x - coordinate`",value=447,max_value=512),\
-                                st.slider("` y - coordinate`", value=63, max_value= 512)
-            center = (center_x, center_y)
-            
-            st.markdown("<center>Radius</center>", unsafe_allow_html=True)
-            radius= st.number_input("`r`", value=63, max_value=512)
-            
-            st.markdown("<center>Color</center>", unsafe_allow_html=True)
-            color = st.color_picker("Pick a color",value="#00ff00", label_visibility="hidden")
-            color = ImageColor.getcolor(f'{color}','RGB')
-            
-            st.markdown("<center>Thickness</center>", unsafe_allow_html=True)
-            thickness=st.number_input("Thickness",value=2,
-                                        max_value=10, label_visibility="hidden")
-            
-            if st.checkbox("Fill Circle", value=True): thickness=-1
-        
-        with st.container(border=True): 
-            st.markdown("<center>Output</center>", unsafe_allow_html=True)
-            st.image(draw_circle( center, 
-                                    radius, 
-                                    color,
-                                    thickness ),
-                       'Draw Circle',
-                       width=200, use_column_width=True)
-            
-                
-        with st.container(border=True):
-            st.markdown("### Code")
-            st.code(f"""
+    
+    def write_code(center, radius, color, thickness):
+        return f"""
                     import numpy as np
                     import cv2 as cv
                     # Create a black image
@@ -190,7 +153,75 @@ def Draw_Circle():
                     # Draw a diagonal blue line with thickness of 5 px
                     cv.circle(img,{center},{radius},{color[::-1]},{thickness})
                     cv.imshow('Output', img)
-        """)
+        """
+        
+    defaults = [(447, 63),63,(0, 255, 0),-1]
+     
+    main_container = st.container(border=True)
+    main_container.subheader("Drawing Circle")
+    main_container.markdown("""
+                To draw a circle, you need its center coordinates and radius.
+                """)
+    main_container.info("Change Parameters to see differences")
+    
+    image_container = main_container.container(border=True)
+    code_container = main_container.container(border=True)
+    
+    with st.sidebar:
+        
+        st.markdown("<center><h5>Parameters</h5></center>", unsafe_allow_html=True)
+        st.info("Change Parameters to see differences")
+        
+        with st.container(border=True):
+            st.markdown("<center>Center</center>", unsafe_allow_html=True)
+            center_x, center_y = st.slider("`x - coordinate`",value=447,max_value=512),\
+                                st.slider("` y - coordinate`", value=63, max_value= 512)
+            center = (center_x, center_y)
+            
+            st.markdown("<center>Radius</center>", unsafe_allow_html=True)
+            radius= st.number_input("`r`", value=63, max_value=512, label_visibility="collapsed")
+            
+            st.markdown("<center>Color</center>", unsafe_allow_html=True)
+            color = st.color_picker("Pick a color",value="#00ff00", label_visibility="collapsed")
+            color = ImageColor.getcolor(f'{color}','RGB')
+            
+            st.markdown("<center>Thickness</center>", unsafe_allow_html=True)
+            thickness = st.number_input("Thickness",
+                                        value=2, 
+                                        min_value=-1,
+                                        max_value=10, 
+                                        label_visibility="collapsed")
+               
+            fill = st.checkbox("Fill Circle?")
+            
+            if fill: thickness = -1
+            
+    
+    image_container.markdown("<center>Output</center>", unsafe_allow_html=True)
+    code_container.markdown("### Code")
+    
+    if [center, radius, color, thickness] != defaults:
+    
+        image_container.image(draw_circle( center, 
+                                radius, 
+                                color,
+                                thickness ),
+                    'Draw Circle',
+                    width=200, use_column_width=True)
+        image_container.success("Your Output")
+        
+        code_container.code(write_code(center, radius, color, thickness))
+        code_container.success("Your Code")
+        
+    else:
+        
+        image_container.image(draw_circle(),
+                    'Draw Circle',
+                    width=200, use_column_width=True)
+        image_container.info("Example Output")
+        
+        code_container.code(write_code(*defaults))
+        code_container.info("Example Code")
 
 def Draw_Ellipse():
     
