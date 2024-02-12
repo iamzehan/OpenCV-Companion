@@ -19,6 +19,7 @@ def Draw_Line():
                     img = np.zeros((512,512,3), np.uint8)
                     # Draw a diagonal red line with thickness of 5 px
                     cv.line(img,{start},{end},{color[::-1]},{thickness})
+                    cv.imshow('Output', img)
         """
     defaults=[(0, 0), (511, 511), (255, 0, 0), 5]
     main_container = st.empty().container(border=True)
@@ -79,6 +80,7 @@ def Draw_Rectangle():
                     img = np.zeros((512,512,3), np.uint8)
                     # Draw a diagonal blue line with thickness of 5 px
                     cv.rectangle(img,{top_left},{bottom_right},{color[::-1]},{thickness})
+                    cv.imshow('Output', img)
         """
         
     defaults = [(384, 0), (510, 128), (0, 255, 0), 5]
@@ -184,6 +186,7 @@ def Draw_Circle():
                     img = np.zeros((512,512,3), np.uint8)
                     # Draw a diagonal blue line with thickness of 5 px
                     cv.circle(img,{center},{radius},{color[::-1]},{thickness})
+                    cv.imshow('Output', img)
         """)
 
 def Draw_Ellipse():
@@ -257,6 +260,7 @@ def Draw_Ellipse():
             img = np.zeros((512,512,3), np.uint8)
             # Draw a diagonal blue line with thickness of 5 px
             cv.ellipse(img,{center}, {axes_length}, {angle}, {start_angle}, {end_angle}, {color[::-1]}, {thickness})
+            cv.imshow('Output', img)
         """)
 
 def Draw_Polygon():
@@ -270,6 +274,7 @@ def Draw_Polygon():
                 pts = np.array({pts}, np.int32)
                 pts = pts.reshape((-1,1,2))
                 cv.polylines(img,[pts], {join}, {color})
+                cv.imshow('Output', img)
                 """
     with st.container(border=True):
         st.subheader("Drawing Polygons")
@@ -360,6 +365,7 @@ def Draw_Text():
             img = np.zeros((512,512,3), np.uint8)
             cv.putText(img, '{text}', {position}, {font_dict[font]},
                         {font_scale}, {color[::-1]}, {thickness}, {line_type_dict[lineType]})
+            cv.imshow('Output', img)
             """
                 
     with st.container(border=True):
