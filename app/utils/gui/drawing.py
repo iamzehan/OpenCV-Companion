@@ -454,13 +454,13 @@ def Draw_Polygon():
 
 def Draw_Text():
     
-    def write_code(text='OpenCV',
-              position=(10, 500),
-              font='HERSHEY_SIMPLEX',
-              font_scale=4,
-              color = (255,255,255),
-              thickness=2,
-              lineType='LINE_AA'):
+    def write_code(text:str,
+                   position:tuple,
+                   font:str,
+                   font_scale:int,
+                   color:tuple,
+                   thickness:int,
+                   lineType:str) -> str:
         
         font_dict = {
             'HERSHEY_SIMPLEX': 'cv.FONT_HERSHEY_SIMPLEX',
@@ -487,31 +487,31 @@ def Draw_Text():
                         {font_scale}, {color[::-1]}, {thickness}, {line_type_dict[lineType]})
             cv.imshow('Output', img)
             """
-                
-    with st.container(border=True):
-        st.subheader("Adding Text to Images")
-        st.markdown("""
-                    To put texts in images, you need specify following things.
+            
+    defaults = ['OpenCV', (10, 500), 'HERSHEY_SIMPLEX', 4, (255, 255, 255), 2, 'LINE_AA']        
+    
+    main_container = st.container(border=True)
+    main_container.subheader("Adding Text to Images")
+    main_container.markdown("""
+                To put texts in images, you need specify following things.
 
-                    - Text data that you want to write
-                    - Position coordinates of where you want put it 
-                    (i.e. bottom-left corner where data starts).
-                    - Font type (Check cv.putText() docs for supported fonts)
-                    - Font Scale (specifies the size of font)
-                    - regular things like color, thickness, lineType etc. 
-                    For better look, lineType = cv.LINE_AA is recommended.
-                    
-                    We will write OpenCV on our image in white color.""")
+                - Text data that you want to write
+                - Position coordinates of where you want put it 
+                (i.e. bottom-left corner where data starts).
+                - Font type (Check cv.putText() docs for supported fonts)
+                - Font Scale (specifies the size of font)
+                - regular things like color, thickness, lineType etc. 
+                For better look, lineType = cv.LINE_AA is recommended.
                 
-        image_container=st.empty()
-        code_container = st.empty().container(border=True)
-        
-    st.sidebar.info("Change Parameters to see differences")
+                We will write OpenCV on our image in white color.""")
+                
+    image_container = main_container.container(border=True)
+    code_container = main_container.container(border=True)
     
-    st.sidebar.subheader("Parameters")
-    
-    with st.sidebar.container(border=True):
+    with st.sidebar:
         
+        st.markdown("<center><h5>Parameters</h5></center>", unsafe_allow_html=True)
+        st.info("Change Parameters to see differences")
         text=st.text_input("Add text", placeholder="Add some text...")
         text_info=st.empty()
         
@@ -538,26 +538,24 @@ def Draw_Text():
                                         'LINE_4', 
                                         'LINE_8'])
         
-        live = False
-        add_text=st.button("Add Text", type="primary", use_container_width=True)
-        
         if not text:
             text_info.error('Please Add text to see difference')
-        else:
-            live=True
             
-    with image_container.container(border=True):
-        st.markdown("<center> Output </center>", unsafe_allow_html=True)
-        if add_text or live: 
-            st.image(draw_text(text, position, font, font_scale, color, thickness, lineType),
-                     caption="Adding Texts to Images", use_column_width=True)
-            st.success("Your output")
-            code_container.markdown("### Code")
-            code_container.success("Your modified code")
-            code_container.code(write_code(text, position, font, font_scale, color, thickness, lineType))
-        else:
-            st.image(draw_text(), caption="Adding Texts to Images", use_column_width=True)
-            st.info("Example output")
-            code_container.markdown("### Code")
-            code_container.info("Example code")
-            code_container.code(write_code())
+    image_container.markdown("Output", unsafe_allow_html=True)
+    code_container.subheader("Code")
+    
+    if [text, position, font, font_scale, color, thickness, lineType] != defaults and text != '': 
+        
+        image_container.image(draw_text(text, position, font, font_scale, color, thickness, lineType),
+                    caption="Adding Texts to Images", use_column_width=True)
+        image_container.success("Your output")
+        code_container.success("Your modified code")
+        code_container.code(write_code(text, position, font, font_scale, color, thickness, lineType))
+    
+    else:
+        
+        image_container.image(draw_text(), caption="Adding Texts to Images", use_column_width=True)
+        image_container.info("Example output")
+        
+        code_container.info("Example code")
+        code_container.code(write_code(*defaults))
