@@ -17,7 +17,7 @@ def draw_rectangle(top_left=(384,0), bottom_right=(510, 128), color=(0,255,0), t
     cv.circle(img, (bottom_right), 5, (255,255,255), -1)
     return img
 
-def draw_circle(center=(447, 63), radius=63, color=(0, 0, 255), thickness=-1):
+def draw_circle(center=(447, 63), radius=63, color=(0, 255, 0), thickness=-1):
     # Create a black image
     img = np.zeros((512,512,3), np.uint8)
     cv.circle(img,center, radius, color, thickness)
