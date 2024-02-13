@@ -1,5 +1,8 @@
 import streamlit as st
-from utils.gui.mouse_events import Simple_Demo
+from utils.gui.mouse_events import \
+    (Simple_Demo,
+    Advanced_Demo
+    )
 
 # Streamlit app
 def main():
@@ -15,6 +18,6 @@ def main():
     if options == "Simple Demo":
         Simple_Demo()
     if options == "Advanced Demo":
-        pass
+        Advanced_Demo()
 if __name__ == "__main__":
     main()
