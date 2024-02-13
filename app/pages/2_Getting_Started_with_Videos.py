@@ -8,7 +8,7 @@ from utils.gui.footer import footer
 
 if __name__ == "__main__":
     
-    st.set_page_config(page_icon="app\\assets\\OpenCV_Logo_with_text.png",
+    st.set_page_config(page_icon="app\\assets\\Images\\OpenCV_Logo_with_text.png",
                        page_title="Getting Started with Videos")
 
     st.sidebar.subheader("Video Options")

@@ -12,7 +12,7 @@ from utils.gui.footer import footer
 
 if __name__ == "__main__":
     
-    st.set_page_config(page_icon="app\\assets\\OpenCV_Logo_with_text.png",
+    st.set_page_config(page_icon="app\\assets\\Images\\OpenCV_Logo_with_text.png",
                        page_title="Drawing Geometric Shapes with OpenCV")
     
     st.sidebar.subheader("Drawing Options")

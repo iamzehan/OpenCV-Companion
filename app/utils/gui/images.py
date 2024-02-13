@@ -68,7 +68,7 @@ def Read_and_Show_Image(img_file, img_file_name, render, upload=False):
         with render:
             show_code(img_file_name)
             st.subheader("Output")
-            show_image(read_image("app/assets/Lenna.png"))
+            show_image(read_image("app/assets/Images/Lenna.png"))
             st.error("Please upload an image to see different results")
             st.subheader("Note")
             show_note(img_file_name)
