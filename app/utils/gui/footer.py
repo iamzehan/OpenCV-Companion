@@ -3,7 +3,7 @@ import streamlit as st
 import datetime as dt
 
 def footer():
-    config = json.load(open(".\\app\\config.json"))
+    config = json.load(open("config.json"))
     st.markdown(
             f"""
             ___
