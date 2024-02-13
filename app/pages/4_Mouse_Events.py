@@ -3,6 +3,7 @@ from utils.gui.mouse_events import \
     (Simple_Demo,
     Advanced_Demo
     )
+from utils.gui.footer import footer
 
 # Streamlit app
 def main():
@@ -19,5 +20,7 @@ def main():
         Simple_Demo()
     if options == "Advanced Demo":
         Advanced_Demo()
+    
 if __name__ == "__main__":
     main()
+    footer()
