@@ -47,8 +47,8 @@ def Read_and_Show_Image(img_file, img_file_name, render, upload=False):
             k = cv.waitKey(0)""")
         st.markdown("""
         In the end, the image is written to a file if the pressed key was the 
-        "s"-key. For this the cv::imwrite function is called that has the file
-        path and the cv::Mat object as an argument.
+        `"s"-key`. For this the `cv::imwrite` function is called that has the file
+        path and the `cv::Mat` object as an argument.
     """)
         st.code(f"""
     if k == ord("s"):
