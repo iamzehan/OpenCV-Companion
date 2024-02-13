@@ -28,7 +28,6 @@ def video_capture(button_space=st, path=None):
             break
     # When everything done, release the capture
     cap.release()
-    cv.destroyAllWindows()
     
 def process_uploaded_video(video_file, button_space=st):
     # Convert the video content to a NumPy array
