@@ -52,7 +52,7 @@ while(1):
 cv.destroyAllWindows()
             """)
     with st.expander("Output:"):
-        st.image("app\\assets\\GIFs\\mouse_events.gif", use_column_width=True)
+        st.image("app/assets/GIFs/mouse_events.gif", use_column_width=True)
 
 def Advanced_Demo():
     pass
