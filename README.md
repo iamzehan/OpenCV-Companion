@@ -7,8 +7,7 @@
 ___
 
 As a beginner, I used to struggle a lot to understand most of the concepts in the OpenCV spectrum; it was hard to visualize the solutions without hardcoding them first. So I decided to create a solution that allows you to do just that. It's no different than the original documentation. The only advantage it gives you is that, you get to modify the code with a GUI and understand what it does.
-
---- @iamzehan 
+-- [*@iamzehan*](https://github.com/iamzehan/)
 
 ## What to expect?
 
