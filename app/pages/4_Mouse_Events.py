@@ -3,7 +3,7 @@ from utils.gui.mouse_events import Simple_Demo
 
 # Streamlit app
 def main():
-    st.set_page_config(page_icon="app\\assets\\Images\\OpenCV_Logo_with_text.png",
+    st.set_page_config(page_icon="app/assets/Images/OpenCV_Logo_with_text.png",
                        page_title="Mouse Events")
     st.title("OpenCV Mouse Events 🖱️")
 
