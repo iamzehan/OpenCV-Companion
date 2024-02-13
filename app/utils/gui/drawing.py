@@ -389,11 +389,11 @@ def Draw_Polygon():
                 img = np.zeros((512,512,3), np.uint8)
                 pts = np.array({pts}, np.int32)
                 pts = pts.reshape((-1,1,2))
-                cv.polylines(img,[pts], {join}, {color})
+                cv.polylines(img,[pts], {join}, {color[::-1]})
                 cv.imshow('Output', img)
                 """
     
-    defaults = [[[10,5],[20,30],[70,20],[50,10]], True, (255,255,255)]
+    defaults = [[[10,5],[20,30],[70,20],[50,10]], True, (0,255,255)]
     
     main_container = st.empty().container()
     
