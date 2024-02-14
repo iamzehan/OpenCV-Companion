@@ -286,15 +286,17 @@ class BasicOperations:
             st.markdown("<center>Relocate to</center>", unsafe_allow_html=True)
             locate = st.slider("$y$", value=342, max_value=row_max-y_diff),\
                     st.slider("$x$", value = 190, max_value = column_max-x_diff)
-                        
-        st.code(f"""
-                >>> ball = img[{y_0}:{y_1}, {x_0}:{x_1}]
-                >>> img[{locate[0]}:{locate[0]+(abs(y_0-y_1))}, {locate[1]}: {locate[1]+(abs(x_0-x_1))}] = ball
-                """)
-        ball = img[y_0:y_1, x_0:x_1]
-        img[locate[0]:locate[0]+abs(y_0-y_1), locate[1]:locate[1]+(abs(x_0-x_1))] = ball
-        st.image(ball)
-        st.image(img)
+        try:              
+            st.code(f"""
+                    >>> ball = img[{y_0}:{y_1}, {x_0}:{x_1}]
+                    >>> img[{locate[0]}:{locate[0]+(abs(y_0-y_1))}, {locate[1]}: {locate[1]+(abs(x_0-x_1))}] = ball
+                    """)
+            ball = img[y_0:y_1, x_0:x_1]
+            img[locate[0]:locate[0]+abs(y_0-y_1), locate[1]:locate[1]+(abs(x_0-x_1))] = ball
+            st.image(ball)
+            st.image(img)
+        except:
+            st.error("An Error has occured")
         
     def Splitting_and_Merging_Image_Channels(self):
         st.markdown("""
