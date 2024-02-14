@@ -39,9 +39,25 @@ Almost all the operations in this section are mainly related to
                  since most of them are just single lines of code )*""")
         
     if options == "Accessing and Modifying pixel values":
+            # File and name handling
+            img_file_name = 'messi5.jpg'
+            st.markdown("""## Accessing and Modifying pixel values
+Let's load a color image first:
+                """)
+            render = st.empty().container()
+            render.subheader("Code")
+            st.sidebar.info("Upload an image to see changes")
+            img_file = st.sidebar.file_uploader("Upload an Image to see how the code changes:", type=["PNG","JPG"], label_visibility="collapsed")
+            
+            # Checks if a File has been uploaded
+            if img_file:
+                # extracting name img_file object of the Upload class
+                img_file_name = img_file.name
+                # rendition of the whole view
+                Accessing_Modifying_Pixel_Values(img_file, img_file_name, render, upload=True)
+            else:
+                Accessing_Modifying_Pixel_Values(img_file, img_file_name, render)
         
-        Accessing_Modifying_Pixel_Values()
-    
     if options == "Accessing Image Properties":
         
         Accessing_Image_Properties()
