@@ -1,4 +1,4 @@
-# <img src="https://github.com/iamzehan/OpenCV-Companion/assets/43857150/9ed252e4-868d-4f23-838e-6f6626076789" height=40 width=40> OpenCV Documentation On Steroids
+# <img src="https://github.com/iamzehan/OpenCV-Companion/assets/43857150/9ed252e4-868d-4f23-838e-6f6626076789" height=50 width=40> OpenCV-Companion - OpenCV Documentation On Steroids
 
 [![GitHub Release](https://img.shields.io/github/v/release/iamzehan/OpenCV-Companion.svg)](https://github.com/iamzehan/OpenCV-Companion/releases) [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/iamzehan/OpenCV-Companion/blob/main/LICENSE) [![Code Size](https://img.shields.io/github/languages/code-size/iamzehan/OpenCV-Companion.svg)](https://github.com/iamzehan/OpenCV-Companion) [![Last Commit](https://img.shields.io/github/last-commit/iamzehan/OpenCV-Companion.svg)](https://github.com/iamzehan/OpenCV-Companion/commits/main)
 [![Contributors](https://img.shields.io/github/contributors/iamzehan/OpenCV-Companion.svg)](https://github.com/iamzehan/OpenCV-Companion/graphs/contributors) [![GitHub Issues](https://img.shields.io/github/issues/iamzehan/OpenCV-Companion.svg)](https://github.com/iamzehan/OpenCV-Companion/issues)
@@ -51,7 +51,11 @@ As a beginner, I used to struggle a lot to understand most of the concepts in th
     <img src="https://github.com/iamzehan/OpenCV-Companion/assets/43857150/e5bfd8e8-dd3e-4519-80f0-93eb66458da2" width="600" alt="Screenshot (233)">
   </p>
 
-<h2>Technologies</h2>
+<h2 align="center">Technologies</h2>
 <p align="center">
-  <a href="https://streamlit.io/" target="_blank"><img src="https://yt3.googleusercontent.com/ytc/AIf8zZSb7aWphJvsnl5ZQ7VaEfdultOKw3BR4h-fc8HhEg=s900-c-k-c0x00ffffff-no-rj" alt="Streamlit" width="50"/></a><a href="https://opencv.org/" target="_blank"> <img src="https://img.icons8.com/color/144/000000/opencv.png" alt="OpenCV" width="50"/></a>
+  <a href="https://streamlit.io/" target="_blank">
+    <img src="https://yt3.googleusercontent.com/ytc/AIf8zZSb7aWphJvsnl5ZQ7VaEfdultOKw3BR4h-fc8HhEg=s900-c-k-c0x00ffffff-no-rj" alt="Streamlit" width="40" style="background-color:white; border-radius: 5px"/>
+  </a><a href="https://opencv.org/" target="_blank"> 
+      <img src="https://img.icons8.com/color/144/000000/opencv.png" alt="OpenCV" width="40" style="background-color:white; border-radius: 5px"/>
+    </a>
 </p>
