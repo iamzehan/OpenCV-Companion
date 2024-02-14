@@ -8,14 +8,13 @@ def main():
                        page_title="Track Bar 📊")
 
     basicOp= BasicOperations()
-    basicOp.side_bar()
     options=st.sidebar.selectbox("Select: ", ["Introduction", 
                                               "Accessing and Modifying pixel values",
                                               "Accessing Image Properties",
                                               "Image ROI",
                                               "Splitting and Merging Image Channels",
                                               "Making Borders for Images (Padding)"], label_visibility="collapsed")
-    
+
     if options == "Introduction":
         st.markdown("""
                     ## Goal
@@ -34,25 +33,25 @@ def main():
                 to write better optimized code with OpenCV.""")
         st.markdown ("""*( Examples will be shown in a Python terminal,
                  since most of them are just single lines of code )*""")
-        
+    
     if options == "Accessing and Modifying pixel values":
-            
+            basicOp.side_bar()
             basicOp.Accessing_Modifying_Pixel_Values()
         
     if options == "Accessing Image Properties":
-        
+        basicOp.side_bar()
         basicOp.Accessing_Image_Properties()
     
     if options == "Image ROI":
-        
+        basicOp.side_bar()
         basicOp.Image_ROI()
     
     if options == "Splitting and Merging Image Channels":
-        
+        basicOp.side_bar()
         basicOp.Splitting_and_Merging_Image_Channels()
         
     if options == "Making Borders for Images (Padding)":
-        
+        basicOp.side_bar()
         basicOp.Making_Borders_for_Images()
     
 if __name__ == '__main__':
