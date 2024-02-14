@@ -8,6 +8,12 @@ def read_image(path):
 def get_shape(img):
     return img.shape
 
+def get_size(img):
+    return img.size
+
+def get_dtype(img):
+    return img.dtype
+
 def bytes_to_image(byte_string):
     # Convert the byte string to a NumPy array
     image_array = np.frombuffer(byte_string, dtype=np.uint8)
