@@ -289,10 +289,10 @@ class BasicOperations:
         try:              
             st.code(f"""
                     >>> ball = img[{y_0}:{y_1}, {x_0}:{x_1}]
-                    >>> img[{locate[0]}:{locate[0]+(abs(y_0-y_1))}, {locate[1]}: {locate[1]+(abs(x_0-x_1))}] = ball
+                    >>> img[{locate[0]}:{locate[0]+y_diff}, {locate[1]}: {locate[1] + x_diff}] = ball
                     """)
             ball = img[y_0:y_1, x_0:x_1]
-            img[locate[0]:locate[0]+abs(y_0-y_1), locate[1]:locate[1]+(abs(x_0-x_1))] = ball
+            img[locate[0]:locate[0]+y_diff, locate[1]:locate[1]+x_diff] = ball
             st.image(ball)
             st.image(img)
         except:
