@@ -5,6 +5,8 @@ from utils.opencv.images import (
     read_image,
     load_by_pixels,
     get_shape,
+    get_size,
+    get_dtype,
     list_to_np_array
     )
 
@@ -79,122 +81,184 @@ def Read_and_Show_Image(img_file, img_file_name, render, upload=False):
             show_note(img_file_name)
 
 # Basic Operations On Images (Page - 6)
-
-def Accessing_Modifying_Pixel_Values(img_file, img_file_name, render, upload=False):
+class BasicOperations:
+    def __init__(self):
+        self.img = None 
+        self.img_file=None
     
-    def show_code(img_file_name):
-        return f"""
+    def show_code(self, img_file_name):
+        st.subheader("Code")
+        st.code(f"""
             import numpy as np
             import cv2 as cv
             img = cv.imread('<path>/{img_file_name}')
             assert img is not None, "file could not be read, check with os.path.exists()"
             cv.imshow('image', img)
-            """
-    
-    def show_image(img_file):
+            """)
+        
+    def show_image(self, img_file):
+        st.subheader("Output")
         with st.container(border=True):
-            st.image(img_file, caption="image", channels='BGR', use_column_width=True)
+            _, col, _ = st.columns([4,4,4])
+            col.image(img_file, channels='RGB', caption='image')
     
-    
-    
-    if upload:
-        img = bytes_to_image(img_file.read())
-        with render:
-            st.code(show_code(img_file_name))
-            st.subheader("Output")
-            show_image(img)
+    def main_body(self):
         
-    else:
-        img = read_image(f"app/assets/Images/{img_file_name}")
-        with render:
-            st.code(show_code(img_file_name))
-            st.subheader("Output")
-            show_image(img)
-    
-    with render:
+        img_file_name = 'messi5.jpg'
+        img_file = self.img_file
         
-        st.write("""
-                 You can access a pixel value by its row and column coordinates. 
-                 For BGR image, it returns an array of Blue, Green, Red values. 
-                 For grayscale image, just corresponding intensity is returned.""")
+        with st.container(): 
+            if img_file:
+                self.img = bytes_to_image(img_file.read())
+                self.show_code(img_file.name)
+                st.success("Results from your uploaded image")
+                self.show_image(self.img)
+                
+                
+            else:
+                self.img = read_image(f"app/assets/Images/{img_file_name}")
+                self.show_code(img_file_name)
+                st.info("Results from the example image")
+                self.show_image(self.img)
+                st.sidebar.error("Upload an image to see changes")
+                
+            
+    def side_bar(self):
+        # File and name handling
+        self.img_file = st.sidebar.file_uploader("Upload an Image to see how the code changes:", type=["PNG","JPG"], label_visibility="collapsed")
         
-        row_max, column_max, channels = get_shape(img)
-        
-        with st.container(border=True):
-            st.subheader("Playground")
-            dimensions = st.slider("Row (Height): ", value=100, max_value=row_max),\
-                        st.slider("Column (Width):", value=100, max_value=column_max)
-        st.code(f"""
-                >>> px = img[{dimensions[0]},{dimensions[1]}]
-                >>> print( px )
-                """)
-        with st.expander("Output: "):
-            st.markdown(load_by_pixels(img, dimensions)[0])
-        
-        color = st.selectbox("Get pixel by specific color?:",options=["Blue", "Green", "Red"])
-        colors = {'Blue':0, 'Green': 1, 'Red':2}
-        
-        st.code(f"""
-                # accessing only {color} pixel
-                blue = img[{dimensions[0]},{dimensions[1]}, {colors[color]}]
-                print( blue )
-                """)
-        color_result = load_by_pixels(img, dimensions, colors[color])
-        with st.expander("Output: "):
-            st.markdown(color_result)
-        
+    def Accessing_Modifying_Pixel_Values(self):
         st.markdown("""
-                    You can modify the pixel values the same way.
-                    """)
-        
-        select_color=st.color_picker("Select color", value="#fff")
-        select_color=list(ImageColor.getcolor(f'{select_color}','RGB')[::-1])
-        
-        st.code(f"""
-                img[{dimensions[0]},{dimensions[1]}] = {select_color}
-                print( img[{dimensions[0]},{dimensions[1]}] )
+                    ## Accessing and Modifying pixel values
+                    Let's load a color image first:
                 """)
-        
-        with st.expander("Output: "):
-            st.markdown(list_to_np_array(select_color))
-        
+        self.main_body()
+        img = self.img
+        with st.container():
+            
+            st.write("""
+                    You can access a pixel value by its row and column coordinates. 
+                    For BGR image, it returns an array of Blue, Green, Red values. 
+                    For grayscale image, just corresponding intensity is returned.
+                    """)
+            
+            row_max, column_max, channels = get_shape(img)
+            
+            with st.container(border=True):
+                st.subheader("Playground")
+                dimensions = st.slider("Row (Height): ", value=100, max_value=row_max),\
+                            st.slider("Column (Width):", value=100, max_value=column_max)
+            st.code(f"""
+                    >>> px = img[{dimensions[0]},{dimensions[1]}]
+                    >>> print( px )
+                    """)
+            with st.expander("Output: "):
+                st.markdown(load_by_pixels(img, dimensions)[0])
+            
+            color = st.selectbox("Get pixel by specific color?:",options=["Blue", "Green", "Red"])
+            colors = {'Blue':0, 'Green': 1, 'Red':2}
+            
+            st.code(f"""
+                    # accessing only {color} pixel
+                    blue = img[{dimensions[0]},{dimensions[1]}, {colors[color]}]
+                    print( blue )
+                    """)
+            color_result = load_by_pixels(img, dimensions, colors[color])
+            with st.expander("Output: "):
+                st.markdown(color_result)
+            
+            st.markdown("""
+                        You can modify the pixel values the same way.
+                        """)
+            
+            select_color=st.color_picker("Select color", value="#fff")
+            select_color=list(ImageColor.getcolor(f'{select_color}','RGB')[::-1])
+            
+            st.code(f"""
+                    img[{dimensions[0]},{dimensions[1]}] = {select_color}
+                    print( img[{dimensions[0]},{dimensions[1]}] )
+                    """)
+            
+            with st.expander("Output: "):
+                st.markdown(list_to_np_array(select_color))
+            
+            st.markdown(f"""
+                        **Warning**\n
+                        Numpy is an optimized library for fast array calculations. 
+                        So simply accessing each and every pixel value and modifying 
+                        it will be very slow and it is discouraged.
+                        
+                        **Note**
+                        > The above method is normally used for selecting a region of
+                        an array, say the first 5 rows and last 3 columns. 
+                        For individual pixel access, the Numpy array methods,
+                        array.item() and array.itemset() are considered better.
+                        They always return a scalar, however, so if you want to 
+                        access all the B,G,R values, you will need to call array.item() 
+                        separately for each value.\n
+                        Better pixel accessing and editing method :
+                        """)
+            
+            modify_value=st.slider("Modify Value:", value = 100, max_value=255)
+            
+            st.code(f"""
+                    # accessing {color.upper()} value
+                    img.item({dimensions[0]}, {dimensions[1]}, {colors[color]})
+                    >> {color_result}
+                    # modifying {color.upper()} value
+                    img.itemset({dimensions[0]}, {dimensions[1]}, {modify_value})
+                    img.item({dimensions[0]}, {dimensions[1]}, {colors[color]})
+                    >> {modify_value}
+                    """)
+
+    def Accessing_Image_Properties(self):
+        st.markdown("""
+                    ## Accessing Image Properties
+                    Continuation from our previous task:
+                    """)
+        self.main_body()
+        img = self.img
+        st.markdown("""
+                    Image properties include number of rows, columns, and channels;
+                    type of image data; number of pixels; etc.
+                    The shape of an image is accessed by img.shape.
+                    It returns a tuple of the number of rows, columns, and channels 
+                    (if the image is color):
+                    """)
+        st.code(f"""
+                print( img.shape )
+                >> {get_shape(img)}
+                """)
+        st.markdown("""
+                    Note
+                    > If an image is grayscale, the tuple returned contains only the
+                    number of rows and columns, so it is a good method to check whether
+                    the loaded image is grayscale or color.
+                    Total number of pixels is accessed by `img.size`:
+                    """)
+        st.code(f"""
+                    print( img.size )
+                    >>> {get_size(img)}
+                    """)
         st.markdown(f"""
-                    **Warning**\n
-                    Numpy is an optimized library for fast array calculations. 
-                    So simply accessing each and every pixel value and modifying 
-                    it will be very slow and it is discouraged.
-                    
-                    **Note**
-                    > The above method is normally used for selecting a region of
-                    an array, say the first 5 rows and last 3 columns. 
-                    For individual pixel access, the Numpy array methods,
-                    array.item() and array.itemset() are considered better.
-                    They always return a scalar, however, so if you want to 
-                    access all the B,G,R values, you will need to call array.item() 
-                    separately for each value.\n
-                    Better pixel accessing and editing method :
+                    Image datatype is obtained by `img.dtype`:
+                    ```python
+                    print( img.dtype )
+                    >>> {get_dtype(img)}
+                    ```
                     """)
-        
-        modify_value=st.slider("Modify Value:", value = 100, max_value=255)
-        
-        st.code(f"""
-                # accessing {color.upper()} value
-                img.item({dimensions[0]}, {dimensions[1]}, {colors[color]})
-                >> {color_result}
-                # modifying {color.upper()} value
-                img.itemset({dimensions[0]}, {dimensions[1]}, {modify_value})
-                img.item({dimensions[0]}, {dimensions[1]}, {colors[color]})
-                >> {modify_value}
-                """)
+        st.markdown(f"""
+                    **Note**
+                    > `img.dtype` is very important while debugging because a large
+                    number of errors in OpenCV-Python code are caused by invalid 
+                    datatype.
+                    """)
 
-def Accessing_Image_Properties():
-    pass
+    def Image_ROI():
+        pass 
 
-def Image_ROI():
-    pass 
+    def Splitting_and_Merging_Image_Channels():
+        pass
 
-def Splitting_and_Merging_Image_Channels():
-    pass
-
-def Making_Borders_for_Images():
-    pass
+    def Making_Borders_for_Images():
+        pass
