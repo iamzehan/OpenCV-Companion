@@ -10,7 +10,9 @@ from utils.gui.images import \
     )
     
 def main():
-
+    st.set_page_config(page_icon="app/assets/Images/OpenCV_Logo_with_text.png",
+                       page_title="Track Bar 📊")
+    
     options=st.sidebar.selectbox("Select: ", ["Introduction", 
                                               "Accessing and Modifying pixel values",
                                               "Accessing Image Properties",
