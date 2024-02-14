@@ -273,30 +273,45 @@ class BasicOperations:
         img = self.img
         
         row_max, column_max, channels = get_shape(img)
-            
+        default = [344,404,379,447]
         with st.container(border=True):
             st.subheader("Playground")
             st.markdown("<center>Row range</center>", unsafe_allow_html=True)
-            y_0, y_1 = st.slider("$y_0$", value=344, max_value=row_max-1),\
-                        st.slider("$y_1$", value = 404, max_value = row_max)
+            y_0_holder = st.empty()
+            y_1 = st.slider("$y_1$", value = 404,min_value=0, max_value = row_max)
+            y_0 = y_0_holder.slider("$y_0$", value=344, max_value=y_1-1)
             st.markdown("<center>Column range</center>", unsafe_allow_html=True)
-            x_0, x_1 = st.slider("$x_0$", value=379, max_value=column_max-1),\
-                        st.slider("$x_1$", value = 447, max_value = column_max)
+            
+            x_0_holder = st.empty()
+            x_1 = st.slider("$x_1$", value=447, max_value=column_max-1)
+            x_0 = x_0_holder.slider("$x_0$", value = 379, max_value = x_1-1)
+            
             y_diff, x_diff = abs(y_0-y_1), abs(x_0-x_1)
+            
             st.markdown("<center>Relocate to</center>", unsafe_allow_html=True)
-            locate = st.slider("$y$", value=342, max_value=row_max-y_diff),\
-                    st.slider("$x$", value = 190, max_value = column_max-x_diff)
-        try:              
-            st.code(f"""
-                    >>> ball = img[{y_0}:{y_1}, {x_0}:{x_1}]
-                    >>> img[{locate[0]}:{locate[0]+y_diff}, {locate[1]}: {locate[1] + x_diff}] = ball
-                    """)
-            ball = img[y_0:y_1, x_0:x_1]
+            locate_0, locate_1 = row_max-y_diff, column_max - x_diff
+            
+            locate = st.slider("$y$", value=locate_0, max_value = row_max-y_diff+1),\
+                    st.slider("$x$", value = locate_1, max_value = column_max-x_diff)
+            
+            if [y_0, y_1, x_0, x_1] != default: 
+                st.code(f"""
+                            >>> ball = img[{y_0}:{y_1}, {x_0}:{x_1}]
+                            >>> img[{locate[0]}:{locate[0]+y_diff}, {locate[1]}: {locate[1]+x_diff}] = ball
+                            """)
+                ball = img[y_0:y_1, x_0:x_1]
+                
+            else:
+                st.code(f"""
+                        >>> ball = img[344:404, 379:447]
+                        >>> img[{locate[0]}:{locate[0]+y_diff}, {locate[1]}: {locate[1] + x_diff}] = ball
+                        """)
+                y_0, y_1, x_0, x_1 = default
+                ball = img[y_0:y_1, x_0:x_1]
+                         
             img[locate[0]:locate[0]+y_diff, locate[1]:locate[1]+x_diff] = ball
             st.image(ball)
-            st.image(img)
-        except:
-            st.error("An Error has occured")
+            st.image(img)  
         
     def Splitting_and_Merging_Image_Channels(self):
         st.markdown("""
