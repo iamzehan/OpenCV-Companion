@@ -255,10 +255,9 @@ class BasicOperations:
                     """)
 
     def Image_ROI(self):
-        st.markdown("""
-                    ## Image ROI
-                    Continuation from our previous task:
-                    """)
+        
+        st.subheader("Image ROI")
+        st.markdown("Continuation from our previous task:")
         self.main_body(show=False)
         st.markdown("""
                     Sometimes, you will have to play with certain regions of images.
@@ -273,26 +272,18 @@ class BasicOperations:
         img = self.img
         
         row_max, column_max, channels = get_shape(img)
-        default = [344,404,379,447]
+        default = [344, 404, 379, 447]
+        
         with st.container(border=True):
             st.subheader("Playground")
-            st.markdown("<center>Row range</center>", unsafe_allow_html=True)
-            y_0_holder = st.empty()
-            y_1 = st.slider("$y_1$", value = 404,min_value=0, max_value = row_max)
-            y_0 = y_0_holder.slider("$y_0$", value=344, max_value=y_1-1)
-            st.markdown("<center>Column range</center>", unsafe_allow_html=True)
             
-            x_0_holder = st.empty()
-            x_1 = st.slider("$x_1$", value=447, max_value=column_max-1)
-            x_0 = x_0_holder.slider("$x_0$", value = 379, max_value = x_1-1)
+            y_0, y_1 = st.slider("Row range", value=(344, 404), min_value=1, max_value=row_max)
+            x_0, x_1 = st.slider("Column range", value=(379, 447), min_value=1, max_value=column_max)
             
-            y_diff, x_diff = abs(y_0-y_1), abs(x_0-x_1)
-            
-            st.markdown("<center>Relocate to</center>", unsafe_allow_html=True)
+            y_diff, x_diff = abs(y_0 - y_1), abs(x_0 - x_1)
             locate_0, locate_1 = row_max-y_diff, column_max - x_diff
-            
-            locate = st.slider("$y$", value=locate_0, max_value = row_max-y_diff+1),\
-                    st.slider("$x$", value = locate_1, max_value = column_max-x_diff)
+            locate = st.slider("$y$", value=locate_0, max_value = locate_0),\
+                    st.slider("$x$", value = locate_1, max_value = locate_1)
             
             if [y_0, y_1, x_0, x_1] != default: 
                 st.code(f"""
@@ -312,7 +303,7 @@ class BasicOperations:
             img[locate[0]:locate[0]+y_diff, locate[1]:locate[1]+x_diff] = ball
             st.image(ball)
             st.image(img)  
-        
+
     def Splitting_and_Merging_Image_Channels(self):
         st.markdown("""
                     ## Splitting and Merging Image Channels
