@@ -102,12 +102,12 @@ class BasicOperations:
             _, col, _ = st.columns([4,4,4])
             col.image(img_file, channels='RGB', caption='image')
     
-    def main_body(self):
+    def main_body(self, show=True):
         
         img_file_name = 'messi5.jpg'
         img_file = self.img_file
         
-        with st.container(): 
+        with st.expander("Main Code", expanded=show): 
             if img_file:
                 self.img = bytes_to_image(img_file.read())
                 self.show_code(img_file.name)
@@ -216,7 +216,7 @@ class BasicOperations:
                     ## Accessing Image Properties
                     Continuation from our previous task:
                     """)
-        self.main_body()
+        self.main_body(show=False)
         img = self.img
         st.markdown("""
                     Image properties include number of rows, columns, and channels;
@@ -254,11 +254,60 @@ class BasicOperations:
                     datatype.
                     """)
 
-    def Image_ROI():
-        pass 
+    def Image_ROI(self):
+        st.markdown("""
+                    ## Image ROI
+                    Continuation from our previous task:
+                    """)
+        self.main_body(show=False)
+        st.markdown("""
+                    Sometimes, you will have to play with certain regions of images.
+                    For eye detection in images, first face detection is done over 
+                    the entire image. When a face is obtained, we select the face 
+                    region alone and search for eyes inside it instead of searching 
+                    the whole image. It improves accuracy (because eyes are always on 
+                    faces :D ) and performance (because we search in a small area).
+                    ROI is again obtained using Numpy indexing. Here I am selecting 
+                    the ball and copying it to another region in the image:
+                    """)
+        img = self.img
+        
+        row_max, column_max, channels = get_shape(img)
+            
+        with st.container(border=True):
+            st.subheader("Playground")
+            st.markdown("<center>Row range</center>", unsafe_allow_html=True)
+            y_0, y_1 = st.slider("$y_0$", value=344, max_value=row_max-1),\
+                        st.slider("$y_1$", value = 404, max_value = row_max)
+            st.markdown("<center>Column range</center>", unsafe_allow_html=True)
+            x_0, x_1 = st.slider("$x_0$", value=379, max_value=column_max-1),\
+                        st.slider("$x_1$", value = 447, max_value = column_max)
+            y_diff, x_diff = abs(y_0-y_1), abs(x_0-x_1)
+            st.markdown("<center>Relocate to</center>", unsafe_allow_html=True)
+            locate = st.slider("$y$", value=342, max_value=row_max-y_diff),\
+                    st.slider("$x$", value = 190, max_value = column_max-x_diff)
+                        
+        st.code(f"""
+                >>> ball = img[{y_0}:{y_1}, {x_0}:{x_1}]
+                >>> img[{locate[0]}:{locate[0]+(abs(y_0-y_1))}, {locate[1]}: {locate[1]+(abs(x_0-x_1))}] = ball
+                """)
+        ball = img[y_0:y_1, x_0:x_1]
+        img[locate[0]:locate[0]+abs(y_0-y_1), locate[1]:locate[1]+(abs(x_0-x_1))] = ball
+        st.image(ball)
+        st.image(img)
+        
+    def Splitting_and_Merging_Image_Channels(self):
+        st.markdown("""
+                    ## Splitting and Merging Image Channels
+                    """)
+        self.main_body(show=False)
+        st.markdown("""
+                    Sometimes you will need to work separately on the B,G,R channels
+                    of an image. In this case, you need to split the BGR image into 
+                    single channels. In other cases, you may need to join these 
+                    individual channels to create a BGR image. 
+                    You can do this simply by:
+                    """)
 
-    def Splitting_and_Merging_Image_Channels():
-        pass
-
-    def Making_Borders_for_Images():
-        pass
+    def Making_Borders_for_Images(self):
+        self.main_body()
