@@ -407,27 +407,27 @@ class BasicOperations:
                     
                     col1.markdown("<center>ORIGINAL</center>", 
                                     unsafe_allow_html=True)
-                    col1.image(img)
+                    col1.image(img, channels='BGR')
                     
                     col2.markdown("<center>REPLICATE</center>", 
                                     unsafe_allow_html=True)
-                    col2.image(replicate)
+                    col2.image(replicate, channels='BGR')
                     
                     col3.markdown("<center>REFLECT</center>", 
                                     unsafe_allow_html=True)
-                    col3.image(reflect)
+                    col3.image(reflect, channels='BGR')
                     
                     col1.markdown("<center>REFLECT 101</center>", 
                                     unsafe_allow_html=True)
-                    col1.image(reflect101)
+                    col1.image(reflect101, channels='BGR')
                     
                     col2.markdown("<center>WRAP</center>", 
                                     unsafe_allow_html=True)
-                    col2.image(wrap)
+                    col2.image(wrap, channels='BGR')
                     
                     col3.markdown("<center>CONSTANT</center>", 
                                     unsafe_allow_html=True)
-                    col3.image(constant)
+                    col3.image(constant, channels='BGR')
                     st.success("Showing Results")
                     info.error("Press ❌ to exit")
                     
