@@ -43,7 +43,6 @@ def main():
         basicOp.Accessing_Image_Properties()
     
     if options == "Image ROI":
-        basicOp.side_bar()
         basicOp.Image_ROI()
     
     if options == "Splitting and Merging Image Channels":
