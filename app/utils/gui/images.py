@@ -114,19 +114,18 @@ class BasicOperations:
                 st.success("Results from your uploaded image")
                 self.show_image(self.img)
                 
-                
             else:
                 self.img = read_image(f"app/assets/Images/{img_file_name}")
                 self.show_code(img_file_name)
                 st.info("Results from the example image")
                 self.show_image(self.img)
-                st.sidebar.error("Upload an image to see changes")
                 
-            
     def side_bar(self):
         # File and name handling
         self.img_file = st.sidebar.file_uploader("Upload an Image to see how the code changes:", type=["PNG","JPG"], label_visibility="collapsed")
-        
+        if not self.img_file:
+            st.sidebar.error("Upload an image to see changes")
+            
     def Accessing_Modifying_Pixel_Values(self):
         st.markdown("""
                     ## Accessing and Modifying pixel values
@@ -282,8 +281,8 @@ class BasicOperations:
             
             y_diff, x_diff = abs(y_0 - y_1), abs(x_0 - x_1)
             locate_0, locate_1 = row_max-y_diff, column_max - x_diff
-            locate = st.slider("$y$", value=locate_0, max_value = locate_0),\
-                    st.slider("$x$", value = locate_1, max_value = locate_1)
+            locate = st.slider("$y$ `Up-Down`", value=locate_0, max_value = locate_0),\
+                    st.slider("$x$ `Left-Right`", value = locate_1, max_value = locate_1)
             
             if [y_0, y_1, x_0, x_1] != default: 
                 st.code(f"""
