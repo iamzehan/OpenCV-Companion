@@ -51,6 +51,28 @@ As a beginner, I used to struggle a lot to understand most of the concepts in th
     <img src="https://github.com/iamzehan/OpenCV-Companion/assets/43857150/e5bfd8e8-dd3e-4519-80f0-93eb66458da2" width="600" alt="Screenshot (233)">
   </p>
 
+# What's New in [![Version](https://img.shields.io/badge/version-1.0.1-blue.svg)](https://github.com/iamzehan/OpenCV-Companion) ? 
+
+[![ View Full Changelog](https://img.shields.io/badge/Full%20Changelog-informational?style=flat-square)](https://github.com/iamzehan/OpenCV-Companion/compare/v.1.0.0...v1.0.1) [![Version](https://img.shields.io/badge/version-1.0.1-blue.svg)](https://github.com/iamzehan/OpenCV-Companion) 
+
+In this version you can learn to perform Basic Operations on Images, such as -
+
+-  Accessing and Modifying pixel values
+-  Accessing Image Properties"
+- Image ROI
+- Splitting and Merging Image Channels
+- Making Borders for Images (Padding)
+
+
+<p align="center">
+  <img src="https://github.com/iamzehan/OpenCV-Companion/assets/43857150/6738f05b-9690-4d15-b7f2-1d41311e68c8" width="300" alt="1_Pixel Value">
+  <img src="https://github.com/iamzehan/OpenCV-Companion/assets/43857150/9a3c5125-f9f4-43b3-b96e-d719bec31bd8" width="300" alt="2_Accessing_Properties">
+  <img src="https://github.com/iamzehan/OpenCV-Companion/assets/43857150/ed6c8b0a-68c3-4a3e-a7e4-c6d889d3c8a7" width="300" alt="3_ImageROI">
+  <img src="https://github.com/iamzehan/OpenCV-Companion/assets/43857150/06817d7c-f997-4812-b554-fb2a5fc72596" width="300" alt="4_Splitting_Merging">
+  <img src="https://github.com/iamzehan/OpenCV-Companion/assets/43857150/043f9506-c1d6-41c7-81ac-6aba948d2512" width="300" alt="5_Making_Borders">
+</p>
+
+
 <h2 align="center">Technologies</h2>
 <p align="center">
   <a href="https://streamlit.io/" target="_blank">
@@ -59,3 +81,4 @@ As a beginner, I used to struggle a lot to understand most of the concepts in th
       <img src="https://img.icons8.com/color/144/000000/opencv.png" alt="OpenCV" width="40" style="background-color:white; border-radius: 5px"/>
     </a>
 </p>
+
