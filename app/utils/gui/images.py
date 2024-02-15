@@ -7,7 +7,9 @@ from utils.opencv.images import (
     get_shape,
     get_size,
     get_dtype,
-    list_to_np_array
+    list_to_np_array,
+    split_channels,
+    merge_channels
     )
 
 # Getting Started with Images (Page - 2)
@@ -312,6 +314,7 @@ class BasicOperations:
                     ## Splitting and Merging Image Channels
                     """)
         self.main_body(show=False)
+        img = self.img
         st.markdown("""
                     Sometimes you will need to work separately on the B,G,R channels
                     of an image. In this case, you need to split the BGR image into 
@@ -319,6 +322,42 @@ class BasicOperations:
                     individual channels to create a BGR image. 
                     You can do this simply by:
                     """)
-
+        st.code("""
+                b,g,r = cv2.split(img)
+                img = cv2.merge((b,g,r))
+                """)
+        with st.expander('Output', expanded=False):
+            
+            col1, col2, col3 = st.columns([4,4,4])
+            
+            b, g, r = split_channels(img)
+            img = merge_channels(b, g, r)
+            
+            col1.image(b, 'b')
+            col2.image(g, 'g')
+            col3.image(r, 'r')
+            st.image(img, 'Merged', use_column_width=True)
+        
+        st.markdown("""
+                    Or:
+                    
+                    ```python
+                    b = img[:,:,0]
+                    g = img[:,:,1]
+                    r = img[:,:,2]
+                    ```
+                    Suppose, you want to make all the blue pixels to zero,
+                    you need not split like this and put it equal to zero.
+                    You can simply use Numpy indexing which is faster.
+                    """)
+        color_ch = st.radio("Select which channel you want to turn to zero: ", options=['b', 'g', 'r'], horizontal=True)
+        colors = {'b' : 0, 'g' : 1, 'r' : 2} 
+        st.code(f"""
+                img[:, :, {colors[color_ch]}]=0
+                """)
+        with st.expander('Output', expanded=False):
+            img[:, :, colors[color_ch]]=0
+            st.image(img, f"With Zero '{color_ch}'", use_column_width=True)
+        
     def Making_Borders_for_Images(self):
         self.main_body()
