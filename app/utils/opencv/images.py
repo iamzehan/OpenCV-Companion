@@ -14,6 +14,14 @@ def get_size(img):
 def get_dtype(img):
     return img.dtype
 
+def split_channels(img):
+    b, g, r = cv.split(img)
+    return b, g, r
+
+def merge_channels(b, g, r):
+    img = cv.merge((b,g,r))
+    return img
+
 def bytes_to_image(byte_string):
     # Convert the byte string to a NumPy array
     image_array = np.frombuffer(byte_string, dtype=np.uint8)
