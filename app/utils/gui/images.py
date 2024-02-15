@@ -9,7 +9,8 @@ from utils.opencv.images import (
     get_dtype,
     list_to_np_array,
     split_channels,
-    merge_channels
+    merge_channels,
+    make_borders
     )
 
 # Getting Started with Images (Page - 2)
@@ -87,6 +88,7 @@ class BasicOperations:
     def __init__(self):
         self.img = None 
         self.img_file=None
+        self.img_file_name = 'messi5.jpg'
     
     def show_code(self, img_file_name):
         st.subheader("Code")
@@ -105,8 +107,7 @@ class BasicOperations:
             col.image(img_file, channels='RGB', caption='image')
     
     def main_body(self, show=True):
-        
-        img_file_name = 'messi5.jpg'
+        img_file_name = self.img_file_name
         img_file = self.img_file
         
         with st.expander("Main Code", expanded=show): 
@@ -350,7 +351,8 @@ class BasicOperations:
                     you need not split like this and put it equal to zero.
                     You can simply use Numpy indexing which is faster.
                     """)
-        color_ch = st.radio("Select which channel you want to turn to zero: ", options=['b', 'g', 'r'], horizontal=True)
+        color_ch = st.radio("Select which channel you want to turn to zero: ",
+                            options=['b', 'g', 'r'], horizontal=True)
         colors = {'b' : 0, 'g' : 1, 'r' : 2} 
         st.code(f"""
                 img[:, :, {colors[color_ch]}]=0
@@ -359,5 +361,121 @@ class BasicOperations:
             img[:, :, colors[color_ch]]=0
             st.image(img, f"With Zero '{color_ch}'", use_column_width=True)
         
+        st.warning("""
+                   **⚠️Warning**
+                   > `cv2.split()` is a costly operation (in terms of time),
+                   so only use it if necessary. Numpy indexing is much more 
+                   efficient and should be used if possible.
+                   """)
+    
     def Making_Borders_for_Images(self):
-        self.main_body()
+        
+        def show_code(img_file_name):
+            st.code(f"""
+                import cv2
+                import numpy as np
+                from matplotlib import pyplot as plt
+
+                BLUE = [255,0,0]
+
+                img1 = cv2.imread('{img_file_name}')
+
+                replicate = cv2.copyMakeBorder(img1,10,10,10,10,cv2.BORDER_REPLICATE)
+                reflect = cv2.copyMakeBorder(img1,10,10,10,10,cv2.BORDER_REFLECT)
+                reflect101 = cv2.copyMakeBorder(img1,10,10,10,10,cv2.BORDER_REFLECT_101)
+                wrap = cv2.copyMakeBorder(img1,10,10,10,10,cv2.BORDER_WRAP)
+                constant= cv2.copyMakeBorder(img1,10,10,10,10,cv2.BORDER_CONSTANT,value=BLUE)
+
+                plt.subplot(231),plt.imshow(img1,'gray'),plt.title('ORIGINAL')
+                plt.subplot(232),plt.imshow(replicate,'gray'),plt.title('REPLICATE')
+                plt.subplot(233),plt.imshow(reflect,'gray'),plt.title('REFLECT')
+                plt.subplot(234),plt.imshow(reflect101,'gray'),plt.title('REFLECT_101')
+                plt.subplot(235),plt.imshow(wrap,'gray'),plt.title('WRAP')
+                plt.subplot(236),plt.imshow(constant,'gray'),plt.title('CONSTANT')
+
+                plt.show()
+                """)
+            
+        def show_image(img):
+            info = st.empty()
+            button_space = st.empty()
+            container_space = st.empty()
+            if button_space.button("▶️"):
+                replicate, reflect, reflect101, wrap, constant = make_borders(img)
+                with container_space.container(border=True):
+                    col1, col2, col3 = st.columns([4,4,4])
+                    
+                    col1.markdown("<center>ORIGINAL</center>", 
+                                    unsafe_allow_html=True)
+                    col1.image(img)
+                    
+                    col2.markdown("<center>REPLICATE</center>", 
+                                    unsafe_allow_html=True)
+                    col2.image(replicate)
+                    
+                    col3.markdown("<center>REFLECT</center>", 
+                                    unsafe_allow_html=True)
+                    col3.image(reflect)
+                    
+                    col1.markdown("<center>REFLECT 101</center>", 
+                                    unsafe_allow_html=True)
+                    col1.image(reflect101)
+                    
+                    col2.markdown("<center>WRAP</center>", 
+                                    unsafe_allow_html=True)
+                    col2.image(wrap)
+                    
+                    col3.markdown("<center>CONSTANT</center>", 
+                                    unsafe_allow_html=True)
+                    col3.image(constant)
+                    st.success("Showing Results")
+                    info.error("Press ❌ to exit")
+                    
+                if button_space.button("❌"):
+                    return
+            else:
+                info.info("Push ▶️ to see output")
+ 
+        st.markdown(f"""
+                    # Making Borders for Images (Padding)
+                    """)
+        
+        
+        st.markdown("""
+                    If you want to create a border around the image, 
+                    something like a photo frame, you can use `cv2.copyMakeBorder()` 
+                    function. 
+                    But it has more applications for convolution operation,
+                    zero padding, etc. This function takes the following arguments:
+
+                    - **src**: input image
+                    - **top, bottom, left, right**: border width in the number of 
+                    pixels in corresponding directions
+                    - **borderType**: Flag defining what kind of border to be added.
+                    It can be the following types:
+                    - `cv2.BORDER_CONSTANT`: Adds a constant colored border. 
+                    The value should be given as the next argument.
+                    - `cv2.BORDER_REFLECT`: Border will be mirror reflection of the
+                    border elements, like this: fedcba|abcdefgh|hgfedcb
+                    - `cv2.BORDER_REFLECT_101` or `cv2.BORDER_DEFAULT`: Same as above,
+                    but with a slight change, like this: gfedcb|abcdefgh|gfedcba
+                    - `cv2.BORDER_REPLICATE`: Last element is replicated throughout,
+                    like this: aaaaaa|abcdefgh|hhhhhhh
+                    - `cv2.BORDER_WRAP`: Can’t explain, it will look like this:
+                    cdefgh|abcdefgh|abcdefg
+                    - **value**: Color of the border if border type is 
+                    `cv2.BORDER_CONSTANT`
+
+                    Below is a sample code demonstrating all these border types for 
+                    better understanding:
+                    """)
+        if self.img_file!=None:
+            show_code(self.img_file.name)
+            show_image(bytes_to_image(self.img_file.read()))
+        else:
+            show_code(self.img_file_name)
+            img = read_image(f"app/assets/Images/{self.img_file_name}")
+            show_image(img)
+        
+        
+        
