@@ -301,8 +301,12 @@ class BasicOperations:
                 ball = img[y_0:y_1, x_0:x_1]
                          
             img[locate[0]:locate[0]+y_diff, locate[1]:locate[1]+x_diff] = ball
-            st.image(ball)
-            st.image(img)  
+            
+            with st.container(border=True):
+                st.markdown("<center> Output </center>", unsafe_allow_html=True)
+                col1, col2 = st.columns([2, 8])
+                col1.image(ball, caption='ball', use_column_width=True)
+                col2.image(img, caption = 'Original image with replaced pixel' )  
 
     def Splitting_and_Merging_Image_Channels(self):
         st.markdown("""
