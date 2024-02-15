@@ -14,6 +14,10 @@ As a beginner, I used to struggle a lot to understand most of the concepts in th
 - GUI features in OpenCV are presented with an interactive interface. 
 - The code gets updated with the input from the user end.
 
+## About Initial release [![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/iamzehan/OpenCV-Companion) 
+
+[![Full Changelog](https://img.shields.io/badge/Full%20Changelog-informational?style=flat-square)](https://github.com/iamzehan/OpenCV-Companion/commits/v.1.0.0)
+
 ### Topics Covered
 
 - Getting Started with Images 🖼️
@@ -51,7 +55,7 @@ As a beginner, I used to struggle a lot to understand most of the concepts in th
     <img src="https://github.com/iamzehan/OpenCV-Companion/assets/43857150/e5bfd8e8-dd3e-4519-80f0-93eb66458da2" width="600" alt="Screenshot (233)">
   </p>
 
-# What's New in [![Version](https://img.shields.io/badge/version-1.0.1-blue.svg)](https://github.com/iamzehan/OpenCV-Companion) ? 
+## What's New in [![Version](https://img.shields.io/badge/version-1.0.1-blue.svg)](https://github.com/iamzehan/OpenCV-Companion) ? 
 
 [![ View Full Changelog](https://img.shields.io/badge/Full%20Changelog-informational?style=flat-square)](https://github.com/iamzehan/OpenCV-Companion/compare/v.1.0.0...v1.0.1) [![Version](https://img.shields.io/badge/version-1.0.1-blue.svg)](https://github.com/iamzehan/OpenCV-Companion) 
 
