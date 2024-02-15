@@ -35,3 +35,14 @@ def load_by_pixels(img, dimensions:list=[100,100], color=None)->list:
 
 def list_to_np_array(lst):
     return np.array(lst)
+
+def make_borders(img1):
+    
+    BLUE = [255,0,0]
+    replicate = cv.copyMakeBorder(img1,10,10,10,10,cv.BORDER_REPLICATE)
+    reflect = cv.copyMakeBorder(img1,10,10,10,10,cv.BORDER_REFLECT)
+    reflect101 = cv.copyMakeBorder(img1,10,10,10,10,cv.BORDER_REFLECT_101)
+    wrap = cv.copyMakeBorder(img1,10,10,10,10,cv.BORDER_WRAP)
+    constant= cv.copyMakeBorder(img1,10,10,10,10,cv.BORDER_CONSTANT,value=BLUE)
+    
+    return replicate, reflect, reflect101, wrap, constant
