@@ -63,12 +63,7 @@ class GUIFeatures(CommonComponents):
             _, col, _ = st.columns([4,4,4])
             col.markdown("<center>Display window</center>", 
                             unsafe_allow_html=True)
-            col.image(img_file)
-            st.markdown("""
-                            Yes the color looks weird, 
-                            because OpenCV reads image in BGR format. 
-                            We'll learn about those in the future.
-                        """)
+            col.image(img_file, channels="BGR")
             
     # 3. This shows the footnote
     def show_note(self, img_file_name):
@@ -114,7 +109,7 @@ class GUIFeatures(CommonComponents):
             else:
                 self.show_code(img_file_name)
                 self.show_image(img)
-                st.info("Example Results")
+                st.info("Results from the example image")
                 self.show_note(img_file_name)
                 
     # This brings the whole rendition together
@@ -144,7 +139,7 @@ class BasicOperations(CommonComponents):
         st.subheader("Output")
         with st.container(border=True):
             _, col, _ = st.columns([4,4,4])
-            col.image(img_file, channels='RGB', caption='image')
+            col.image(img_file, channels="BGR", caption='image')
     
     def main_body(self, show=True):
         
@@ -155,13 +150,13 @@ class BasicOperations(CommonComponents):
         with st.expander("Main Code", expanded=show): 
             if img_file:
                 self.show_code(img_file_name)
-                st.success("Results from your uploaded image")
                 self.show_image(img)
+                st.success("Results from your uploaded image")
                 
             else:
                 self.show_code(img_file_name)
-                st.info("Results from the example image")
                 self.show_image(img)
+                st.info("Results from the example image")
                 
     def Accessing_Modifying_Pixel_Values(self):
         st.markdown("""
