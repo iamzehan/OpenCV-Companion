@@ -15,11 +15,34 @@ from utils.opencv.images import (
 
 # Getting Started with Images (Page - 2)
 
-# This brings the whole rendition together
-def Read_and_Show_Image(img_file, img_file_name, render, upload=False):        
+class CommonComponents:
+    def __init__(self):
+        pass
+    
+    def side_bar(self):
+        
+        # File and name handling
+        file = st.sidebar.file_uploader("Upload an Image to see how the code changes:", type=["PNG","JPG"], label_visibility="collapsed")
+        
+        if not file:
+            st.sidebar.error("Upload an image to see changes")
+            
+        else:
+            self.img_file = file
+            self.img_file_name = file.name
+            self.img = bytes_to_image(file.read())
+
+class GUIFeatures(CommonComponents):
+    
+    def __init__(self):
+        self.img = read_image("app/assets/Images/Lenna.png") 
+        self.img_file=None
+        self.img_file_name = 'Lenna.png'
+        
     # 1. This shows the code
-    def show_code(img_file_name):
-        return st.code(f"""
+    def show_code(self, img_file_name):
+        st.subheader("Code")
+        st.code(f"""
                 import cv2 as cv
                 import sys
                 img = cv.imread("<path>/{img_file_name}")
@@ -32,7 +55,8 @@ def Read_and_Show_Image(img_file, img_file_name, render, upload=False):
                 """, line_numbers=True)
         
     # 2. This renders the image
-    def show_image(img_file):
+    def show_image(self, img_file):
+        st.subheader("Output")
         with st.container(border=True):
             _, col, _ = st.columns([4,4,4])
             col.markdown("<center>Display window</center>", 
@@ -43,7 +67,8 @@ def Read_and_Show_Image(img_file, img_file_name, render, upload=False):
                         We'll learn about those in the future.""")
             
     # 3. This shows the footnote
-    def show_note(img_file_name):
+    def show_note(self, img_file_name):
+        st.subheader("Note")
         st.markdown("""Because we want our window to be displayed
                     until the user presses a key (otherwise the program
                     would end far too quickly), we use the `cv::waitKey` 
@@ -64,29 +89,35 @@ def Read_and_Show_Image(img_file, img_file_name, render, upload=False):
     if k == ord("s"):
     cv.imwrite("<path>/{img_file_name}", img)""")
     
-    # checks if it's an upload
-    if upload:
-        with render:
-            show_code(img_file_name)
-            st.subheader("Output")
-            show_image(bytes_to_image(img_file.read()))
-            st.success("You are viewing results for your uploaded image")
-            st.subheader("Note")
-            show_note(img_file_name)
+    def main_body(self):
         
-    else:
-        with render:
-            show_code(img_file_name)
-            st.subheader("Output")
-            show_image(read_image("app/assets/Images/Lenna.png"))
-            st.error("Please upload an image to see different results")
-            st.subheader("Note")
-            show_note(img_file_name)
+        img_file_name = self.img_file_name
+        img_file = self.img_file
+        img = self.img
+        
+        with st.container(border=True): 
+            if img_file:
+                self.show_code(img_file_name)
+                self.show_image(img)
+                st.success("You are viewing results for your uploaded image")
+                self.show_note(img_file_name)
+                
+            else:
+                self.show_code(img_file_name)
+                self.show_image(img)
+                st.info("Example Results")
+                self.show_note(img_file_name)
+                
+    # This brings the whole rendition together
+    def Read_and_Show_Image(self):
+        self.side_bar()        
+        self.main_body()
 
 # Basic Operations On Images (Page - 6)
-class BasicOperations:
+class BasicOperations(CommonComponents):
+    
     def __init__(self):
-        self.img = None 
+        self.img = read_image(f"app/assets/Images/messi5.jpg")
         self.img_file=None
         self.img_file_name = 'messi5.jpg'
     
@@ -107,28 +138,22 @@ class BasicOperations:
             col.image(img_file, channels='RGB', caption='image')
     
     def main_body(self, show=True):
+        
         img_file_name = self.img_file_name
         img_file = self.img_file
+        img = self.img
         
         with st.expander("Main Code", expanded=show): 
             if img_file:
-                self.img = bytes_to_image(img_file.read())
-                self.show_code(img_file.name)
+                self.show_code(img_file_name)
                 st.success("Results from your uploaded image")
-                self.show_image(self.img)
+                self.show_image(img)
                 
             else:
-                self.img = read_image(f"app/assets/Images/{img_file_name}")
                 self.show_code(img_file_name)
                 st.info("Results from the example image")
-                self.show_image(self.img)
+                self.show_image(img)
                 
-    def side_bar(self):
-        # File and name handling
-        self.img_file = st.sidebar.file_uploader("Upload an Image to see how the code changes:", type=["PNG","JPG"], label_visibility="collapsed")
-        if not self.img_file:
-            st.sidebar.error("Upload an image to see changes")
-            
     def Accessing_Modifying_Pixel_Values(self):
         st.markdown("""
                     ## Accessing and Modifying pixel values
@@ -271,6 +296,7 @@ class BasicOperations:
                     ROI is again obtained using Numpy indexing. Here I am selecting 
                     the ball and copying it to another region in the image:
                     """)
+        
         img = self.img
         
         row_max, column_max, channels = get_shape(img)
@@ -469,12 +495,14 @@ class BasicOperations:
                     Below is a sample code demonstrating all these border types for 
                     better understanding:
                     """)
-        if self.img_file!=None:
-            show_code(self.img_file.name)
-            show_image(bytes_to_image(self.img_file.read()))
+        img_file = self.img_file
+        img_file_name = self.img_file_name
+        img = self.img
+        if img_file:
+            show_code(img_file_name)
+            show_image(img)
         else:
-            show_code(self.img_file_name)
-            img = read_image(f"app/assets/Images/{self.img_file_name}")
+            show_code(img_file_name)
             show_image(img)
         
         
