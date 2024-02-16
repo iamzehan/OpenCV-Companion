@@ -43,15 +43,15 @@ class GUIFeatures(CommonComponents):
     def show_code(self, img_file_name):
         st.subheader("Code")
         st.code(f"""
-                import cv2 as cv
-                import sys
-                img = cv.imread("<path>/{img_file_name}")
-                if img is None:
-                    sys.exit("Could not read the image.")
-                cv.imshow("Display window", img) 
-                k = cv.waitKey(0)
-                if k == ord('s'):
-                    cv.imwrite("<path>/{img_file_name}", img)       
+                    import cv2 as cv
+                    import sys
+                    img = cv.imread("<path>/{img_file_name}")
+                    if img is None:
+                        sys.exit("Could not read the image.")
+                    cv.imshow("Display window", img) 
+                    k = cv.waitKey(0)
+                    if k == ord('s'):
+                        cv.imwrite("<path>/{img_file_name}", img)       
                 """, line_numbers=True)
         
     # 2. This renders the image
@@ -62,32 +62,39 @@ class GUIFeatures(CommonComponents):
             col.markdown("<center>Display window</center>", 
                             unsafe_allow_html=True)
             col.image(img_file)
-            st.markdown("""Yes the color looks weird, 
-                        because OpenCV reads image in BGR format. 
-                        We'll learn about those in the future.""")
+            st.markdown("""
+                            Yes the color looks weird, 
+                            because OpenCV reads image in BGR format. 
+                            We'll learn about those in the future.
+                        """)
             
     # 3. This shows the footnote
     def show_note(self, img_file_name):
         st.subheader("Note")
-        st.markdown("""Because we want our window to be displayed
+        st.markdown("""
+                    Because we want our window to be displayed
                     until the user presses a key (otherwise the program
                     would end far too quickly), we use the `cv::waitKey` 
                     function whose only parameter is just how long should
                     it wait for a user input (measured in milliseconds). 
                     Zero means to wait forever. 
-                    The return value is the key that was pressed.""")
+                    The return value is the key that was pressed.
+                """)
         
         st.code("""
-            cv.imshow("Display window", img)
-            k = cv.waitKey(0)""")
+                    cv.imshow("Display window", img)
+                    k = cv.waitKey(0)
+                """)
+        
         st.markdown("""
-        In the end, the image is written to a file if the pressed key was the 
-        `"s"-key`. For this the `cv::imwrite` function is called that has the file
-        path and the `cv::Mat` object as an argument.
-    """)
+                    In the end, the image is written to a file if the pressed key was the 
+                    `"s"-key`. For this the `cv::imwrite` function is called that has the file
+                    path and the `cv::Mat` object as an argument.
+                """)
+        
         st.code(f"""
-    if k == ord("s"):
-    cv.imwrite("<path>/{img_file_name}", img)""")
+                    if k == ord("s"):
+                    cv.imwrite("<path>/{img_file_name}", img)""")
     
     def main_body(self):
         
@@ -99,7 +106,7 @@ class GUIFeatures(CommonComponents):
             if img_file:
                 self.show_code(img_file_name)
                 self.show_image(img)
-                st.success("You are viewing results for your uploaded image")
+                st.success("Results from your uploaded image")
                 self.show_note(img_file_name)
                 
             else:
@@ -124,12 +131,12 @@ class BasicOperations(CommonComponents):
     def show_code(self, img_file_name):
         st.subheader("Code")
         st.code(f"""
-            import numpy as np
-            import cv2 as cv
-            img = cv.imread('<path>/{img_file_name}')
-            assert img is not None, "file could not be read, check with os.path.exists()"
-            cv.imshow('image', img)
-            """)
+                    import numpy as np
+                    import cv2 as cv
+                    img = cv.imread('<path>/{img_file_name}')
+                    assert img is not None, "file could not be read, check with os.path.exists()"
+                    cv.imshow('image', img)
+                """)
         
     def show_image(self, img_file):
         st.subheader("Output")
