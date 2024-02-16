@@ -338,7 +338,7 @@ class BasicOperations(CommonComponents):
                 st.markdown("<center> Output </center>", unsafe_allow_html=True)
                 col1, col2 = st.columns([2, 8])
                 col1.image(ball, caption='ball', use_column_width=True)
-                col2.image(img, caption = 'Original image with replaced pixel' )  
+                col2.image(img, caption = 'Original image with replaced pixel', channels='BGR' )  
 
     def Splitting_and_Merging_Image_Channels(self):
         st.markdown("""
