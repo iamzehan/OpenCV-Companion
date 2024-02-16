@@ -68,8 +68,6 @@ def Capture_Video_from_Webcam():
                                 > If you are getting an error, make sure your camera is working fine using any other camera application (like Cheese in Linux).
                             """)
 
-
-
 def Play_Video_from_File():
     # Playing Video from file
     st.subheader("Playing Video from file")
