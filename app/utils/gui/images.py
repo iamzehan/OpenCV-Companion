@@ -260,8 +260,8 @@ class BasicOperations(CommonComponents):
                     (if the image is color):
                     """)
         st.code(f"""
-                print( img.shape )
-                >> {get_shape(img)}
+                    print( img.shape )
+                    >> {get_shape(img)}
                 """)
         st.markdown("""
                     Note
@@ -329,8 +329,8 @@ class BasicOperations(CommonComponents):
                 
             else:
                 st.code(f"""
-                        >>> ball = img[344:404, 379:447]
-                        >>> img[{locate[0]}:{locate[0]+y_diff}, {locate[1]}: {locate[1] + x_diff}] = ball
+                            >>> ball = img[344:404, 379:447]
+                            >>> img[{locate[0]}:{locate[0]+y_diff}, {locate[1]}: {locate[1] + x_diff}] = ball
                         """)
                 y_0, y_1, x_0, x_1 = default
                 ball = img[y_0:y_1, x_0:x_1]
