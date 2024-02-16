@@ -367,7 +367,7 @@ class BasicOperations(CommonComponents):
             col1.image(b, 'b')
             col2.image(g, 'g')
             col3.image(r, 'r')
-            st.image(img, 'Merged', use_column_width=True)
+            st.image(img, 'Merged', channels='BGR', use_column_width=True)
         
         st.markdown("""
                     Or:
