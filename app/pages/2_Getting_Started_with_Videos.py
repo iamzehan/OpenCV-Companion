@@ -12,6 +12,7 @@ if __name__ == "__main__":
                        page_title="Getting Started with Videos")
 
     st.sidebar.subheader("Video Options")
+    
     options = st.sidebar.selectbox("Select:", options=["Introduction",
                                                        "Capture Video from Camera",
                                                         "Playing Video from File",
@@ -20,12 +21,12 @@ if __name__ == "__main__":
     
     if options == "Introduction":
         st.markdown("""
-                # Getting Started with Videos 📽️
-                ## Goals
-                * Learn to read video, display video, and save video.
-                * Learn to capture video from a camera and display it.
-                * You will learn these functions : `cv.VideoCapture()`, `cv.VideoWriter()`
-                """,
+                        # Getting Started with Videos 📽️
+                        ## Goals
+                        * Learn to read video, display video, and save video.
+                        * Learn to capture video from a camera and display it.
+                        * You will learn these functions : `cv.VideoCapture()`, `cv.VideoWriter()`
+                    """,
                 unsafe_allow_html=True)
         
     if options == "Capture Video from Camera":
@@ -36,6 +37,4 @@ if __name__ == "__main__":
         
     elif options== "Save Video":
         Save_Video()
-    
     footer()
-
