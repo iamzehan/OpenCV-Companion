@@ -1,5 +1,6 @@
 import streamlit as st
-from utils.opencv.videos import video_capture, process_uploaded_video
+from utils.opencv.videos import (video_capture,
+                                 process_uploaded_video)
 
 def Capture_Video_from_Webcam():
     
@@ -123,8 +124,8 @@ def Play_Video_from_File():
     st.markdown("""
                     **Note**
                     > Make sure a proper version of `ffmpeg` or `gstreamer` is installed. 
-                    Sometimes it is a headache to work with video capture, mostly due to wrong installation of 
-                    `ffmpeg/gstreamer`.
+                    Sometimes it is a headache to work with video capture, mostly due to 
+                    wrong installation of `ffmpeg/gstreamer`.
                 """)
     
 def Save_Video():
