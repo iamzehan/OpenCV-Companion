@@ -22,7 +22,9 @@ class CommonComponents:
     def side_bar(self):
         
         # File and name handling
-        file = st.sidebar.file_uploader("Upload an Image to see how the code changes:", type=["PNG","JPG"], label_visibility="collapsed")
+        file = st.sidebar.file_uploader("Upload an Image:",
+                                        type=["PNG","JPG"], 
+                                        label_visibility="collapsed")
         
         if not file:
             st.sidebar.error("Upload an image to see changes")
@@ -324,7 +326,7 @@ class BasicOperations(CommonComponents):
                 st.code(f"""
                             >>> ball = img[{y_0}:{y_1}, {x_0}:{x_1}]
                             >>> img[{locate[0]}:{locate[0]+y_diff}, {locate[1]}: {locate[1]+x_diff}] = ball
-                            """)
+                        """)
                 ball = img[y_0:y_1, x_0:x_1]
                 
             else:
