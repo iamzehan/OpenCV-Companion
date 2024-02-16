@@ -2,8 +2,14 @@ import json
 import streamlit as st
 import datetime as dt
 import requests
+import json
 
-def get_latest_release():
+def update_config(data):
+    # Write data to the JSON file
+    with open('config.json', 'w') as json_file:
+        json.dump(data, json_file, indent=4)
+        
+def get_latest_release(config):
     repo_owner = "iamzehan"
     repo_name = "OpenCV-Companion"
 
@@ -14,16 +20,20 @@ def get_latest_release():
     response = requests.get(api_url)
     latest_release_data = response.json()
     # Extract the latest release version and URL
+    
     try:
         latest_release_version = latest_release_data["tag_name"]
-        latest_release_url = latest_release_data["html_url"]
+        if latest_release_version!=config["latest_release"]:
+            config["latest_release"] = latest_release_version
+            update_config(config)
+        return config["latest_release"]
+    
     except:
-        latest_release_version = ""
-        latest_release_url = "#"
-    return f"{latest_release_version}"
+        return config["latest_release"]
 
 def footer():
     config = json.load(open("config.json"))
+    latest_release_version = get_latest_release(config)
     st.markdown(
             f"""
             ___
@@ -63,7 +73,7 @@ def footer():
                 <a href="{config["Github"]}" target="_blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/github.svg" height="20" width="30" /></a>
                 <a href="https://mail.google.com/mail/?view=cm&fs=1&to=ziaul.karim497@gmail.com" target="_blank"><img align="center" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg" height="15" width="30" /></a>
                 <br>
-                {get_latest_release()}
+                {latest_release_version}
                 <br>
                 &copy; {dt.datetime.now().year} Made by - <a href= "https://ziaulkarim.netlify.app/" target="_blank"> Md. Ziaul Karim </a>
             </footer>
