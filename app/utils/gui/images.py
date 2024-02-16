@@ -513,6 +513,3 @@ class BasicOperations(CommonComponents):
         else:
             show_code(img_file_name)
             show_image(img)
-        
-        
-        
