@@ -6,7 +6,7 @@ import toml
 
 def update_config(data):
     # Write data to the JSON file
-    with open('.streamlit/config.toml', 'w') as toml_file:
+    with open('.streamlit/secrets.toml', 'w') as toml_file:
         toml.dump(data, toml_file)
         
 def get_latest_release(config):
@@ -26,7 +26,7 @@ def get_latest_release(config):
         return config["footer"]["latest_release"]
 
 def footer():
-    config = toml.load(open(".streamlit/config.toml", 'r'))
+    config = toml.load(open(".streamlit/secrets.toml", 'r'))
     latest_release_version = get_latest_release(config)
     st.markdown(
             f"""
