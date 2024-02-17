@@ -518,3 +518,11 @@ class BasicOperations(CommonComponents):
             show_code(img_file_name)
             show_image(img)
 
+class ArithmeticOperations(CommonComponents):
+    def __init__(self):
+        self.img_file1, self.img_file2 = None, None
+        self.img_file_name1, self.img_file_name2 = 'ml.png', \
+                                                    'OpenCV_Logo_with_text.png'
+        self.img1, self.img2 = read_image('app/assets/Images/ml.png'),\
+                                read_image('app/assets/Images/OpenCV_Logo_with_text.png')
+
