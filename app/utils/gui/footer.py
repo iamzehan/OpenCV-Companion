@@ -2,37 +2,31 @@ import json
 import streamlit as st
 import datetime as dt
 import requests
-import json
+import toml
 
 def update_config(data):
     # Write data to the JSON file
-    with open('config.json', 'w') as json_file:
-        json.dump(data, json_file, indent=4)
+    with open('.streamlit/config.toml', 'w') as toml_file:
+        toml.dump(data, toml_file)
         
 def get_latest_release(config):
-    repo_owner = "iamzehan"
-    repo_name = "OpenCV-Companion"
 
     # GitHub API endpoint for releases
-    api_url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/releases/latest"
-
+    api_url = config['footer']['latest_release_url']
     # Fetch the latest release information
     response = requests.get(api_url)
     latest_release_data = response.json()
-    # Extract the latest release version and URL
-    
     try:
         latest_release_version = latest_release_data["tag_name"]
-        if latest_release_version!=config["latest_release"]:
-            config["latest_release"] = latest_release_version
+        if latest_release_version!=config["footer"]["latest_release_url"]:
+            config["footer"]["latest_release"]=latest_release_version
             update_config(config)
-        return config["latest_release"]
-    
+            return latest_release_version
     except:
-        return config["latest_release"]
+        return config["footer"]["latest_release"]
 
 def footer():
-    config = json.load(open("config.json"))
+    config = toml.load(open(".streamlit/config.toml", 'r'))
     latest_release_version = get_latest_release(config)
     st.markdown(
             f"""
@@ -69,13 +63,13 @@ def footer():
             </style>
             <footer>
                 <p style="color:grey"> 
-                <a href="{config["Linkedin"]}" target="_blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="{config["Linkedin"]}" height="20" width="30" /></a>
-                <a href="{config["Github"]}" target="_blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/github.svg" height="20" width="30" /></a>
-                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=ziaul.karim497@gmail.com" target="_blank"><img align="center" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg" height="15" width="30" /></a>
+                <a href="{config["footer"]["linkedin"]}" target="_blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="{config["footer"]["linkedin"]}" height="20" width="30" /></a>
+                <a href="{config["footer"]["github"]}" target="_blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/github.svg" height="20" width="30" /></a>
+                <a href="{config["footer"]["mail"]}" target="_blank"><img align="center" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg" height="15" width="30" /></a>
                 <br>
                 {latest_release_version}
                 <br>
-                &copy; {dt.datetime.now().year} Made by - <a href= "https://ziaulkarim.netlify.app/" target="_blank"> Md. Ziaul Karim </a>
+                &copy; {dt.datetime.now().year} Made by - <a href= "{config["footer"]["website"]}" target="_blank"> Md. Ziaul Karim </a>
             </footer>
             
             """,
