@@ -46,3 +46,13 @@ def make_borders(img1):
     constant= cv.copyMakeBorder(img1,10,10,10,10,cv.BORDER_CONSTANT,value=BLUE)
     
     return replicate, reflect, reflect101, wrap, constant
+
+def resize(img, h, w):
+    return cv.resize(img, (h, w))
+
+def add_two_img(img1, img2):
+    h1, w1, _ = get_shape(img1)
+    h2, w2, _ = get_shape(img2)
+    h, w = max(h1, h2), max(w1, w2)
+    img1, img2 = resize(img1, h, w), resize(img2, h, w)
+    return cv.add(img1,img2) 
