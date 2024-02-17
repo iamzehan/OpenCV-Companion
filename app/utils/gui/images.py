@@ -526,3 +526,81 @@ class ArithmeticOperations(CommonComponents):
         self.img1, self.img2 = read_image('app/assets/Images/ml.png'),\
                                 read_image('app/assets/Images/OpenCV_Logo_with_text.png')
 
+    def Image_Addition(self):
+        st.markdown("""
+                    ## Image Addition
+                    You can add two images by OpenCV function, 
+                    `cv2.add()` or simply by numpy operation, 
+                    `res = img1 + img2`. Both images should be 
+                    of same depth and type, or second image 
+                    can just be a scalar value.
+                    """)
+        st.info("""
+                ⚠️ Note
+                > There is a difference between OpenCV addition 
+                and Numpy addition. OpenCV addition is a saturated 
+                operation while Numpy addition is a modulo operation.
+                """)    
+        
+        st.markdown("""
+                    For example, consider below sample:
+                    ```python
+                    >>> x = np.uint8([250])
+                    >>> y = np.uint8([10])
+                    >>> print cv2.add(x,y) # 250+10 = 260 => 255
+                    [[255]]
+
+                    >>> print x+y          # 250+10 = 260 % 256 = 4
+                    [4]
+                    ```
+                    """)
+        
+        with st.expander("Example:", expanded=False):
+            col1, col2 = st.columns(2)
+            
+            col1.image(self.img1, 'img1')
+            col2.image(self.img2, 'img2')
+            
+            st.markdown("""
+                        ### Output
+                        """)
+            
+            st.image(add_two_img(self.img1, self.img2))
+            
+            st.warning(f"""
+                       ⚠️Warning!
+                       > The output is based on some preprocessing. 
+                       Generally, the two images won't be added because they differ
+                       in size as the width and height has to be the same, also the
+                       image channels should match as well. So, we have to make sure
+                       the two images match in their channel depth (Either both has 
+                       to be color image, or both has to be black and white)
+                       We have used
+                       the following code to show the above output:
+                       ```python
+                    import cv2 as cv
+                    
+                    # gives the image shape (height, width, channels)
+                    def get_shape(img):
+                            return img.shape
+                            
+                    # performs resize on the image - as in stretch or squeeze 
+                    def resize(img, h, w):
+                            return cv.resize(img, (h, w))
+                    
+                    # performs addition on the image by matching height, width
+                    def add_two_img(img1, img2):
+                            h1, w1, _ = get_shape(img1)
+                            h2, w2, _ = get_shape(img2)
+                            h, w = max(h1, h2), max(w1, w2)
+                            img1, img2 = resize(img1, h, w), resize(img2, h, w)
+                            return cv.add(img1,img2) 
+                            
+                    img1 = cv.imread("{self.img_file_name1}")
+                    img2 = cv.imread("{self.img_file_name2}")
+                    
+                    res = add_two_img(img1, img2)
+                    cv.imshow('Image Addition', res)
+                    cv.waitKey(0)
+                       ```
+                       """)
