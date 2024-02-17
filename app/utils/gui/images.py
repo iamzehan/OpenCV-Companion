@@ -10,7 +10,8 @@ from utils.opencv.images import (
     list_to_np_array,
     split_channels,
     merge_channels,
-    make_borders
+    make_borders,
+    add_two_img
     )
 
 # Getting Started with Images (Page - 2)
@@ -19,20 +20,28 @@ class CommonComponents:
     def __init__(self):
         pass
     
-    def side_bar(self):
+    def side_bar(self, multiple=False):
         
         # File and name handling
         file = st.sidebar.file_uploader("Upload an Image:",
                                         type=["PNG","JPG"], 
-                                        label_visibility="collapsed")
+                                        label_visibility="collapsed",
+                                        accept_multiple_files=multiple)
         
         if not file:
             st.sidebar.error("Upload an image to see changes")
             
         else:
-            self.img_file = file
-            self.img_file_name = file.name
-            self.img = bytes_to_image(file.read())
+            if multiple:
+                file1, file2, *_ = file
+                self.img_file1, self.img_file2 = file1, file2
+                self.img_file_name1, self.img_file_name2 = file1.name, file2.name
+                self.img1, self.img2 = bytes_to_image(file1.read()), bytes_to_image(file2.read())
+                
+            else:
+                self.img_file = file
+                self.img_file_name = file.name
+                self.img = bytes_to_image(file.read())
 
 class GUIFeatures(CommonComponents):
     
@@ -508,3 +517,4 @@ class BasicOperations(CommonComponents):
         else:
             show_code(img_file_name)
             show_image(img)
+
