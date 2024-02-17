@@ -27,16 +27,19 @@ class CommonComponents:
                                         type=["PNG","JPG"], 
                                         label_visibility="collapsed",
                                         accept_multiple_files=multiple)
-        
+        message = st.sidebar.empty()
         if not file:
-            st.sidebar.error("Upload an image to see changes")
+            message.error("Upload an image to see changes")
             
         else:
             if multiple:
-                file1, file2, *_ = file
-                self.img_file1, self.img_file2 = file1, file2
-                self.img_file_name1, self.img_file_name2 = file1.name, file2.name
-                self.img1, self.img2 = bytes_to_image(file1.read()), bytes_to_image(file2.read())
+                try:
+                    file1, file2, *_ = file
+                    self.img_file1, self.img_file2 = file1, file2
+                    self.img_file_name1, self.img_file_name2 = file1.name, file2.name
+                    self.img1, self.img2 = bytes_to_image(file1.read()), bytes_to_image(file2.read())
+                except:
+                    message.error("You must upload two images")
                 
             else:
                 self.img_file = file
@@ -558,19 +561,15 @@ class ArithmeticOperations(CommonComponents):
         with st.expander("Example:", expanded=False):
             col1, col2 = st.columns(2)
             
-            col1.image(self.img1, 'img1')
-            col2.image(self.img2, 'img2')
+            col1.image(self.img1, 'img1', channels= 'BGR', use_column_width=True)
+            col2.image(self.img2, 'img2', channels= 'BGR', use_column_width=True)
             
-            st.markdown("""
-                        ### Output
-                        """)
-            
-            st.image(add_two_img(self.img1, self.img2))
+            st.image(add_two_img(self.img1, self.img2), 'Image Addition', channels= 'BGR', use_column_width=True)
             
             st.warning(f"""
                        ⚠️Warning!
                        > The output is based on some preprocessing. 
-                       Generally, the two images won't be added because they differ
+                       Generally, the two images won't be added if they differ
                        in size as the width and height has to be the same, also the
                        image channels should match as well. So, we have to make sure
                        the two images match in their channel depth (Either both has 
@@ -596,11 +595,12 @@ class ArithmeticOperations(CommonComponents):
                             img1, img2 = resize(img1, h, w), resize(img2, h, w)
                             return cv.add(img1,img2) 
                             
-                    img1 = cv.imread("{self.img_file_name1}")
-                    img2 = cv.imread("{self.img_file_name2}")
+                    img1 = cv.imread("{self.img_file_name1}") # your own img1 path
+                    img2 = cv.imread("{self.img_file_name2}") # your own img2 path
                     
                     res = add_two_img(img1, img2)
                     cv.imshow('Image Addition', res)
                     cv.waitKey(0)
                        ```
+                    Feel free to copy and run the code.
                        """)
