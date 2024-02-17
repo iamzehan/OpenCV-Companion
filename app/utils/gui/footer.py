@@ -13,10 +13,11 @@ def get_latest_release(config):
 
     # GitHub API endpoint for releases
     api_url = config['footer']['latest_release_url']
-    # Fetch the latest release information
-    response = requests.get(api_url)
-    latest_release_data = response.json()
+    
     try:
+        # Fetch the latest release information
+        response = requests.get(api_url)
+        latest_release_data = response.json()
         latest_release_version = latest_release_data["tag_name"]
         if latest_release_version!=config["footer"]["latest_release_url"]:
             config["footer"]["latest_release"]=latest_release_version
