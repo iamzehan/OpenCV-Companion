@@ -8,13 +8,14 @@ from utils.gui.drawing import (
     Draw_Polygon,
     Draw_Text
 )
+from utils.gui.menu import gui_features_menu
 from utils.gui.footer import footer
 
 if __name__ == "__main__":
     
     st.set_page_config(page_icon="app/assets/Images/OpenCV_Logo_with_text.png",
                        page_title="Drawing Geometric Shapes with OpenCV")
-    
+    gui_features_menu()
     st.sidebar.subheader("Drawing Options")
     options = st.sidebar.selectbox(label="Select:",
                                    options=["Introduction",
