@@ -1,12 +1,13 @@
 import streamlit as st
 from utils.gui.footer import footer
+from utils.gui.menu import core_operations_menu
 from utils.gui.images import BasicOperations
 
     
 def main():
     st.set_page_config(page_icon="app/assets/Images/OpenCV_Logo_with_text.png",
                        page_title="Basic Operations on Images")
-
+    core_operations_menu()
     basicOp= BasicOperations()
     options=st.sidebar.selectbox("Select: ", ["Introduction", 
                                               "Accessing and Modifying pixel values",
@@ -55,7 +56,4 @@ def main():
     
 if __name__ == '__main__':
     main()
-    col1, _, _, _, col2 = st.columns(5)
-    col1.page_link("pages/6_Core_Operations_🔴.py", label="⬅️**Previous**")
-    col2.page_link("pages/8_Arithmetic_Operations_on_Images.py", label="**Next ➡️**")
     footer()

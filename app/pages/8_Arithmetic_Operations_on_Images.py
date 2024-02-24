@@ -1,8 +1,10 @@
 import streamlit as st 
 from utils.gui.footer import footer
+from  utils.gui.menu import core_operations_menu
 from utils.gui.images import ArithmeticOperations
 
 if __name__ == '__main__':
+    core_operations_menu()
     options = st.sidebar.selectbox(label="Navigate: ",options=["Introduction",
                                                                "Image Addition",
                                                                "Image Blending",
