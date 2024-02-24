@@ -55,4 +55,7 @@ def main():
     
 if __name__ == '__main__':
     main()
+    col1, _, _, _, col2 = st.columns(5)
+    col1.page_link("pages/6_Core_Operations_🔴.py", label="⬅️**Previous**")
+    col2.page_link("pages/8_Arithmetic_Operations_on_Images.py", label="**Next ➡️**")
     footer()
