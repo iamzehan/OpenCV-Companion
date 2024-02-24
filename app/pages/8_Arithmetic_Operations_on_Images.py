@@ -29,9 +29,5 @@ if __name__ == '__main__':
     if options == "Bitwise Operations":
         pass
 
-
-    col1, _, _, _, col2 = st.columns(5)
-    col1.page_link("pages/7_Basic_Operations_on_Images.py", label="⬅️**Previous**")
-    col2.page_link("pages/9_Performance_Measurement_and_Improvement_Techniques.py", label="**Next ➡️**")
     footer()
     
