@@ -29,7 +29,10 @@ class CommonComponents:
                                         accept_multiple_files=multiple)
         message = st.sidebar.empty()
         if not file:
-            message.error("Upload an image to see changes")
+            if multiple:
+                message.error("Upload images to see changes")
+            else:
+                message.error("Upload an image to see changes")
             
         else:
             if multiple:
