@@ -1,5 +1,6 @@
 import streamlit as st 
 from utils.gui.footer import footer
+from utils.gui.menu import menu
 
 st.title("GUI Features in OpenCV")
 
@@ -40,4 +41,5 @@ with st.container(border=True):
 
 col1, col2, col3 = st.columns([2,8,2])
 col3.page_link("pages/1_Getting_Started_with_Images.py", label="Next ➡️", use_container_width=True)
+menu()
 footer()

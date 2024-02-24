@@ -1,5 +1,6 @@
 import streamlit as st 
 from utils.gui.footer import footer
+from utils.gui.menu import menu
 
 st.title("Core Operations in OpenCV")
 
@@ -8,7 +9,7 @@ with st.container(border=True):
     col1, col2, col3 = st.columns([2,8,2])
     col1.image("https://opencv24-python-tutorials.readthedocs.io/en/latest/_images/pixel_ops.jpg")
     col2.markdown("Learn to read and edit pixel values, working with image ROI and other basic operations.")
-    col3.page_link("pages/7_Basic_Operations_on_Images.py", label="**Learn** ➡️", use_container_width=True)
+    col3.page_link("pages/7_Basic_Operations_on_Images.py", label="**Learn**➡️", use_container_width=True)
 
 with st.container(border=True):
     st.page_link("pages/8_Arithmetic_Operations_on_Images.py", label="👉 Arithmetic Operations on Images")
@@ -33,4 +34,5 @@ with st.container(border=True):
     
 col1, col2, col3 = st.columns([2,8,2])
 col3.page_link("pages/7_Basic_Operations_on_Images.py", label="Next ➡️", use_container_width=True)
+menu()
 footer()
