@@ -15,9 +15,9 @@ def core_operations_menu():
         st.page_link("pages/10_Mathematical_Tools_in_OpenCV.py", label="Math Tools")
 
 def gui_features_menu():
-    st.sidebar.write("GUI Features Menu")
-    with st.sidebar.container(border=True):
-        st.page_link("pages/0_GUI_Features_In_OpenCV.py", label = "**GUI Features in OpenCV**")
+    st.sidebar.page_link("pages/0_GUI_Features_In_OpenCV.py", label = "**GUI Features in OpenCV**")
+    
+    with st.sidebar.container(border=True):    
         st.page_link("pages/1_Getting_Started_with_Images.py", label = "**Getting Started with Images**")
         st.page_link("pages/2_Getting_Started_with_Videos.py", label = "**Getting Started with Videos**")
         st.page_link("pages/3_Drawing_Functions_in_OpenCV.py", label = "**Drawing Functions**")
