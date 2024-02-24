@@ -81,8 +81,9 @@ In this version you can learn to perform Basic Operations on Images, such as -
 <p align="center">
   <a href="https://streamlit.io/" target="_blank">
     <img src="https://yt3.googleusercontent.com/ytc/AIf8zZSb7aWphJvsnl5ZQ7VaEfdultOKw3BR4h-fc8HhEg=s900-c-k-c0x00ffffff-no-rj" alt="Streamlit" width="40" style="background-color:white; border-radius: 5px"/>
-  </a><a href="https://opencv.org/" target="_blank"> 
+  </a><img src="https://upload.wikimedia.org/wikipedia/commons/0/0a/Python.svg" alt="html5" width="40" height="40"/><a href="https://opencv.org/" target="_blank"> 
       <img src="https://img.icons8.com/color/144/000000/opencv.png" alt="OpenCV" width="40" style="background-color:white; border-radius: 5px"/>
     </a>
+
 </p>
 
