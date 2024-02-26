@@ -5,13 +5,16 @@ from utils.gui.images import ArithmeticOperations
 
 if __name__ == '__main__':
     menu()
-    options = st.sidebar.selectbox(label="Navigate: ",options=["Introduction",
+    with st.sidebar.container(border=True):
+        st.subheader("Topics")
+        options = st.radio(label="Navigate: ",options=["Introduction",
                                                                "Image Addition",
                                                                "Image Blending",
                                                                "Bitwise Operations"],
                                    label_visibility="collapsed")
     arithmeticOps = ArithmeticOperations() 
     st.markdown("# Arithmetic Operations on Images")
+    
     if options == "Introduction":
         st.markdown("""
                     ## Goal

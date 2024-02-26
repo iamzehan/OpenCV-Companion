@@ -9,7 +9,9 @@ def main():
                        page_title="Basic Operations on Images")
     menu()
     basicOp= BasicOperations()
-    options=st.sidebar.selectbox("Select: ", ["Introduction", 
+    with st.sidebar.container(border=True):
+        st.subheader("Topics")
+        options=st.radio("Select: ", ["Introduction", 
                                               "Accessing and Modifying pixel values",
                                               "Accessing Image Properties",
                                               "Image ROI",

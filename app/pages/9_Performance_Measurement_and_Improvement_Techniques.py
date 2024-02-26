@@ -13,7 +13,9 @@ def main():
     
     perfM = PerformanceMeasurement()
     
-    options = st.sidebar.selectbox("Select: ", options=['Introduction',
+    with st.sidebar.container(border=True):
+        st.subheader("Topics")
+        options = st.radio("Select: ", options=['Introduction',
                                                 'Measuring Performance with OpenCV',
                                                 'Default Optimization',
                                                 'Measuring Performance in IPython',

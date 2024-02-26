@@ -16,8 +16,9 @@ if __name__ == "__main__":
     st.set_page_config(page_icon="app/assets/Images/OpenCV_Logo_with_text.png",
                        page_title="Drawing Geometric Shapes with OpenCV")
     menu()
-    st.sidebar.subheader("Drawing Options")
-    options = st.sidebar.selectbox(label="Select:",
+    with st.sidebar.container(border=True):
+        st.subheader("Topics")
+        options = st.radio(label="Select:",
                                    options=["Introduction",
                                             "Drawing Line",
                                             "Drawing Rectangle",

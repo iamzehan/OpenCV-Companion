@@ -15,8 +15,9 @@ def main():
 
     st.markdown("## Goal")
     st.write("Learn to handle mouse events in OpenCV using `cv.setMouseCallback()`.")
-
-    options = st.sidebar.selectbox("Select:", options=["Simple Demo", "Advanced Demo"])
+    with st.sidebar.container(border=True):
+        st.subheader("Topics")
+        options = st.radio("Select:", options=["Simple Demo", "Advanced Demo"])
     
     if options == "Simple Demo":
         Simple_Demo()
