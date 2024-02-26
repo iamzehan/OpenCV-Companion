@@ -12,7 +12,8 @@ from utils.opencv.images import (
     merge_channels,
     make_borders,
     add_two_img,
-    bitwise_ops
+    bitwise_ops,
+    performance_measure
     )
 
 # Getting Started with Images (Page - 2)
@@ -756,19 +757,58 @@ class ArithmeticOperations(CommonComponents):
 
 class PerformanceMeasurement(CommonComponents):
     
-    def Measuring_Performance():
+    def Measuring_Performance(self):
+        st.markdown("""
+                    `cv2.getTickCount` function returns the number of clock-cycles after
+                    a reference event (like the moment machine was switched ON) to the
+                    moment this function is called. So if you call it before and after
+                    the function execution, you get number of clock-cycles used to 
+                    execute a function.
+                    `cv2.getTickFrequency` function returns the frequency of clock-cycles,
+                    or the number of clock-cycles per second. So to find the time of
+                    execution in seconds, you can do following:
+                    """)
+        st.code("""
+                e1 = cv2.getTickCount()
+                # your code execution
+                e2 = cv2.getTickCount()
+                time = (e2 - e1)/ cv2.getTickFrequency()
+                """)
+        st.markdown("""
+                    We will demonstrate with following example.
+                    Following example apply median filtering with
+                    a kernel of odd size ranging from 5 to 49. 
+                    (Don’t worry about what will the result look like,
+                    that is not our goal):""")
+        
+        st.code(f"""
+                img1 = cv2.imread('{self.img_file_name}')
+                e1 = cv2.getTickCount()
+                for i in xrange(5,49,2):
+                    img1 = cv2.medianBlur(img1,i)
+                e2 = cv2.getTickCount()
+                t = (e2 - e1)/cv2.getTickFrequency()
+                print t
+                """)
+        button_space = st.empty()
+        code_space = st.empty()
+        if button_space.button("▶️"):
+            code_space.code(f"""
+                    {performance_measure(self.img)}
+                    """)
+            if button_space.button("❌"):
+                code_space.empty()
+    
+    def Default_Optimization(self):
         pass
     
-    def Default_Optimization():
+    def Measuring_Performance_IPython(self):
         pass
     
-    def Measuring_Performance_IPython():
+    def Ipython_Magic_Commands(self):
         pass
     
-    def Ipython_Magic_Commands():
-        pass
-    
-    def Performance_Optimization_Techniques():
+    def Performance_Optimization_Techniques(self):
         pass
     
     

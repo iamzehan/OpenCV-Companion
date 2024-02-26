@@ -84,3 +84,12 @@ def bitwise_ops(img1, img2):
     
     return img1
 
+def performance_measure(img):
+    e1 = cv.getTickCount()
+    for i in range(5,49,2):
+        img = cv.medianBlur(img,i)
+        e2 = cv.getTickCount()
+        t = (e2 - e1)/cv.getTickFrequency()
+    return t
+
+
