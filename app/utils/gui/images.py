@@ -607,3 +607,78 @@ class ArithmeticOperations(CommonComponents):
                        ```
                     Feel free to copy and run the code.
                        """)
+    
+    def Image_Blending(self):
+        
+        def show_code(img_file_name1, img_file_name2):
+            st.subheader("Code")
+            st.code(f"""
+                    img1 = cv2.imread('{img_file_name1}')
+                    img2 = cv2.imread('{img_file_name2}')
+
+                    dst = cv2.addWeighted(img1,{alpha},img2,{beta},{gamma})
+
+                    cv2.imshow('dst',dst)
+                    cv2.waitKey(0)
+                    cv2.destroyAllWindows()
+                """)
+            
+        def show_image(img1, img2, alpha, beta, gamma):
+            st.subheader("Ouput")
+            col1, col2 = st.columns(2)
+            
+            col1.image(self.img1, 'img1', channels= 'BGR', use_column_width=True)
+            col2.image(self.img2, 'img2', channels= 'BGR', use_column_width=True)
+            
+            st.image(add_two_img(self.img1, self.img2, alpha, beta, gamma, blend=True),
+                     'dst', channels= 'BGR', use_column_width=True)
+
+        st.markdown("""
+                    ## Image Blending
+                    This is also image addition, but different weights 
+                    are given to images so that it gives a feeling of 
+                    blending or transparency. Images are added as per 
+                    the equation below:
+                    """)
+        
+        st.latex(r"""
+                    g(x) = (1 - \alpha)f_{0}(x) + \alpha f_{1}(x)
+        """)
+        
+        st.markdown("""
+
+                    By varying $$\\alpha$$ from $$0 \\rightarrow 1$$, 
+                    you can perform a cool transition between 
+                    one image to another.
+
+                    Here I took two images to blend them together. 
+                    First image is given a weight of 0.7 and second
+                    image is given 0.3. `cv2.addWeighted()` applies 
+                    following equation on the image.
+                    """)
+        
+        st.latex(r"""
+                    dst = \alpha \cdot img1 + \beta \cdot img2 + \gamma
+                """)
+
+        st.markdown("""
+                    Here $$\gamma$$ is taken as zero.
+                    """)
+        
+        with st.container(border=True):
+            st.subheader("Parameters")
+            defaults = [self.img_file_name1, self.img_file_name2, 0.7, 0.3, 0]
+            alpha = st.slider('$\\alpha$:', value = 0.7, min_value=0.0, max_value=1.0)
+            beta = st.slider('$\\beta$:', value = 0.3, min_value=0.0, max_value=1.0)
+            gamma = st.slider('$\\gamma$ :', value=0, min_value=0, max_value=1)
+            if defaults != [self.img_file_name1, self.img_file_name2, alpha, beta, gamma]:
+                show_image(self.img1, self.img2, alpha, beta, gamma)
+                st.success("Your ouput")
+                show_code(self.img_file_name1, self.img_file_name2)
+                st.success("Your Code")
+            else:
+                show_image(self.img1, self.img2, alpha, beta, gamma)
+                st.info("Example ouput")
+                show_code(self.img_file_name1, self.img_file_name2)
+                st.info("Example Code")
+            

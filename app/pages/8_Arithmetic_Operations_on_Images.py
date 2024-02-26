@@ -25,7 +25,8 @@ if __name__ == '__main__':
         arithmeticOps.side_bar(multiple=True)
         arithmeticOps.Image_Addition()
     if options == "Image Blending":
-        pass
+        arithmeticOps.side_bar(multiple=True)
+        arithmeticOps.Image_Blending()
     if options == "Bitwise Operations":
         pass
 

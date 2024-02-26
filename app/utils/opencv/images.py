@@ -50,9 +50,12 @@ def make_borders(img1):
 def resize(img, h, w):
     return cv.resize(img, (h, w))
 
-def add_two_img(img1, img2):
+def add_two_img(img1, img2, alpha=0.7, beta=0.3, gamma=0, blend=False):
     h1, w1, _ = get_shape(img1)
     h2, w2, _ = get_shape(img2)
     h, w = max(h1, h2), max(w1, w2)
     img1, img2 = resize(img1, h, w), resize(img2, h, w)
-    return cv.add(img1,img2) 
+    if blend:
+        return cv.addWeighted(img1, alpha, img2, beta, gamma)
+    else:
+        return cv.add(img1,img2) 
