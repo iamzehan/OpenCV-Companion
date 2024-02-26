@@ -753,4 +753,22 @@ class ArithmeticOperations(CommonComponents):
                 st.info("Example Ouput")
                 show_code(self.img_file_name1, self.img_file_name2)
                 st.info("Example Code")
-                
+
+class PerformanceMeasurement(CommonComponents):
+    
+    def Measuring_Performance():
+        pass
+    
+    def Default_Optimization():
+        pass
+    
+    def Measuring_Performance_IPython():
+        pass
+    
+    def Ipython_Magic_Commands():
+        pass
+    
+    def Performance_Optimization_Techniques():
+        pass
+    
+    
