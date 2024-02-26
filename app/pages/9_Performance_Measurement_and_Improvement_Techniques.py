@@ -59,6 +59,7 @@ def main():
         
     elif options == "Measuring Performance in IPython":
         st.subheader("Measuring Performance in IPython")
+        perfM.Measuring_Performance_IPython()
         
     elif options == "More IPython magic Commands":
         st.subheader("More IPython magic Commands")
