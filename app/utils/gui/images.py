@@ -809,8 +809,44 @@ class PerformanceMeasurement(CommonComponents):
                 success.empty()
     
     def Default_Optimization(self):
-        pass
-    
+        st.markdown("""
+                    Many of the OpenCV functions are optimized using SSE2,
+                    AVX etc. It contains unoptimized code also. 
+                    So if our system support these features, 
+                    we should exploit them (almost all modern day processors 
+                    support them). It is enabled by default while compiling.
+                    So OpenCV runs the optimized code if it is enabled, else 
+                    it runs the unoptimized code. You can use `cv2.useOptimized()`
+                    to check if it is enabled/disabled and `cv2.setUseOptimized()` 
+                    to enable/disable it. Let’s see a simple example.
+                    """)
+        
+        st.code("""
+                # check if optimization is enabled
+                In [5]: cv2.useOptimized()
+                Out[5]: True
+
+                In [6]: %timeit res = cv2.medianBlur(img,49)
+                10 loops, best of 3: 34.9 ms per loop
+
+                # Disable it
+                In [7]: cv2.setUseOptimized(False)
+
+                In [8]: cv2.useOptimized()
+                Out[8]: False
+
+                In [9]: %timeit res = cv2.medianBlur(img,49)
+                10 loops, best of 3: 64.1 ms per loop
+                """)
+        
+        st.markdown("""
+                    See, optimized median filtering is ~2x faster
+                    than unoptimized version. If you check its source,
+                    you can see median filtering is SIMD optimized. 
+                    So you can use this to enable optimization at the 
+                    top of your code (remember it is enabled by default).
+                    """)
+        
     def Measuring_Performance_IPython(self):
         pass
     
