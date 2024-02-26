@@ -78,7 +78,7 @@ def footer():
                 <a href="{config["footer"]["github"]}" target="_blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/github.svg" height="20" width="30" /></a>
                 <a href="{config["footer"]["mail"]}" target="_blank"><img align="center" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg" height="15" width="30" /></a>
                 <div>
-                    <span title="Label: Latest" data-view-component="true" class="Label Label--success flex-shrink-0">
+                    <b>Release:</b> <span title="Label: Latest" data-view-component="true" class="Label Label--success flex-shrink-0">
                         {latest_release_version}
                     </span>      
                 </div>
