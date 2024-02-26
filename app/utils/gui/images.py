@@ -848,8 +848,75 @@ class PerformanceMeasurement(CommonComponents):
                     """)
         
     def Measuring_Performance_IPython(self):
-        pass
-    
+        st.markdown("""
+                    Sometimes you may need to compare the performance of two similar
+                    operations. IPython gives you a magic command %timeit to perform
+                    this. It runs the code several times to get more accurate results.
+                    Once again, they are suitable to measure single line codes.
+
+                    For example, do you know which of the following addition operation
+                    is better, `x = 5; y = x**2`, `x = 5; y = x*x`, `x = np.uint8([5]);
+                    y = x*x` or `y = np.square(x)` ? We will find it with %timeit in 
+                    IPython shell.
+                    """)
+        
+        st.code("""
+                In [10]: x = 5
+
+                In [11]: %timeit y=x**2
+                10000000 loops, best of 3: 73 ns per loop
+
+                In [12]: %timeit y=x*x
+                10000000 loops, best of 3: 58.3 ns per loop
+
+                In [15]: z = np.uint8([5])
+
+                In [17]: %timeit y=z*z
+                1000000 loops, best of 3: 1.25 us per loop
+
+                In [19]: %timeit y=np.square(z)
+                1000000 loops, best of 3: 1.16 us per loop
+                """)
+        
+        st.markdown("""
+                    You can see that, `x = 5 ; y = x*x` is fastest and it is around
+                    20x faster compared to Numpy. If you consider the array creation
+                    also, it may reach upto 100x faster. Cool, right? 
+                    (Numpy devs are working on this issue)
+                    """)
+        
+        st.info("""
+                ⚠️ **Note**
+                > Python scalar operations are faster than Numpy scalar operations.
+                So for operations including one or two elements, Python scalar is 
+                better than Numpy arrays. 
+                Numpy takes advantage when size of array is a little bit bigger.
+                """)
+        
+        st.markdown("""
+                    We will try one more example. This time, we will compare the 
+                    performance of `cv2.countNonZero()` and `np.count_nonzero()` 
+                    for same image.
+                    """)
+        st.code("""
+                In [35]: %timeit z = cv2.countNonZero(img)
+                100000 loops, best of 3: 15.8 us per loop
+
+                In [36]: %timeit z = np.count_nonzero(img)
+                1000 loops, best of 3: 370 us per loop
+                """)
+        
+        st.markdown("""
+                    See, OpenCV function is nearly 25x faster than Numpy function.
+                    """)
+        
+        st.info("""
+                ⚠️ **Note**
+                > Normally, OpenCV functions are faster than Numpy functions. 
+                So for same operation, OpenCV functions are preferred. 
+                But, there can be exceptions, 
+                especially when Numpy works with views instead of copies.
+                """)
     def Ipython_Magic_Commands(self):
         pass
     
