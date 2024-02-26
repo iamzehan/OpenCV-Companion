@@ -5,8 +5,8 @@ from utils.gui.images import PerformanceMeasurement
 def main():
     st.markdown("""
                 <center> 
-                    <h2> Performance Measurement and Improvement Techniques 
-                    </h2> 
+                    <h1> Performance Measurement and Improvement Techniques 
+                    </h1> 
                 </center>
                 
                 """, unsafe_allow_html=True)

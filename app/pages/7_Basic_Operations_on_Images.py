@@ -18,6 +18,7 @@ def main():
                                               "Splitting and Merging Image Channels",
                                               "Making Borders for Images (Padding)"], label_visibility="collapsed")
 
+    st.markdown("# Basic Operations on Images")
     if options == "Introduction":
         st.markdown("""
                     ## Goal
