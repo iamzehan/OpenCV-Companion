@@ -797,14 +797,16 @@ class PerformanceMeasurement(CommonComponents):
         message.info("Press ▶️ to see output")
         button_space = st.empty()
         code_space = st.empty()
+        success=st.empty()
         if button_space.button("▶️"):
             code_space.code(f"""
                     {performance_measure(self.img)}
                     """)
             message.error("Press ❌ to close")
-            st.success("Showing result")
+            success.success("Showing result")
             if button_space.button("❌"):
                 code_space.empty()
+                success.empty()
     
     def Default_Optimization(self):
         pass
