@@ -445,6 +445,7 @@ class BasicOperations(CommonComponents):
             
         def show_image(img):
             info = st.empty()
+            info.info("Push ▶️ to see output")
             button_space = st.empty()
             container_space = st.empty()
             if button_space.button("▶️"):
@@ -480,8 +481,6 @@ class BasicOperations(CommonComponents):
                     
                 if button_space.button("❌"):
                     return
-            else:
-                info.info("Push ▶️ to see output")
  
         st.markdown(f"""
                     # Making Borders for Images (Padding)
@@ -803,6 +802,7 @@ class PerformanceMeasurement(CommonComponents):
                     {performance_measure(self.img)}
                     """)
             message.error("Press ❌ to close")
+            st.success("Showing result")
             if button_space.button("❌"):
                 code_space.empty()
     
