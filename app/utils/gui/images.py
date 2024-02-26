@@ -794,12 +794,15 @@ class PerformanceMeasurement(CommonComponents):
                 t = (e2 - e1)/cv2.getTickFrequency()
                 print t
                 """)
+        message = st.empty()
+        message.info("Press ▶️ to see output")
         button_space = st.empty()
         code_space = st.empty()
         if button_space.button("▶️"):
             code_space.code(f"""
                     {performance_measure(self.img)}
                     """)
+            message.error("Press ❌ to close")
             if button_space.button("❌"):
                 code_space.empty()
     
