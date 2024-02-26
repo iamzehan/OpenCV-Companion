@@ -7,7 +7,7 @@ from utils.gui.images import BasicOperations
 def main():
     st.set_page_config(page_icon="app/assets/Images/OpenCV_Logo_with_text.png",
                        page_title="Basic Operations on Images")
-    core_operations_menu()
+    menu()
     basicOp= BasicOperations()
     options=st.sidebar.selectbox("Select: ", ["Introduction", 
                                               "Accessing and Modifying pixel values",
