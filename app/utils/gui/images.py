@@ -579,7 +579,8 @@ class ArithmeticOperations(CommonComponents):
                        to be color image, or both has to be black and white)
                        We have used
                        the following code to show the above output:
-                       ```python
+                        """)
+            st.code(f"""
                     import cv2 as cv
                     
                     # gives the image shape (height, width, channels)
@@ -604,7 +605,8 @@ class ArithmeticOperations(CommonComponents):
                     res = add_two_img(img1, img2)
                     cv.imshow('Image Addition', res)
                     cv.waitKey(0)
-                       ```
+                    """)
+            st.markdown("""
                     Feel free to copy and run the code.
                        """)
     
