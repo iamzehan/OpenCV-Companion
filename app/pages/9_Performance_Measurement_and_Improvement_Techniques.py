@@ -55,6 +55,7 @@ def main():
        
     elif options == "Default Optimization":
         st.subheader("Default Optimization")
+        perfM.Default_Optimization()
         
     elif options == "Measuring Performance in IPython":
         st.subheader("Measuring Performance in IPython")
