@@ -3,14 +3,14 @@ from utils.gui.mouse_events import \
     (Simple_Demo,
     Advanced_Demo
     )
-from utils.gui.menu import gui_features_menu
+from utils.gui.menu import menu
 from utils.gui.footer import footer
 
 # Streamlit app
 def main():
     st.set_page_config(page_icon="app/assets/Images/OpenCV_Logo_with_text.png",
                        page_title="Mouse Events")
-    gui_features_menu()
+    menu()
     st.title("OpenCV Mouse Events 🖱️")
 
     st.markdown("## Goal")

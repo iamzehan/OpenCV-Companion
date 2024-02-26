@@ -1,6 +1,6 @@
 import streamlit as st
 import numpy as np
-from utils.gui.menu import gui_features_menu
+from utils.gui.menu import menu
 from utils.gui.footer import footer
 
 def trackbar(r, g, b, s):
@@ -14,7 +14,7 @@ def trackbar(r, g, b, s):
 def main():
     st.set_page_config(page_icon="app/assets/Images/OpenCV_Logo_with_text.png",
                        page_title="Track Bar 📊")
-    gui_features_menu()
+    menu()
     st.title("Goal")
     st.markdown("""
             - Learn to bind trackbar to OpenCV windows

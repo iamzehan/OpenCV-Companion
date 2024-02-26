@@ -1,6 +1,6 @@
 import streamlit as st
 from utils.gui.footer import footer
-from  utils.gui.menu import core_operations_menu
+from  utils.gui.menu import menu
 from utils.gui.images import PerformanceMeasurement
 def main():
     st.markdown("""
@@ -66,6 +66,6 @@ def main():
 if __name__ == '__main__':
     st.set_page_config(page_title="Performance Measurement & Improvement",
                        page_icon="app/assets/Images/OpenCV_Logo_with_text.png")
-    core_operations_menu()
+    menu()
     main()
     footer()

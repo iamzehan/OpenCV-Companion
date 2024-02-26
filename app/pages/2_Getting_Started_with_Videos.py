@@ -4,7 +4,7 @@ from utils.gui.videos import (
     Play_Video_from_File,
     Save_Video
 )
-from utils.gui.menu import gui_features_menu
+from utils.gui.menu import menu
 from utils.gui.footer import footer
 
 if __name__ == "__main__":
@@ -12,7 +12,7 @@ if __name__ == "__main__":
     st.set_page_config(page_icon="app/assets/Images/OpenCV_Logo_with_text.png",
                        page_title="Getting Started with Videos")
 
-    gui_features_menu()
+    menu()
     st.sidebar.subheader("Video Options")
     
     options = st.sidebar.selectbox("Select:", options=["Introduction",
