@@ -28,7 +28,8 @@ if __name__ == '__main__':
         arithmeticOps.side_bar(multiple=True)
         arithmeticOps.Image_Blending()
     if options == "Bitwise Operations":
-        pass
+        arithmeticOps.side_bar(multiple=True)
+        arithmeticOps.Bitwise_Operations()
 
     footer()
     

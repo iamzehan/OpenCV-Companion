@@ -59,3 +59,28 @@ def add_two_img(img1, img2, alpha=0.7, beta=0.3, gamma=0, blend=False):
         return cv.addWeighted(img1, alpha, img2, beta, gamma)
     else:
         return cv.add(img1,img2) 
+
+def bitwise_ops(img1, img2):
+    h, w, c = img1.shape
+    h, w = h//5, w//5
+    img2 = resize(img2, h, w)
+    rows,cols, channels = img2.shape
+    roi = img1[0:rows, 0:cols ]
+
+    # Now create a mask of logo and create its inverse mask also
+    img2gray = cv.cvtColor(img2,cv.COLOR_BGR2GRAY)
+    ret, mask = cv.threshold(img2gray, 10, 255, cv.THRESH_BINARY)
+    mask_inv = cv.bitwise_not(mask)
+
+    # Now black-out the area of logo in ROI
+    img1_bg = cv.bitwise_and(roi, roi, mask = mask_inv)
+
+    # Take only region of logo from logo image.
+    img2_fg = cv.bitwise_and(img2, img2, mask = mask)
+
+    # Put logo in ROI and modify the main image
+    dst = cv.add(img1_bg,img2_fg)
+    img1[0:rows, 0:cols ] = dst
+    
+    return img1
+

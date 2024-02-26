@@ -11,7 +11,8 @@ from utils.opencv.images import (
     split_channels,
     merge_channels,
     make_borders,
-    add_two_img
+    add_two_img,
+    bitwise_ops
     )
 
 # Getting Started with Images (Page - 2)
@@ -529,8 +530,8 @@ class ArithmeticOperations(CommonComponents):
         self.img_file1, self.img_file2 = None, None
         self.img_file_name1, self.img_file_name2 = 'ml.png', \
                                                     'OpenCV_Logo_with_text.png'
-        self.img1, self.img2 = read_image('app/assets/Images/ml.png'),\
-                                read_image('app/assets/Images/OpenCV_Logo_with_text.png')
+        self.img1, self.img2 = read_image(f'app/assets/Images/{self.img_file_name1}'),\
+                                read_image(f'app/assets/Images/{self.img_file_name2}')
 
     def Image_Addition(self):
         st.markdown("""
@@ -683,4 +684,73 @@ class ArithmeticOperations(CommonComponents):
                 st.info("Example ouput")
                 show_code(self.img_file_name1, self.img_file_name2)
                 st.info("Example Code")
+    
+    def Bitwise_Operations(self):
+        
+        def show_image(img1, img2):
+            st.subheader("Output")
+            st.image(bitwise_ops(img1, img2), channels='BGR', use_column_width=True)
+        
+        def show_code(img_file_name1, img_file_name2):
+            st.subheader("Code")
+            st.code(f"""
+                # Load two images
+                img1 = cv2.imread('{img_file_name1}')
+                img2 = cv2.imread('{img_file_name2}')
+
+                # I want to put logo on top-left corner, So I create a ROI
+                rows,cols,channels = img2.shape
+                roi = img1[0:rows, 0:cols ]
+
+                # Now create a mask of logo and create its inverse mask also
+                img2gray = cv2.cvtColor(img2,cv2.COLOR_BGR2GRAY)
+                ret, mask = cv2.threshold(img2gray, 10, 255, cv2.THRESH_BINARY)
+                mask_inv = cv2.bitwise_not(mask)
+
+                # Now black-out the area of logo in ROI
+                img1_bg = cv2.bitwise_and(roi,roi,mask = mask_inv)
+
+                # Take only region of logo from logo image.
+                img2_fg = cv2.bitwise_and(img2,img2,mask = mask)
+
+                # Put logo in ROI and modify the main image
+                dst = cv2.add(img1_bg,img2_fg)
+                img1[0:rows, 0:cols ] = dst
+
+                cv2.imshow('res',img1)
+                cv2.waitKey(0)
+                cv2.destroyAllWindows()
+                """)
             
+        st.markdown("""
+                    ## Bitwise Operations
+                    This includes bitwise AND, OR, NOT and XOR operations. 
+                    They will be highly useful while extracting any part 
+                    of the image (as we will see in coming chapters), 
+                    defining and working with non-rectangular ROI etc. 
+                    Below we will see an example on how to change a particular 
+                    region of an image.
+
+                    I want to put OpenCV logo above an image. 
+                    If I add two images, it will change color. 
+                    If I blend it, I get an transparent effect. 
+                    But I want it to be opaque. If it was a rectangular region,
+                    I could use ROI as we did in last chapter. But OpenCV logo 
+                    is a not a rectangular shape. So you can do it with bitwise 
+                    operations as below:
+                    
+                    """)
+        defaults = ['ml.png', 'OpenCV_Logo_with_text.png']
+        
+        with st.container(border=True):
+            if defaults != [self.img_file_name1, self.img_file_name2]:
+                show_image(self.img1, self.img2)
+                st.success("Your Output")
+                show_code(self.img_file_name1, self.img_file_name2)
+                st.success("Your code")
+            else:
+                show_image(self.img1, self.img2)
+                st.info("Example Ouput")
+                show_code(self.img_file_name1, self.img_file_name2)
+                st.info("Example Code")
+                
