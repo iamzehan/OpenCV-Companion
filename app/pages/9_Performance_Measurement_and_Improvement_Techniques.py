@@ -1,7 +1,7 @@
 import streamlit as st
 from utils.gui.footer import footer
 from  utils.gui.menu import core_operations_menu
-
+from utils.gui.images import PerformanceMeasurement
 def main():
     st.markdown("""
                 <center> 
@@ -10,6 +10,8 @@ def main():
                 </center>
                 
                 """, unsafe_allow_html=True)
+    
+    perfM = PerformanceMeasurement()
     
     options = st.sidebar.selectbox("Select: ", options=['Introduction',
                                                 'Measuring Performance with OpenCV',
@@ -46,6 +48,8 @@ def main():
 
     elif options == "Measuring Performance with OpenCV":
         st.subheader("Measuring Performance with OpenCV")
+        perfM.side_bar()
+        perfM.Measuring_Performance()
        
     elif options == "Default Optimization":
         st.subheader("Default Optimization")
