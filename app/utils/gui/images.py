@@ -756,7 +756,11 @@ class ArithmeticOperations(CommonComponents):
                 st.info("Example Code")
 
 class PerformanceMeasurement(CommonComponents):
-    
+    def __init__(self):
+        self.img = read_image(f"app/assets/Images/messi5.jpg")
+        self.img_file=None
+        self.img_file_name = 'messi5.jpg'
+        
     def Measuring_Performance(self):
         st.markdown("""
                     `cv2.getTickCount` function returns the number of clock-cycles after
