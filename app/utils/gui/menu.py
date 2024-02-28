@@ -20,7 +20,10 @@ def menu():
             st.page_link("pages/4_Mouse_Events.py", label = "Mouse Events")
             st.page_link("pages/5_Trackbar.py", label = "Trackbar")
     
+    def image_processing_menu():
+        st.sidebar.page_link("pages/11_Image_Processing_in_OpenCV.py", label="Image Processing")
+    
     st.sidebar.page_link('Getting_Started_with_OpenCV.py', label="Getting Started")
     gui_features_menu()
     core_operations_menu()
-
+    image_processing_menu()
