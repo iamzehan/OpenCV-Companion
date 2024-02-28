@@ -1,4 +1,5 @@
 import streamlit as st 
+import time
 from utils.gui.menu import menu
 from utils.gui.footer import footer
 
@@ -107,13 +108,15 @@ def main():
     
     for i in range(len(pages)):
         with st.container(border=True):
-            link, label, image, description= pages[i]['link'], pages[i]['label'], pages[i]['image'], pages[i]['description']
-            st.page_link("pages/11_Image_Processing_in_OpenCV.py", label=f"{i+1} . **{label}**", use_container_width=True)
-            col1, col2, col3 = st.columns([2,8,2])
-            col1.image(f"{image}")
-            col2.markdown(f"{description}")
-            col3.page_link(f"pages/11_Image_Processing_in_OpenCV.py", label="**Learn**➡️", use_container_width=True)
-
+            with st.spinner("Please wait.."):
+                time.sleep(0.2)
+                link, label, image, description= pages[i]['link'], pages[i]['label'], pages[i]['image'], pages[i]['description']
+                st.page_link("pages/11_Image_Processing_in_OpenCV.py", label=f"{i+1} . **{label}**", use_container_width=True)
+                col1, col2, col3 = st.columns([2,8,2])
+                col1.image(f"{image}", use_column_width=True)
+                col2.markdown(f"{description}")
+                col3.page_link(f"pages/11_Image_Processing_in_OpenCV.py", label="**Learn**➡️", use_container_width=True)
+                
 if __name__ == '__main__':
     st.set_page_config(page_title='Image Processing in OpenCV', page_icon='app/assets/Images/OpenCV_Logo_with_text.png')
     menu()
