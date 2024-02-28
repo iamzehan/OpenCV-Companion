@@ -5,7 +5,7 @@ from utils.gui.footer import footer
 
 def main():
     pages = [{
-        "link":"",
+        "link":"pages/12_Changing_Color_Spaces.py",
         "label":"Changing Colorspaces",
         "image":"https://opencv24-python-tutorials.readthedocs.io/en/latest/_images/colorspace.jpg",
         "description":"Learn to change images between different color spaces. Plus learn to track a colored object in a video."
@@ -111,7 +111,10 @@ def main():
             with st.spinner("Please wait.."):
                 time.sleep(0.2)
                 link, label, image, description= pages[i]['link'], pages[i]['label'], pages[i]['image'], pages[i]['description']
-                st.page_link("pages/11_Image_Processing_in_OpenCV.py", label=f"{i+1} . **{label}**", use_container_width=True)
+                if link:
+                    st.page_link(f"{link}", label=f"{i+1} . **{label}**", use_container_width=True)
+                else:
+                    st.page_link("pages/11_Image_Processing_in_OpenCV.py", label=f"{i+1} . **{label}**", use_container_width=True)
                 col1, col2, col3 = st.columns([2,8,2])
                 col1.image(f"{image}", use_column_width=True)
                 col2.markdown(f"{description}")
