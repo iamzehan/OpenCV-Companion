@@ -22,8 +22,27 @@ def menu():
     
     def image_processing_menu():
         st.sidebar.page_link("pages/11_Image_Processing_in_OpenCV.py", label="Image Processing")
+        col1, col2 = st.sidebar.columns([1,11])
+        with col2:    
+            st.page_link("pages/12_Changing_Color_Spaces.py", label = "Changing Colorspaces")
+            st.page_link("pages/11_Image_Processing_in_OpenCV.py", label = "Image Thresholding")
+            st.page_link("pages/11_Image_Processing_in_OpenCV.py", label = "Smoothing Images")
+            st.page_link("pages/11_Image_Processing_in_OpenCV.py", label = "Geometric Transformations of Images")
+            st.page_link("pages/11_Image_Processing_in_OpenCV.py", label = "Morphological Transformations")
+            st.page_link("pages/11_Image_Processing_in_OpenCV.py", label = "Image Gradients")
+            st.page_link("pages/11_Image_Processing_in_OpenCV.py", label = "Canny Edge Detection")
+            st.page_link("pages/11_Image_Processing_in_OpenCV.py", label = "Image Pyramids")
+            st.page_link("pages/11_Image_Processing_in_OpenCV.py", label = "Contours in OpenCV")
+            st.page_link("pages/11_Image_Processing_in_OpenCV.py", label = "Histograms in OpenCV")
+            st.page_link("pages/11_Image_Processing_in_OpenCV.py", label = "Image Transforms in OpenCV")
+            st.page_link("pages/11_Image_Processing_in_OpenCV.py", label = "Template Matching")
+            st.page_link("pages/11_Image_Processing_in_OpenCV.py", label = "Hough Line Transform")
+            st.page_link("pages/11_Image_Processing_in_OpenCV.py", label = "Hough Circle Transform")
+            st.page_link("pages/11_Image_Processing_in_OpenCV.py", label = "Image Segmentation with Watershed Algorithm")
+            st.page_link("pages/11_Image_Processing_in_OpenCV.py", label = "Interactive Foreground Extraction using GrabCut Algorithm")
     
     st.sidebar.page_link('Getting_Started_with_OpenCV.py', label="Getting Started")
     gui_features_menu()
     core_operations_menu()
     image_processing_menu()
+
