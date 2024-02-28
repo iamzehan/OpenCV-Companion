@@ -63,9 +63,11 @@ def main():
         
     elif options == "More IPython magic Commands":
         st.subheader("More IPython magic Commands")
+        perfM.Ipython_Magic_Commands()
         
     elif options == "Performance Optimization Techniques":
         st.subheader("Performance Optimization Techniques")
+        perfM.Performance_Optimization_Techniques()
         
 if __name__ == '__main__':
     st.set_page_config(page_title="Performance Measurement & Improvement",
