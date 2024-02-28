@@ -1,6 +1,10 @@
 import cv2 as cv
 import numpy as np
 
+def blank_image(height, width, channel):
+    img = np.zeros((height, width, channel), np.uint8)
+    return img
+
 def read_image(path):
     img = cv.imread(path)
     return img
@@ -92,4 +96,27 @@ def performance_measure(img):
         t = (e2 - e1)/cv.getTickFrequency()
     return t
 
+def colorspace_flags():
+    flags = [i for i in dir(cv) if i.startswith('COLOR_')]
+    return flags
 
+def object_tracking(frame, colorspaces):
+    
+    # Convert BGR to HSV
+    hsv = cv.cvtColor(frame, cv.COLOR_BGR2HSV)
+
+    # define range of blue color in HSV
+    lower, upper = np.array(colorspaces[0]), np.array(colorspaces[1])
+
+    # Threshold the HSV image to get only blue colors
+    mask = cv.inRange(hsv, lower, upper)
+
+    # Bitwise-AND mask and original image
+    res = cv.bitwise_and(frame,frame, mask= mask)
+
+    return frame, mask, res
+
+def find_hsv_values(color):
+    color = np.uint8([[color]])
+    hsv = cv.cvtColor(color,cv.COLOR_BGR2HSV)
+    return hsv
