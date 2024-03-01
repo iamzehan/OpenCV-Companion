@@ -1,10 +1,13 @@
 import streamlit as st 
-from utils.gui import footer, menu
+from utils.gui import footer, menu, images
 
 def main():
     st.title("""
              Geometric Transformations on Images
              """)
+    
+    geoTrans = images.GeometricTransformations()
+    
     with st.sidebar.container(border=True):
         st.subheader("Topics")
         options = st.radio("Topics", options=['Introduction',
@@ -14,6 +17,7 @@ def main():
                                     'Affine Transformation',
                                     'Perspective Transformation'],
                            label_visibility='collapsed')
+        
     if options == 'Introduction':
         st.markdown("""
             ## Goals
@@ -28,18 +32,28 @@ def main():
 
     elif options == 'Scaling':
         st.markdown("## Scaling")
+        geoTrans.side_bar()
+        geoTrans.Scaling()
 
     elif options == 'Translation':
         st.markdown("## Translation")
+        geoTrans.side_bar()
+        geoTrans.Translation()
 
     elif options == 'Rotation':
         st.markdown("## Rotation")
+        geoTrans.side_bar()
+        geoTrans.Rotation()
 
     elif options == 'Affine Transformation':
         st.markdown("## Affine Transformation")
-
+        geoTrans.side_bar()
+        geoTrans.AffineTransformation()
+        
     elif options == 'Perspective Transformation':
         st.markdown("## Perspective Transformation")
+        geoTrans.side_bar()
+        geoTrans.PerspectiveTransform()
 
 if __name__ == '__main__':
     st.set_page_config("Geometric Transformations of Images", page_icon='app/assets/Images/OpenCV_Logo_with_text.png')
