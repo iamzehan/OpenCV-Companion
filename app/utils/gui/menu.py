@@ -45,4 +45,5 @@ def menu():
     gui_features_menu()
     core_operations_menu()
     image_processing_menu()
+    st.sidebar.divider()
 
