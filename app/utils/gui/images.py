@@ -410,7 +410,7 @@ class BasicOperations(CommonComponents):
                 """)
         with st.expander('Output', expanded=False):
             img[:, :, colors[color_ch]]=0
-            st.image(img, f"With Zero '{color_ch}'", use_column_width=True)
+            st.image(img, f"With Zero '{color_ch}'", channels='BGR', use_column_width=True)
         
         st.warning("""
                    **⚠️Warning**
@@ -978,16 +978,11 @@ class PerformanceMeasurement(CommonComponents):
         
 class ImageProcessing(CommonComponents):
     def __init__(self):
-            self.img = read_image("app/assets/Images/OpenCV_Logo_with_text.png") 
-            self.img_file=None
-            self.img_file_name = 'OpenCV_Logo_with_text.png'
-    
-class ChangingColorSpace(ImageProcessing):
-    
-    def __init__(self):
         self.img = read_image("app/assets/Images/OpenCV_Logo_with_text.png") 
         self.img_file=None
         self.img_file_name = 'OpenCV_Logo_with_text.png'
+    
+class ChangingColorSpace(ImageProcessing):
     
     def Changing_Colorspace(self):
         st.markdown("""
@@ -1183,3 +1178,4 @@ class ChangingColorSpace(ImageProcessing):
             cv.imshow('Expected Output', blank_image)
             cv.waitKey(0)
                 """)
+
