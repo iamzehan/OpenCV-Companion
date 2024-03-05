@@ -1424,4 +1424,16 @@ class GeometricTransformations(ImageProcessing):
             col1, col2 = st.columns(2)
             col1.image(self.img, caption="Input", channels="BGR")
             col2.image(perspective_transform(self.img, pts1), caption="Output", channels="BGR")
-            
+
+class ImageThresholding(ImageProcessing):
+    def __init__(self):
+        pass
+    
+    def Simple_Thresholding(self):
+        pass
+    
+    def Adaptive_Thresholding(self):
+        pass
+    
+    def Otsus_Binarization(self):
+        pass
