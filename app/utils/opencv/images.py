@@ -5,8 +5,11 @@ def blank_image(height, width, channel):
     img = np.zeros((height, width, channel), np.uint8)
     return img
 
-def read_image(path):
-    img = cv.imread(path)
+def read_image(path, grey=False):
+    if grey:
+        img = cv.imread(path, 0)
+    else:
+        img = cv.imread(path)
     return img
 
 def get_shape(img):
@@ -167,3 +170,13 @@ def perspective_transform(img, pts1=[[56,65],[368,52],[28,387],[389,390]]):
 
     dst = cv.warpPerspective(img,M,(300,300))
     return dst
+
+def simple_thresholding(img):
+    img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    ret,thresh1 = cv.threshold(img, 127, 255, cv.THRESH_BINARY)
+    ret,thresh2 = cv.threshold(img, 127, 255, cv.THRESH_BINARY_INV)
+    ret,thresh3 = cv.threshold(img, 127, 255, cv.THRESH_TRUNC)
+    ret,thresh4 = cv.threshold(img, 127, 255, cv.THRESH_TOZERO)
+    ret,thresh5 = cv.threshold(img, 127, 255, cv.THRESH_TOZERO_INV)
+    images = [img, thresh1, thresh2, thresh3, thresh4, thresh5]
+    return images
