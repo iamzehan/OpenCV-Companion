@@ -17,7 +17,8 @@ from utils.opencv.images import (
     performance_measure,
     colorspace_flags,
     object_tracking,
-    find_hsv_values
+    find_hsv_values,
+    scaling
     )
 
 # Getting Started with Images (Page - 2)
@@ -1199,8 +1200,20 @@ class GeometricTransformations(CommonComponents):
                     You can resize an input image either of following methods:
                     """)
         
-        # widgets here
-        # different interpolation methods
+        fx, fy = st.slider(label="fx", 
+                           min_value=1, 
+                           value=2, 
+                           max_value=5),\
+                st.slider(label="fy",
+                          min_value=1,
+                          value=2,
+                          max_value=5)
+                
+        interpolations = st.selectbox(label="Interpolations:", 
+                                      options=["INTER_CUBIC",
+                                                "INTER_AREA",
+                                                "INTER_LINEAR"])
+        
         
         st.code(f"""
                 import cv2
@@ -1208,15 +1221,17 @@ class GeometricTransformations(CommonComponents):
 
                 img = cv2.imread('{self.img_file_name}')
 
-                res = cv2.resize(img,None,fx=2, fy=2, interpolation = cv2.INTER_CUBIC)
+                res = cv2.resize(img,None,fx={fx}, fy={fy}, interpolation = cv2.{interpolations})
 
                 #OR
 
                 height, width = img.shape[:2]
-                res = cv2.resize(img,(2*width, 2*height), interpolation = cv2.INTER_CUBIC)
+                res = cv2.resize(img,({fx}*width, {fy}*height), interpolation = cv2.{interpolations})
                 """)
         
-        # Output here
+        #Output
+        with st.expander("Output"):
+            st.image(scaling(self.img, fx, fy, interpolations), channels="BGR", use_column_width=True, caption=f"Output: {interpolations}")
     
     def Translation(self):
         st.markdown("""

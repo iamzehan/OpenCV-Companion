@@ -120,3 +120,14 @@ def find_hsv_values(color):
     color = np.uint8([[color]])
     hsv = cv.cvtColor(color,cv.COLOR_BGR2HSV)
     return hsv
+
+def scaling(img, fx=2, fy=2, inter="INTER_CUBIC"):
+    
+    interpolations = {
+                    "INTER_CUBIC": cv.INTER_CUBIC,
+                    "INTER_AREA" :cv.INTER_AREA,
+                    "INTER_LINEAR": cv.INTER_LINEAR
+                      }
+    
+    res = cv.resize(img, None, fx=fx, fy=fy, interpolation = interpolations[inter])
+    return res
