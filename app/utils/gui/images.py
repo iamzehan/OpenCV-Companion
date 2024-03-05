@@ -1389,28 +1389,38 @@ class GeometricTransformations(CommonComponents):
 
                     See the code below:
                     """)
-        # widget here
+
         if not self.img_file:
             self.img=read_image("app/assets/Images/sudoku.jpg")
+        st.markdown("**pts1** values:")
         
-        st.code("""
-                img = cv2.imread('sudokusmall.png')
-                rows,cols,ch = img.shape
+        with st.container(border=True):
+            st.subheader("Parameters")
+            pt1 = st.slider("`1`", value=[56,65], max_value=500),\
+                st.slider("`2`", value =[368,52], max_value=500),\
+                    st.slider("`3`", value = [28, 387], max_value=500),\
+                    st.slider("`4`", value = [389,390], max_value = 500)
+            
+            pts1=[list(pt) for pt in pt1]
+            st.subheader("Code")
+            st.code(f"""
+                    img = cv2.imread('sudokusmall.png')
+                    rows,cols,ch = img.shape
 
-                pts1 = np.float32([[56,65],[368,52],[28,387],[389,390]])
-                pts2 = np.float32([[0,0],[300,0],[0,300],[300,300]])
+                    pts1 = np.float32({pts1})
+                    pts2 = np.float32([[0,0],[300,0],[0,300],[300,300]])
 
-                M = cv2.getPerspectiveTransform(pts1,pts2)
+                    M = cv2.getPerspectiveTransform(pts1,pts2)
 
-                dst = cv2.warpPerspective(img,M,(300,300))
+                    dst = cv2.warpPerspective(img,M,(300,300))
 
-                plt.subplot(121),plt.imshow(img),plt.title('Input')
-                plt.subplot(122),plt.imshow(dst),plt.title('Output')
-                plt.show()
-                """)
-        
-        # ouput here
-        st.subheader("Output")
-        col1, col2 = st.columns(2)
-        col1.image(self.img, caption="Input", channels="BGR")
-        col2.image(perspective_transform(self.img), caption="Output", channels="BGR")
+                    plt.subplot(121),plt.imshow(img),plt.title('Input')
+                    plt.subplot(122),plt.imshow(dst),plt.title('Output')
+                    plt.show()
+                    """)
+            
+            # ouput here
+            st.subheader("Output")
+            col1, col2 = st.columns(2)
+            col1.image(self.img, caption="Input", channels="BGR")
+            col2.image(perspective_transform(self.img, pts1), caption="Output", channels="BGR")

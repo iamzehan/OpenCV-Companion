@@ -157,10 +157,10 @@ def affine_transform(img):
     
     return dst
 
-def perspective_transform(img):
+def perspective_transform(img, pts1=[[56,65],[368,52],[28,387],[389,390]]):
     rows,cols,ch = img.shape
-
-    pts1 = np.float32([[56,65],[368,52],[28,387],[389,390]])
+    img = resize(img, 300, 300)
+    pts1 = np.float32(pts1)
     pts2 = np.float32([[0,0],[300,0],[0,300],[300,300]])
 
     M = cv.getPerspectiveTransform(pts1,pts2)
