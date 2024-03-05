@@ -18,7 +18,8 @@ from utils.opencv.images import (
     colorspace_flags,
     object_tracking,
     find_hsv_values,
-    scaling
+    scaling,
+    translation
     )
 
 # Getting Started with Images (Page - 2)
@@ -1200,39 +1201,41 @@ class GeometricTransformations(CommonComponents):
                     You can resize an input image either of following methods:
                     """)
         
-        fx, fy = st.slider(label="fx", 
-                           min_value=1, 
-                           value=2, 
-                           max_value=5),\
-                st.slider(label="fy",
-                          min_value=1,
-                          value=2,
-                          max_value=5)
-                
-        interpolations = st.selectbox(label="Interpolations:", 
-                                      options=["INTER_CUBIC",
-                                                "INTER_AREA",
-                                                "INTER_LINEAR"])
+        with st.container(border=True):
+            st.subheader("Parameters")
+            fx, fy = st.slider(label="fx", 
+                            min_value=1, 
+                            value=2, 
+                            max_value=5),\
+                    st.slider(label="fy",
+                            min_value=1,
+                            value=2,
+                            max_value=5)
+                    
+            interpolations = st.selectbox(label="Interpolations:", 
+                                        options=["INTER_CUBIC",
+                                                    "INTER_AREA",
+                                                    "INTER_LINEAR"])
         
+            st.subheader("Code")
+            st.code(f"""
+                    import cv2
+                    import numpy as np
+
+                    img = cv2.imread('{self.img_file_name}')
+
+                    res = cv2.resize(img,None,fx={fx}, fy={fy}, interpolation = cv2.{interpolations})
+
+                    #OR
+
+                    height, width = img.shape[:2]
+                    res = cv2.resize(img,({fx}*width, {fy}*height), interpolation = cv2.{interpolations})
+                    """)
+            st.subheader("Output")
+            st.image(scaling(self.img, fx, fy, interpolations), 
+                         channels="BGR", use_column_width=True, 
+                         caption=f"Output: {interpolations}")
         
-        st.code(f"""
-                import cv2
-                import numpy as np
-
-                img = cv2.imread('{self.img_file_name}')
-
-                res = cv2.resize(img,None,fx={fx}, fy={fy}, interpolation = cv2.{interpolations})
-
-                #OR
-
-                height, width = img.shape[:2]
-                res = cv2.resize(img,({fx}*width, {fy}*height), interpolation = cv2.{interpolations})
-                """)
-        
-        #Output
-        with st.expander("Output"):
-            st.image(scaling(self.img, fx, fy, interpolations), channels="BGR", use_column_width=True, caption=f"Output: {interpolations}")
-    
     def Translation(self):
         st.markdown("""
                     Translation is the shifting of object’s location. 
@@ -1250,31 +1253,40 @@ class GeometricTransformations(CommonComponents):
                     See below example for a shift of `(100,50)`:
                     """)
         
-        st.code(f"""
-                import cv2
-                import numpy as np
+        with st.container(border=True):
+            st.subheader("Parameters")
+            shift=st.slider("Shift: ", min_value=10, step=10, value=50, max_value=90)
+            st.subheader("Code")
+            st.code(f"""
+                    import cv2
+                    import numpy as np
 
-                img = cv2.imread('{self.img_file_name}',0)
-                rows,cols = img.shape
+                    img = cv2.imread('{self.img_file_name}',0)
+                    rows,cols = img.shape
 
-                M = np.float32([[1,0,100],[0,1,50]])
-                dst = cv2.warpAffine(img,M,(cols,rows))
+                    M = np.float32([[1,0,100],[0,1,{shift}]])
+                    dst = cv2.warpAffine(img,M,(cols,rows))
 
-                cv2.imshow('img',dst)
-                cv2.waitKey(0)
-                cv2.destroyAllWindows()
-                """)
-        
-        st.warning("""
-                   ⚠️ **Warning**
-                   > Third argument of the `cv2.warpAffine()` function is the size of 
-                   the output image, which should be in the form of **(width, height)**. 
-                   Remember width = number of columns, and height = number of rows.
-                   """)
-        
-        st.markdown("See the result below:")
-        
-        # output here
+                    cv2.imshow('img',dst)
+                    cv2.waitKey(0)
+                    cv2.destroyAllWindows()
+                    """)
+            
+            st.warning("""
+                    ⚠️ **Warning**
+                    > Third argument of the `cv2.warpAffine()` function is the size of 
+                    the output image, which should be in the form of **(width, height)**. 
+                    Remember width = number of columns, and height = number of rows.
+                    """)
+            
+            st.markdown("See the result below:")
+            
+            # output
+            st.subheader("Output")
+            col1, col2 = st.columns(2)
+            col1.image(self.img, channels="BGR", caption = 'Original')
+            col2.image(translation(self.img, shift), channels='BGR', caption="img")
+            
         
     def Rotation(self):
         st.markdown("""

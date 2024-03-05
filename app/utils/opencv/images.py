@@ -131,3 +131,9 @@ def scaling(img, fx=2, fy=2, inter="INTER_CUBIC"):
     
     res = cv.resize(img, None, fx=fx, fy=fy, interpolation = interpolations[inter])
     return res
+
+def translation(img, shift:int):
+    rows,cols,_ = img.shape
+    M = np.float32([[1,0,100],[0,1,shift]])
+    dst = cv.warpAffine(img,M,(cols,rows))
+    return dst
