@@ -1184,7 +1184,7 @@ class ChangingColorSpace(ImageProcessing):
             cv.waitKey(0)
                 """)
 
-class GeometricTransformations(CommonComponents):
+class GeometricTransformations(ImageProcessing):
     
     def __init__(self):
         self.img = read_image(f"app/assets/Images/messi5.jpg")
@@ -1424,3 +1424,4 @@ class GeometricTransformations(CommonComponents):
             col1, col2 = st.columns(2)
             col1.image(self.img, caption="Input", channels="BGR")
             col2.image(perspective_transform(self.img, pts1), caption="Output", channels="BGR")
+            
