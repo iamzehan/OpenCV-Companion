@@ -144,3 +144,15 @@ def rotation(img, rotaion):
     M = cv.getRotationMatrix2D((cols/2,rows/2), rotaion, 1)
     dst = cv.warpAffine(img,M,(cols,rows))
     return dst
+
+def affine_transform(img):
+    rows,cols,ch = img.shape
+
+    pts1 = np.float32([[50,50],[200,50],[50,200]])
+    pts2 = np.float32([[10,100],[200,50],[100,250]])
+
+    M = cv.getAffineTransform(pts1,pts2)
+
+    dst = cv.warpAffine(img,M,(cols,rows))
+    
+    return dst

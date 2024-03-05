@@ -20,7 +20,8 @@ from utils.opencv.images import (
     find_hsv_values,
     scaling,
     translation,
-    rotation
+    rotation,
+    affine_transform
     )
 
 # Getting Started with Images (Page - 2)
@@ -1352,29 +1353,29 @@ class GeometricTransformations(CommonComponents):
                     Check below example, and also look at the points I selected 
                     (which are marked in Green color):
                     """)
-        
-        # widgets here
-        
-        st.code("""
-                img = cv2.imread('drawing.png')
-                rows,cols,ch = img.shape
+        with st.container(border=True):
+            st.subheader("Code")
+            st.code(f"""
+                    img = cv2.imread('{self.img_file_name}')
+                    rows,cols,ch = img.shape
 
-                pts1 = np.float32([[50,50],[200,50],[50,200]])
-                pts2 = np.float32([[10,100],[200,50],[100,250]])
+                    pts1 = np.float32([[50,50],[200,50],[50,200]])
+                    pts2 = np.float32([[10,100],[200,50],[100,250]])
 
-                M = cv2.getAffineTransform(pts1,pts2)
+                    M = cv2.getAffineTransform(pts1,pts2)
 
-                dst = cv2.warpAffine(img,M,(cols,rows))
+                    dst = cv2.warpAffine(img,M,(cols,rows))
 
-                plt.subplot(121),plt.imshow(img),plt.title('Input')
-                plt.subplot(122),plt.imshow(dst),plt.title('Output')
-                plt.show()
-                """)
-        
-        st.write("See the result: ")
-        
-        # Output here
-        
+                    plt.subplot(121),plt.imshow(img),plt.title('Input')
+                    plt.subplot(122),plt.imshow(dst),plt.title('Output')
+                    plt.show()
+                    """)
+            
+            st.subheader("Output")
+            col1, col2 = st.columns(2)
+            col1.image( self.img, channels="BGR", caption="Input", use_column_width=True)
+            col2.image(affine_transform(self.img), channels="BGR", caption="Output", use_column_width=True)
+    
     def PerspectiveTransform(self):
         st.markdown("""
                     For perspective transformation, you need a 3x3 transformation matrix.
@@ -1406,3 +1407,4 @@ class GeometricTransformations(CommonComponents):
                 """)
         
         # ouput here
+    
