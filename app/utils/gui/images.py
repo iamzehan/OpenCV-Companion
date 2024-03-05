@@ -17,7 +17,12 @@ from utils.opencv.images import (
     performance_measure,
     colorspace_flags,
     object_tracking,
-    find_hsv_values
+    find_hsv_values,
+    scaling,
+    translation,
+    rotation,
+    affine_transform,
+    perspective_transform
     )
 
 # Getting Started with Images (Page - 2)
@@ -1199,25 +1204,41 @@ class GeometricTransformations(CommonComponents):
                     You can resize an input image either of following methods:
                     """)
         
-        # widgets here
-        # different interpolation methods
+        with st.container(border=True):
+            st.subheader("Parameters")
+            fx, fy = st.slider(label="fx", 
+                            min_value=1, 
+                            value=2, 
+                            max_value=5),\
+                    st.slider(label="fy",
+                            min_value=1,
+                            value=2,
+                            max_value=5)
+                    
+            interpolations = st.selectbox(label="Interpolations:", 
+                                        options=["INTER_CUBIC",
+                                                    "INTER_AREA",
+                                                    "INTER_LINEAR"])
         
-        st.code(f"""
-                import cv2
-                import numpy as np
+            st.subheader("Code")
+            st.code(f"""
+                    import cv2
+                    import numpy as np
 
-                img = cv2.imread('{self.img_file_name}')
+                    img = cv2.imread('{self.img_file_name}')
 
-                res = cv2.resize(img,None,fx=2, fy=2, interpolation = cv2.INTER_CUBIC)
+                    res = cv2.resize(img,None,fx={fx}, fy={fy}, interpolation = cv2.{interpolations})
 
-                #OR
+                    #OR
 
-                height, width = img.shape[:2]
-                res = cv2.resize(img,(2*width, 2*height), interpolation = cv2.INTER_CUBIC)
-                """)
+                    height, width = img.shape[:2]
+                    res = cv2.resize(img,({fx}*width, {fy}*height), interpolation = cv2.{interpolations})
+                    """)
+            st.subheader("Output")
+            st.image(scaling(self.img, fx, fy, interpolations), 
+                         channels="BGR", use_column_width=True, 
+                         caption=f"Output: {interpolations}")
         
-        # Output here
-    
     def Translation(self):
         st.markdown("""
                     Translation is the shifting of object’s location. 
@@ -1235,31 +1256,40 @@ class GeometricTransformations(CommonComponents):
                     See below example for a shift of `(100,50)`:
                     """)
         
-        st.code(f"""
-                import cv2
-                import numpy as np
+        with st.container(border=True):
+            st.subheader("Parameters")
+            shift=st.slider("Shift: ", min_value=10, step=10, value=50, max_value=90)
+            st.subheader("Code")
+            st.code(f"""
+                    import cv2
+                    import numpy as np
 
-                img = cv2.imread('{self.img_file_name}',0)
-                rows,cols = img.shape
+                    img = cv2.imread('{self.img_file_name}',0)
+                    rows,cols = img.shape
 
-                M = np.float32([[1,0,100],[0,1,50]])
-                dst = cv2.warpAffine(img,M,(cols,rows))
+                    M = np.float32([[1,0,100],[0,1,{shift}]])
+                    dst = cv2.warpAffine(img,M,(cols,rows))
 
-                cv2.imshow('img',dst)
-                cv2.waitKey(0)
-                cv2.destroyAllWindows()
-                """)
-        
-        st.warning("""
-                   ⚠️ **Warning**
-                   > Third argument of the `cv2.warpAffine()` function is the size of 
-                   the output image, which should be in the form of **(width, height)**. 
-                   Remember width = number of columns, and height = number of rows.
-                   """)
-        
-        st.markdown("See the result below:")
-        
-        # output here
+                    cv2.imshow('img',dst)
+                    cv2.waitKey(0)
+                    cv2.destroyAllWindows()
+                    """)
+            
+            st.warning("""
+                    ⚠️ **Warning**
+                    > Third argument of the `cv2.warpAffine()` function is the size of 
+                    the output image, which should be in the form of **(width, height)**. 
+                    Remember width = number of columns, and height = number of rows.
+                    """)
+            
+            st.markdown("See the result below:")
+            
+            # output
+            st.subheader("Output")
+            col1, col2 = st.columns(2)
+            col1.image(self.img, channels="BGR", caption = 'Original')
+            col2.image(translation(self.img, shift), channels='BGR', caption="img")
+            
         
     def Rotation(self):
         st.markdown("""
@@ -1295,16 +1325,22 @@ class GeometricTransformations(CommonComponents):
                     90 degree with respect to center without any scaling.
                     """)
         # widgets here
-        
-        st.code(f"""
-                img = cv2.imread('{self.img_file_name}',0)
-                rows,cols = img.shape
+        with st.container(border=True):
+            st.subheader("Parameters")
+            rotate = st.slider("Rotation in degree: ", min_value=0, step=10, value=90, max_value=360)
+            st.subheader("Code")
+            st.code(f"""
+                    img = cv2.imread('{self.img_file_name}',0)
+                    rows,cols = img.shape
 
-                M = cv2.getRotationMatrix2D((cols/2,rows/2),90,1)
-                dst = cv2.warpAffine(img,M,(cols,rows))
-                """)
-        
-        # outputs here
+                    M = cv2.getRotationMatrix2D((cols/2,rows/2),{rotate},1)
+                    dst = cv2.warpAffine(img,M,(cols,rows))
+                    """)
+            
+            # outputs here
+            st.subheader("Output")
+            st.image(rotation(self.img, rotate), channels="BGR",
+                     caption="Rotaion", use_column_width=True)
     
     def AffineTransformation(self):
         st.markdown("""
@@ -1318,29 +1354,29 @@ class GeometricTransformations(CommonComponents):
                     Check below example, and also look at the points I selected 
                     (which are marked in Green color):
                     """)
-        
-        # widgets here
-        
-        st.code("""
-                img = cv2.imread('drawing.png')
-                rows,cols,ch = img.shape
+        with st.container(border=True):
+            st.subheader("Code")
+            st.code(f"""
+                    img = cv2.imread('{self.img_file_name}')
+                    rows,cols,ch = img.shape
 
-                pts1 = np.float32([[50,50],[200,50],[50,200]])
-                pts2 = np.float32([[10,100],[200,50],[100,250]])
+                    pts1 = np.float32([[50,50],[200,50],[50,200]])
+                    pts2 = np.float32([[10,100],[200,50],[100,250]])
 
-                M = cv2.getAffineTransform(pts1,pts2)
+                    M = cv2.getAffineTransform(pts1,pts2)
 
-                dst = cv2.warpAffine(img,M,(cols,rows))
+                    dst = cv2.warpAffine(img,M,(cols,rows))
 
-                plt.subplot(121),plt.imshow(img),plt.title('Input')
-                plt.subplot(122),plt.imshow(dst),plt.title('Output')
-                plt.show()
-                """)
-        
-        st.write("See the result: ")
-        
-        # Output here
-        
+                    plt.subplot(121),plt.imshow(img),plt.title('Input')
+                    plt.subplot(122),plt.imshow(dst),plt.title('Output')
+                    plt.show()
+                    """)
+            
+            st.subheader("Output")
+            col1, col2 = st.columns(2)
+            col1.image( self.img, channels="BGR", caption="Input", use_column_width=True)
+            col2.image(affine_transform(self.img), channels="BGR", caption="Output", use_column_width=True)
+    
     def PerspectiveTransform(self):
         st.markdown("""
                     For perspective transformation, you need a 3x3 transformation matrix.
@@ -1354,6 +1390,8 @@ class GeometricTransformations(CommonComponents):
                     See the code below:
                     """)
         # widget here
+        if not self.img_file:
+            self.img=read_image("app/assets/Images/sudoku.jpg")
         
         st.code("""
                 img = cv2.imread('sudokusmall.png')
@@ -1372,3 +1410,7 @@ class GeometricTransformations(CommonComponents):
                 """)
         
         # ouput here
+        st.subheader("Output")
+        col1, col2 = st.columns(2)
+        col1.image(self.img, caption="Input", channels="BGR")
+        col2.image(perspective_transform(self.img), caption="Output", channels="BGR")

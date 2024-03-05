@@ -120,3 +120,50 @@ def find_hsv_values(color):
     color = np.uint8([[color]])
     hsv = cv.cvtColor(color,cv.COLOR_BGR2HSV)
     return hsv
+
+def scaling(img, fx=2, fy=2, inter="INTER_CUBIC"):
+    
+    interpolations = {
+                    "INTER_CUBIC": cv.INTER_CUBIC,
+                    "INTER_AREA" :cv.INTER_AREA,
+                    "INTER_LINEAR": cv.INTER_LINEAR
+                      }
+    
+    res = cv.resize(img, None, fx=fx, fy=fy, interpolation = interpolations[inter])
+    return res
+
+def translation(img, shift:int):
+    rows,cols,_ = img.shape
+    M = np.float32([[1,0,100],[0,1,shift]])
+    dst = cv.warpAffine(img,M,(cols,rows))
+    return dst
+
+def rotation(img, rotaion):
+    rows,cols, _= img.shape
+
+    M = cv.getRotationMatrix2D((cols/2,rows/2), rotaion, 1)
+    dst = cv.warpAffine(img,M,(cols,rows))
+    return dst
+
+def affine_transform(img):
+    rows,cols,ch = img.shape
+
+    pts1 = np.float32([[50,50],[200,50],[50,200]])
+    pts2 = np.float32([[10,100],[200,50],[100,250]])
+
+    M = cv.getAffineTransform(pts1,pts2)
+
+    dst = cv.warpAffine(img,M,(cols,rows))
+    
+    return dst
+
+def perspective_transform(img):
+    rows,cols,ch = img.shape
+
+    pts1 = np.float32([[56,65],[368,52],[28,387],[389,390]])
+    pts2 = np.float32([[0,0],[300,0],[0,300],[300,300]])
+
+    M = cv.getPerspectiveTransform(pts1,pts2)
+
+    dst = cv.warpPerspective(img,M,(300,300))
+    return dst
