@@ -21,7 +21,8 @@ from utils.opencv.images import (
     scaling,
     translation,
     rotation,
-    affine_transform
+    affine_transform,
+    perspective_transform
     )
 
 # Getting Started with Images (Page - 2)
@@ -1389,6 +1390,8 @@ class GeometricTransformations(CommonComponents):
                     See the code below:
                     """)
         # widget here
+        if not self.img_file:
+            self.img=read_image("app/assets/Images/sudoku.jpg")
         
         st.code("""
                 img = cv2.imread('sudokusmall.png')
@@ -1407,4 +1410,7 @@ class GeometricTransformations(CommonComponents):
                 """)
         
         # ouput here
-    
+        st.subheader("Output")
+        col1, col2 = st.columns(2)
+        col1.image(self.img, caption="Input", channels="BGR")
+        col2.image(perspective_transform(self.img), caption="Output", channels="BGR")
