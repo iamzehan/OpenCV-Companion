@@ -11,22 +11,29 @@ def main():
     # Select box for choosing the thresholding method
     with st.sidebar.container(border=True):
         st.subheader("Topics")
-        selected_option = st.radio("Select Thresholding Method", 
-                                        ["Simple Thresholding", 
-                                            "Adaptive Thresholding", 
-                                            "Otsu's Binarization"],
+        options = st.radio("Select Thresholding Method", 
+                                        ["Introduction",
+                                         "Simple Thresholding", 
+                                        "Adaptive Thresholding", 
+                                        "Otsu's Binarization"],
                                         label_visibility="collapsed")
 
-    # Call the corresponding function based on the selected option
-    if selected_option == "Simple Thresholding":
+    if options == "Introduction":
+        st.subheader("Goal")
+        st.markdown("""
+                    - In this tutorial, you will learn Simple thresholding, Adaptive thresholding, 
+                    Otsu’s thresholding etc.
+                    - You will learn these functions : `cv2.threshold`, `cv2.adaptiveThreshold` etc.
+                    """)
+    if options == "Simple Thresholding":
         st.subheader("Simple Thresholding")
         image_thresholding.Simple_Thresholding()
         
-    elif selected_option == "Adaptive Thresholding":
+    elif options == "Adaptive Thresholding":
         st.subheader("Adaptive Thresholding")
         image_thresholding.Adaptive_Thresholding()
         
-    elif selected_option == "Otsu's Binarization":
+    elif options == "Otsu's Binarization":
         st.subheader("Otsu's Binarization")
         image_thresholding.Otsus_Binarization()
 
