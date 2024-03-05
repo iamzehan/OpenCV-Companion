@@ -137,3 +137,10 @@ def translation(img, shift:int):
     M = np.float32([[1,0,100],[0,1,shift]])
     dst = cv.warpAffine(img,M,(cols,rows))
     return dst
+
+def rotation(img, rotaion):
+    rows,cols, _= img.shape
+
+    M = cv.getRotationMatrix2D((cols/2,rows/2), rotaion, 1)
+    dst = cv.warpAffine(img,M,(cols,rows))
+    return dst

@@ -19,7 +19,8 @@ from utils.opencv.images import (
     object_tracking,
     find_hsv_values,
     scaling,
-    translation
+    translation,
+    rotation
     )
 
 # Getting Started with Images (Page - 2)
@@ -1322,16 +1323,22 @@ class GeometricTransformations(CommonComponents):
                     90 degree with respect to center without any scaling.
                     """)
         # widgets here
-        
-        st.code(f"""
-                img = cv2.imread('{self.img_file_name}',0)
-                rows,cols = img.shape
+        with st.container(border=True):
+            st.subheader("Parameters")
+            rotate = st.slider("Rotation in degree: ", min_value=0, step=10, value=90, max_value=360)
+            st.subheader("Code")
+            st.code(f"""
+                    img = cv2.imread('{self.img_file_name}',0)
+                    rows,cols = img.shape
 
-                M = cv2.getRotationMatrix2D((cols/2,rows/2),90,1)
-                dst = cv2.warpAffine(img,M,(cols,rows))
-                """)
-        
-        # outputs here
+                    M = cv2.getRotationMatrix2D((cols/2,rows/2),{rotate},1)
+                    dst = cv2.warpAffine(img,M,(cols,rows))
+                    """)
+            
+            # outputs here
+            st.subheader("Output")
+            st.image(rotation(self.img, rotate), channels="BGR",
+                     caption="Rotaion", use_column_width=True)
     
     def AffineTransformation(self):
         st.markdown("""
