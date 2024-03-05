@@ -1427,10 +1427,6 @@ class GeometricTransformations(ImageProcessing):
             col2.image(perspective_transform(self.img, pts1), caption="Output", channels="BGR")
 
 class ImageThresholding(ImageProcessing):    
-    def __init__(self):
-        self.img = read_image("app/assets/Images/OpenCV_Logo_with_text.png") 
-        self.img_file=None
-        self.img_file_name = 'OpenCV_Logo_with_text.png'
         
     def Simple_Thresholding(self):
         st.markdown("""
@@ -1448,12 +1444,12 @@ class ImageThresholding(ImageProcessing):
                     """)
         
         st.subheader("Code")
-        st.code("""
+        st.code(f"""
                     import cv2
                     import numpy as np
                     from matplotlib import pyplot as plt
 
-                    img = cv2.imread('gradient.png',0)
+                    img = cv2.imread('{self.img_file_name}',0)
                     ret,thresh1 = cv2.threshold(img,127,255,cv2.THRESH_BINARY)
                     ret,thresh2 = cv2.threshold(img,127,255,cv2.THRESH_BINARY_INV)
                     ret,thresh3 = cv2.threshold(img,127,255,cv2.THRESH_TRUNC)
@@ -1470,18 +1466,26 @@ class ImageThresholding(ImageProcessing):
 
                     plt.show()
                 """)
+        st.info("""
+                ⚠️ Note
+
+                > To plot multiple images, we have used `plt.subplot()` function. 
+                Please checkout [Matplotlib docs](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.subplots.html) for more details.
+                """)
         
-        titles = ['Original Image', 'BINARY', 'BINARY_INV', 'TRUNC', 'TOZERO', 'TOZERO_INV']
-        images = simple_thresholding(self.img)
+        st.subheader("Output")
+        with st.container(border=True):
+            titles = ['Original Image', 'BINARY', 'BINARY_INV', 'TRUNC', 'TOZERO', 'TOZERO_INV']
+            images = simple_thresholding(self.img)
 
-        num_columns = 3
-        num_rows = len(titles) // num_columns
+            num_columns = 3
+            num_rows = len(titles) // num_columns
 
-        for row in range(num_rows):
-            columns = st.columns(num_columns)
-            for col in range(num_columns):
-                index = row * num_columns + col
-                columns[col].image(images[index], caption=titles[index])
+            for row in range(num_rows):
+                columns = st.columns(num_columns)
+                for col in range(num_columns):
+                    index = row * num_columns + col
+                    columns[col].image(images[index], caption=titles[index])
 
 
         
