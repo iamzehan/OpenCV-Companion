@@ -1298,8 +1298,9 @@ class GeometricTransformations(ImageProcessing):
             # output
             st.subheader("Output")
             col1, col2 = st.columns(2)
-            col1.image(self.img, channels="BGR", caption = 'Original')
-            col2.image(translation(self.img, shift), channels='BGR', caption="img")
+            img, dst = translation(self.img, shift)
+            col1.image(img, caption = 'Original', use_column_width=True)
+            col2.image(dst, caption="img", use_column_width=True)
             
         
     def Rotation(self):
@@ -1350,7 +1351,7 @@ class GeometricTransformations(ImageProcessing):
             
             # outputs here
             st.subheader("Output")
-            st.image(rotation(self.img, rotate), channels="BGR",
+            st.image(rotation(self.img, rotate),
                      caption="Rotaion", use_column_width=True)
     
     def AffineTransformation(self):

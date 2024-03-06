@@ -136,13 +136,15 @@ def scaling(img, fx=2, fy=2, inter="INTER_CUBIC"):
     return res
 
 def translation(img, shift:int):
-    rows,cols,_ = img.shape
+    img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    rows,cols = img.shape
     M = np.float32([[1,0,100],[0,1,shift]])
     dst = cv.warpAffine(img,M,(cols,rows))
-    return dst
+    return img, dst
 
 def rotation(img, rotaion):
-    rows,cols, _= img.shape
+    img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    rows,cols= img.shape
 
     M = cv.getRotationMatrix2D((cols/2,rows/2), rotaion, 1)
     dst = cv.warpAffine(img,M,(cols,rows))
