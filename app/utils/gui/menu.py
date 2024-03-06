@@ -21,7 +21,7 @@ def menu():
             st.page_link("pages/5_Trackbar.py", label = "Trackbar")
     
     def image_processing_menu():
-        st.sidebar.page_link("pages/11_Image_Processing_in_OpenCV.py", label="Image Processing")
+        st.sidebar.page_link("pages/11_Image_Processing_in_OpenCV.py", label="**Image Processing**")
         col1, col2 = st.sidebar.columns([1,11])
         with col2:    
             st.page_link("pages/12_Changing_Color_Spaces.py", label = "Changing Colorspaces")
