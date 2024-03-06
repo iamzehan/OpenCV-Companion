@@ -43,7 +43,9 @@ def menu():
     
     st.sidebar.page_link('Getting_Started_with_OpenCV.py', label="Getting Started")
     gui_features_menu()
+    st.sidebar.divider()
     core_operations_menu()
+    st.sidebar.divider()
     image_processing_menu()
     st.sidebar.divider()
 
