@@ -53,3 +53,6 @@ def menu():
         st.divider()
         image_processing_menu()
         st.divider()
+
+if __name__ == "__main__":
+    menu()
