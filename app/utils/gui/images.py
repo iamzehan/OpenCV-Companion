@@ -324,7 +324,7 @@ class BasicOperations(CommonComponents):
 
     def Image_ROI(self):
         
-        st.subheader("Image ROI")
+        st.markdown("## Image ROI")
         st.markdown("Continuation from our previous task:")
         self.main_body(show=False)
         st.markdown("""
@@ -503,7 +503,7 @@ class BasicOperations(CommonComponents):
                     return
  
         st.markdown(f"""
-                    # Making Borders for Images (Padding)
+                    ## Making Borders for Images (Padding)
                     """)
         
         
