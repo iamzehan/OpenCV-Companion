@@ -14,7 +14,7 @@ def menu():
                 st.page_link("pages/5_Trackbar.py", label = "Trackbar")
                 
     def core_operations_menu():
-        st.page_link("pages/6_Core_Operations_🔴.py", label="**Core Operations**")
+        st.page_link("pages/6_Core_Operations.py", label="**Core Operations**")
         with st.expander("More.."):
             _, col2 = st.columns([1,11])
             with col2:    
