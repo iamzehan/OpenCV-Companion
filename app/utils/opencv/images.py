@@ -180,3 +180,14 @@ def simple_thresholding(img):
     ret,thresh5 = cv.threshold(img, 127, 255, cv.THRESH_TOZERO_INV)
     images = [img, thresh1, thresh2, thresh3, thresh4, thresh5]
     return images
+
+def adaptive_thresholding(img):
+    img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    img = cv.medianBlur(img,5)
+    ret,th1 = cv.threshold(img,127,255,cv.THRESH_BINARY)
+    th2 = cv.adaptiveThreshold(img,255,cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY, 11,2)
+    th3 = cv.adaptiveThreshold(img,255,cv.ADAPTIVE_THRESH_GAUSSIAN_C,cv.THRESH_BINARY,11,2)
+    
+    images = [img, th1, th2, th3]
+    
+    return images

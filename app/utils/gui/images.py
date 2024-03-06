@@ -23,7 +23,8 @@ from utils.opencv.images import (
     rotation,
     affine_transform,
     perspective_transform,
-    simple_thresholding
+    simple_thresholding,
+    adaptive_thresholding
     )
 
 # Getting Started with Images (Page - 2)
@@ -60,7 +61,14 @@ class CommonComponents:
                 self.img_file = file
                 self.img_file_name = file.name
                 self.img = bytes_to_image(file.read())
-
+                
+    def grid(self, num_rows, num_columns, titles, images):
+        for row in range(num_rows):
+                    columns = st.columns(num_columns)
+                    for col in range(num_columns):
+                        index = row * num_columns + col
+                        columns[col].image(images[index], caption=titles[index])
+                        
 class GUIFeatures(CommonComponents):
     
     def __init__(self):
@@ -1480,18 +1488,72 @@ class ImageThresholding(ImageProcessing):
 
             num_columns = 3
             num_rows = len(titles) // num_columns
-
-            for row in range(num_rows):
-                columns = st.columns(num_columns)
-                for col in range(num_columns):
-                    index = row * num_columns + col
-                    columns[col].image(images[index], caption=titles[index])
+            self.grid(num_rows, num_columns, titles, images)
+            
 
 
         
             
     def Adaptive_Thresholding(self):
-        pass
+        st.markdown("""
+                    In the previous section, we used one global value as a threshold. But this might not be good in all cases, 
+                    e.g. if an image has different lighting conditions in different areas. In that case, adaptive thresholding can help. 
+                    Here, the algorithm determines the threshold for a pixel based on a small region around it. So we get different thresholds 
+                    for different regions of the same image which gives better results for images with varying illumination.
+
+                    In addition to the parameters described above, the method `cv.adaptiveThreshold` takes three input parameters:
+
+                    - The `adaptiveMethod` decides how the threshold value is calculated:
+                    - `cv.ADAPTIVE_THRESH_MEAN_C`: The threshold value is the mean of the neighborhood area minus the constant C.
+                    - `cv.ADAPTIVE_THRESH_GAUSSIAN_C`: The threshold value is a Gaussian-weighted sum of the neighborhood values minus the constant C.
+
+                    - The `blockSize` determines the size of the neighborhood area and `C` is a constant that is subtracted from the mean or weighted sum of the neighborhood pixels.
+
+                    The code below compares global thresholding and adaptive thresholding for an image with varying illumination:
+
+                    """)
+        if not self.img_file:
+            self.img = read_image("app/assets/Images/sudoku.jpg")
+            
+        with st.container(border=True):
+            st.subheader("Code")
+            st.code("""
+                    import cv2 as cv
+                    import numpy as np
+                    from matplotlib import pyplot as plt
+                    
+                    img = cv.imread('sudoku.png', cv.IMREAD_GRAYSCALE)
+                    assert img is not None, "file could not be read, check with os.path.exists()"
+                    img = cv.medianBlur(img,5)
+                    
+                    ret,th1 = cv.threshold(img,127,255,cv.THRESH_BINARY)
+                    th2 = cv.adaptiveThreshold(img,255,cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY,11,2)
+                    th3 = cv.adaptiveThreshold(img,255,cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY,11,2)
+                    
+                    titles = ['Original Image', 'Global Thresholding (v = 127)',
+                                'Adaptive Mean Thresholding', 'Adaptive Gaussian Thresholding']
+                    images = [img, th1, th2, th3]
+                    
+                    for i in range(4):
+                        plt.subplot(2,2,i+1),plt.imshow(images[i],'gray')
+                        plt.title(titles[i])
+                        plt.xticks([]),plt.yticks([])
+                    plt.show()
+                    """)
+            
+            st.subheader("Output")
+            with st.container(border=True):
+                titles = ['Original Image', 'Global Thresholding (v = 127)',
+                'Adaptive Mean Thresholding', 'Adaptive Gaussian Thresholding']
+                images = adaptive_thresholding(self.img)
+                num_columns = 2
+                num_rows = len(titles) // num_columns
+                self.grid(num_columns, num_rows, titles, images)
+                
+            
+            
+        
+        
     
     def Otsus_Binarization(self):
         pass
