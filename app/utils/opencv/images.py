@@ -191,3 +191,19 @@ def adaptive_thresholding(img):
     images = [img, th1, th2, th3]
     
     return images
+
+def otsus_binarization(img):
+    img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    ret1,th1 = cv.threshold(img,127,255,cv.THRESH_BINARY)
+    # Otsu's thresholding
+    ret2,th2 = cv.threshold(img,0,255,cv.THRESH_BINARY+cv.THRESH_OTSU)
+    
+    # Otsu's thresholding after Gaussian filtering
+    blur = cv.GaussianBlur(img,(5,5),0)
+    ret3,th3 = cv.threshold(blur,0,255,cv.THRESH_BINARY+cv.THRESH_OTSU)
+    
+    # plot all the images and their histograms
+    images = [img, 0, th1,
+            img, 0, th2,
+            blur, 0, th3]
+    return images

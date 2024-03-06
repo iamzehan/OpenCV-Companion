@@ -1,5 +1,6 @@
 import streamlit as st
 from PIL import ImageColor
+import matplotlib.pyplot as plt
 from utils.opencv.images import (
     blank_image,
     bytes_to_image,
@@ -24,7 +25,8 @@ from utils.opencv.images import (
     affine_transform,
     perspective_transform,
     simple_thresholding,
-    adaptive_thresholding
+    adaptive_thresholding,
+    otsus_binarization
     )
 
 # Getting Started with Images (Page - 2)
@@ -64,10 +66,10 @@ class CommonComponents:
                 
     def grid(self, num_rows, num_columns, titles, images):
         for row in range(num_rows):
-                    columns = st.columns(num_columns)
-                    for col in range(num_columns):
-                        index = row * num_columns + col
-                        columns[col].image(images[index], caption=titles[index])
+            columns = st.columns(num_columns)
+            for col in range(num_columns):
+                index = row * num_columns + col
+                columns[col].image(images[index], caption=titles[index], use_column_width=True)
                         
 class GUIFeatures(CommonComponents):
     
@@ -1514,15 +1516,16 @@ class ImageThresholding(ImageProcessing):
                     """)
         if not self.img_file:
             self.img = read_image("app/assets/Images/sudoku.jpg")
+            self.img_file_name='sudoku.jpg'
             
         with st.container(border=True):
             st.subheader("Code")
-            st.code("""
+            st.code(f"""
                     import cv2 as cv
                     import numpy as np
                     from matplotlib import pyplot as plt
                     
-                    img = cv.imread('sudoku.png', cv.IMREAD_GRAYSCALE)
+                    img = cv.imread('{self.img_file_name}', cv.IMREAD_GRAYSCALE)
                     assert img is not None, "file could not be read, check with os.path.exists()"
                     img = cv.medianBlur(img,5)
                     
@@ -1550,10 +1553,153 @@ class ImageThresholding(ImageProcessing):
                 num_rows = len(titles) // num_columns
                 self.grid(num_columns, num_rows, titles, images)
                 
-            
-            
-        
-        
-    
     def Otsus_Binarization(self):
-        pass
+        st.markdown("""
+                    In global thresholding, we used an arbitrary chosen value as a threshold. 
+                    In contrast, Otsu's method avoids having to choose a value and determines it automatically.
+
+                    Consider an image with only two distinct image values (bimodal image), 
+                    where the histogram would only consist of two peaks. 
+                    A good threshold would be in the middle of those two values. 
+                    Similarly, Otsu's method determines an optimal global threshold value from the image histogram.
+
+                    In order to do so, the `cv.threshold()` function is used, where `cv.THRESH_OTSU` is passed as an 
+                    extra flag. The threshold value can be chosen arbitrarily. The algorithm then finds the optimal 
+                    threshold value which is returned as the first output.
+
+                    Check out the example below. The input image is a noisy image. 
+                    In the first case, global thresholding with a value of 127 is applied. 
+                    In the second case, Otsu's thresholding is applied directly. 
+                    In the third case, the image is first filtered with a 5x5 Gaussian kernel to remove the noise,
+                    then Otsu thresholding is applied. See how noise filtering improves the result.
+                    """)
+        
+        if not self.img_file:
+            self.img_file_name = 'noisy.jpeg'
+            self.img = read_image('app/assets/Images/noisy.jpeg')
+            
+        with st.container(border=True):
+            st.subheader("Code")
+            st.code(f"""
+                    import cv2 as cv
+                    import numpy as np
+                    from matplotlib import pyplot as plt
+                    
+                    img = cv.imread('{self.img_file_name}', cv.IMREAD_GRAYSCALE)
+                    assert img is not None, "file could not be read, check with os.path.exists()"
+                    
+                    # global thresholding
+                    ret1,th1 = cv.threshold(img,127,255,cv.THRESH_BINARY)
+                    
+                    # Otsu's thresholding
+                    ret2,th2 = cv.threshold(img,0,255,cv.THRESH_BINARY+cv.THRESH_OTSU)
+                    
+                    # Otsu's thresholding after Gaussian filtering
+                    blur = cv.GaussianBlur(img,(5,5),0)
+                    ret3,th3 = cv.threshold(blur,0,255,cv.THRESH_BINARY+cv.THRESH_OTSU)
+                    
+                    # plot all the images and their histograms
+                    images = [img, 0, th1,
+                            img, 0, th2,
+                            blur, 0, th3]
+                    titles = ['Original Noisy Image','Histogram','Global Thresholding (v=127)',
+                            'Original Noisy Image','Histogram',"Otsu's Thresholding",
+                            'Gaussian filtered Image','Histogram',"Otsu's Thresholding"]
+                    
+                    for i in range(3):
+                        plt.subplot(3,3,i*3+1),plt.imshow(images[i*3],'gray')
+                        plt.title(titles[i*3]), plt.xticks([]), plt.yticks([])
+                        plt.subplot(3,3,i*3+2),plt.hist(images[i*3].ravel(),256)
+                        plt.title(titles[i*3+1]), plt.xticks([]), plt.yticks([])
+                        plt.subplot(3,3,i*3+3),plt.imshow(images[i*3+2],'gray')
+                        plt.title(titles[i*3+2]), plt.xticks([]), plt.yticks([])
+                    plt.show()
+                    """)
+            st.subheader("Output")
+            
+            with st.container(border=True):
+                titles = ['Original Noisy Image','Histogram','Global Thresholding (v=127)',
+                          'Original Noisy Image','Histogram',"Otsu's Thresholding",
+                          'Gaussian filtered Image','Histogram',"Otsu's Thresholding"]
+                
+                fig, axes = plt.subplots(3, 3, figsize=(15, 15))
+                images=otsus_binarization(self.img)
+                
+                # 3 rows
+                for i in range(3):
+                    axes[i, 0].imshow(images[i * 3], cmap='gray')
+                    axes[i, 0].set_title(titles[i * 3])
+                    axes[i, 0].axis('off')
+
+                    axes[i, 1].hist(images[i * 3].ravel(), 256)
+                    axes[i, 1].set_title(titles[i * 3 + 1])
+
+                    axes[i, 2].imshow(images[i * 3 + 2], cmap='gray')
+                    axes[i, 2].set_title(titles[i * 3 + 2])
+                    axes[i, 2].axis('off')
+                st.pyplot(fig)
+                
+        st.markdown("""
+                        #### How does Otsu's Binarization work?
+                        This section demonstrates a Python implementation of Otsu's binarization to show how it actually works.
+                        If you are not interested, you can skip this.
+
+                        Since we are working with bimodal images, Otsu's algorithm tries to find a threshold value (t) which minimizes 
+                        the weighted within-class variance given by the relation:
+                        """)
+        with st.expander("Reveal Equations", expanded=False):
+            st.latex(r"\sigma_w^2(t) = q_1(t)\sigma_1^2(t)+q_2(t)\sigma_2^2(t)")
+            
+            st.markdown("where")
+            
+            st.latex(r"""q_1(t) = \sum_{i=1}^{t} P(i) \quad \& \quad q_2(t) = \sum_{i=t+1}^{I} P(i) \\
+                    \mu_1(t) = \sum_{i=1}^{t} \frac{iP(i)}{q_1(t)} \quad \& \quad \mu_2(t) = \sum_{i=t+1}^{I} \frac{iP(i)}{q_2(t)} \\
+                        \sigma_1^2(t) = \sum_{i=1}^{t} [i-\mu_1(t)]^2 \frac{P(i)}{q_1(t)} \quad \& \quad \sigma_2^2(t) = \sum_{i=t+1}^{I} [i-\mu_2(t)]^2 \frac{P(i)}{q_2(t)}""")
+        
+        st.write("""It actually finds a value of t which lies in between two peaks such that variances to both classes are minimal.
+                 It can be simply implemented in Python as follows:""")
+        
+        st.code("""
+                img = cv.imread('noisy2.png', cv.IMREAD_GRAYSCALE)
+                assert img is not None, "file could not be read, check with os.path.exists()"
+                blur = cv.GaussianBlur(img,(5,5),0)
+                
+                # find normalized_histogram, and its cumulative distribution function
+                hist = cv.calcHist([blur],[0],None,[256],[0,256])
+                hist_norm = hist.ravel()/hist.sum()
+                Q = hist_norm.cumsum()
+                
+                bins = np.arange(256)
+                
+                fn_min = np.inf
+                thresh = -1
+                
+                for i in range(1,256):
+                    p1,p2 = np.hsplit(hist_norm,[i]) # probabilities
+                    q1,q2 = Q[i],Q[255]-Q[i] # cum sum of classes
+                    if q1 < 1.e-6 or q2 < 1.e-6:
+                        continue
+                    b1,b2 = np.hsplit(bins,[i]) # weights
+                
+                    # finding means and variances
+                    m1,m2 = np.sum(p1*b1)/q1, np.sum(p2*b2)/q2
+                    v1,v2 = np.sum(((b1-m1)**2)*p1)/q1,np.sum(((b2-m2)**2)*p2)/q2
+                
+                    # calculates the minimization function
+                    fn = v1*q1 + v2*q2
+                    if fn < fn_min:
+                        fn_min = fn
+                        thresh = i
+                
+                # find otsu's threshold value with OpenCV function
+                ret, otsu = cv.threshold(blur,0,255,cv.THRESH_BINARY+cv.THRESH_OTSU)
+                print( "{} {}".format(thresh,ret) )
+                """)
+        
+        st.markdown("""
+                    ### Additional Resources
+                    - [Digital Image Processing, Rafael C. Gonzalez](https://dl.icdst.org/pdfs/files4/01c56e081202b62bd7d3b4f8545775fb.pdf) 
+                    #### Exercises
+                    There are some optimizations available for Otsu's binarization. You can search and implement it.
+                    * You can also look at this [link](https://learnopencv.com/otsu-thresholding-with-opencv/)
+                    """) 
