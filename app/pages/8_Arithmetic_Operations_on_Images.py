@@ -4,9 +4,10 @@ from  utils.gui.menu import menu
 from utils.gui.images import ArithmeticOperations
 
 if __name__ == '__main__':
-    menu()
     st.set_page_config(page_icon="app/assets/Images/OpenCV_Logo_with_text.png",
                        page_title="Arithmetic Operations on Images")
+    menu()
+    
     with st.sidebar.container(border=True):
         st.subheader("Topics")
         options = st.radio(label="Navigate: ",options=["Introduction",
