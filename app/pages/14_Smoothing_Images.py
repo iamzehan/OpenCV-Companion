@@ -1,9 +1,37 @@
 import streamlit as st 
-from utils.gui import footer, menu
+from utils.gui import footer, menu, images
 
 def main():
-    pass
+    smoothing_images = images.SmoothingImages()
+    st.title("Smoothing Images")
+    with st.sidebar.container(border=True):
+        st.subheader("Topics")
+        options = st.radio("Options: ", 
+                                options = [
+                                    "Introduction",
+                                    "2D Convolution",
+                                    "Image Blurring"
+                                        ],
+                            label_visibility="collapsed")
+    
+    if options == "Introduction":
+        st.markdown("""
+                    ### Goals
+                    Learn to:
 
+                    - Blur images with various low pass filters
+                    - Apply custom-made filters to images (2D convolution)
+                    """)
+    if options == "2D Convolution":
+        st.subheader("2D Convolution ( Image Filtering )")
+        smoothing_images.side_bar()
+        smoothing_images.Convolution2D()
+    
+    if options == "Image Blurring":
+        st.subheader("Image Blurring (Image Smoothing)")
+        smoothing_images.side_bar()
+        smoothing_images.ImageBlurring()
+    
 if __name__ == '__main__':
     st.set_page_config("Smoothing Images", page_icon='app/assets/Images/OpenCV_Logo_with_text.png')
     menu.menu()
