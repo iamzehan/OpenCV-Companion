@@ -26,7 +26,8 @@ from utils.opencv.images import (
     perspective_transform,
     simple_thresholding,
     adaptive_thresholding,
-    otsus_binarization
+    otsus_binarization,
+    conv2D
     )
 
 # Getting Started with Images (Page - 2)
@@ -1708,8 +1709,58 @@ class ImageThresholding(ImageProcessing):
 class SmoothingImages(ImageProcessing):
     
     def Convolution2D(self):
-        pass
-    
+        
+        st.markdown("""
+                    As in one-dimensional signals, images also can be filtered with various low-pass filters (LPF),
+                    high-pass filters (HPF), etc. LPF helps in removing noise, blurring images, etc. HPF filters help
+                    in finding edges in images.
+
+                    OpenCV provides a function `cv.filter2D()` to convolve a kernel with an image. As an example, we will
+                    try an averaging filter on an image. A 5x5 averaging filter kernel will look like the below:
+                    """)
+        
+        st.latex(r"K =  \frac{1}{25} \begin{bmatrix} 1 & 1 & 1 & 1 & 1  \\ 1 & 1 & 1 & 1 & 1 \\ 1 & 1 & 1 & 1 & 1 \\ 1 & 1 & 1 & 1 & 1 \\ 1 & 1 & 1 & 1 & 1 \end{bmatrix}")
+        
+        st.markdown("""
+                    The operation works like this: keep this kernel above a pixel, add all the 25 pixels below this kernel,
+                    take the average, and replace the central pixel with the new average value. This operation is continued 
+                    for all the pixels in the image. Try this code and check the result:
+                    """)
+        st.subheader("Code")
+        code_placeholder=st.empty()
+        info1 = st.info("Example Code and Ouput")
+        dimensions = {"2 x 2": (2,2), "5 x 5": (5,5), "10 x 10": (10, 10)}
+        dim = dimensions[st.selectbox("Kernel Dimensions:", index=1, options=["2 x 2", "5 x 5", "10 x 10"])]
+        
+        code_placeholder.code(f"""
+                import numpy as np
+                import cv2 as cv
+                from matplotlib import pyplot as plt
+                
+                img = cv.imread('{self.img_file_name}')
+                assert img is not None, "file could not be read, check with os.path.exists()"
+                
+                kernel = np.ones({dim},np.float32)/{dim[0]*dim[1]}
+                dst = cv.filter2D(img,-1,kernel)
+                
+                plt.subplot(121),plt.imshow(img),plt.title('Original')
+                plt.xticks([]), plt.yticks([])
+                plt.subplot(122),plt.imshow(dst),plt.title('Averaging')
+                plt.xticks([]), plt.yticks([])
+                plt.show()
+                """)
+        images = [self.img, conv2D(self.img, dim, dim[0]*dim[1])]
+        titles = ['Original', 'Averaging']
+        
+        st.subheader("Output")
+        with st.container(border=True):
+            self.grid(1, 2, titles, images)
+        info2 = st.info("Example Output")
+        if dim!=(5,5):
+            info1.success("Showing Changed Code")
+            info2.success("Showing Changed Output")
+        
+
     def ImageBlurring(self):
         
         def Averaging():

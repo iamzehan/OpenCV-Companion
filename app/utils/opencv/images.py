@@ -209,3 +209,8 @@ def otsus_binarization(img):
             img, 0, th2,
             blur, 0, th3]
     return images
+
+def conv2D(img, dim=(5,5), div=25):
+    kernel = np.ones(dim,np.float32)/div
+    dst = cv.filter2D(img,-1,kernel)
+    return dst
