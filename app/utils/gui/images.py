@@ -30,7 +30,8 @@ from utils.opencv.images import (
     conv2D,
     averaging,
     gaussian_blur,
-    median_blur)
+    median_blur,
+    bilateral_filter)
 
 # Getting Started with Images (Page - 2)
 
@@ -1899,6 +1900,60 @@ class SmoothingImages(ImageProcessing):
         
         def BilateralFiltering():
             st.subheader("4. Bilateral Filtering")
+
+            st.markdown("""
+            ### Bilateral Filtering
+
+            The `cv.bilateralFilter()` is highly effective in noise removal while preserving sharp edges, though it's slower compared to other filters.
+
+            We already saw that a Gaussian filter takes the neighborhood around the pixel and finds its Gaussian weighted average. 
+            This filter depends solely on space, considering nearby pixels during filtering. 
+            However, it doesn't account for similar pixel intensities or distinguish between edge and non-edge pixels, resulting in edge blurring.
+
+            Bilateral filtering employs two Gaussian filters: one for space and another for pixel intensity difference. 
+            The space filter considers only nearby pixels for blurring, while the intensity difference filter considers only pixels with similar intensities. 
+            This dual approach preserves edges, as pixels at edges typically exhibit large intensity variations.
+
+            The below sample demonstrates the use of a bilateral filter. (For details on arguments, expand the Details):
+            """)
+            with st.expander("Details:"):
+                st.write("""
+                         The `cv.bilateralFilter()` function in OpenCV is used for bilateral filtering, and it has the following parameters:
+
+                        `img`: This is the input image. It should be a matrix of type uint8 or float32, representing the image to be filtered.
+
+                        `d`: Diameter of each pixel neighborhood. It is an integer representing the size of the pixel neighborhood used during filtering.
+                        A larger value of d means that more distant pixels will influence each other during filtering.
+
+                        `sigmaColor`: Standard deviation in the color space. This parameter controls how different colors will be considered as similar.
+                        A smaller value of sigmaColor means that only pixels with very similar colors will be averaged for filtering.
+
+                        `sigmaSpace`: Standard deviation in the coordinate space. This parameter controls how far away pixels will influence each other in the spatial domain. 
+                        A smaller value of sigmaSpace means that only pixels within a close spatial proximity will be considered for filtering.
+
+                        In our example 
+                        ```python 
+                        blur = cv.bilateralFilter(img, 9, 75, 75)
+                        ```
+                        
+                        it means:
+
+                        img: The input image.
+                        9: The diameter of each pixel neighborhood. In this case, it's set to 9.
+                        75: The standard deviation in the color space (sigmaColor). It controls color similarity.
+                        75: The standard deviation in the coordinate space (sigmaSpace). It controls spatial proximity.
+                         """)
+            with st.container(border=True):
+                st.subheader("Parameters")
+                d = st.slider("Diameter of Pixel Neighborhood (d)", 1, 20, 9, 1)
+                sigma_color = st.slider("Sigma Color", 1, 200, 75, 1)
+                sigma_space = st.slider("Sigma Space", 1, 200, 75, 1)
+            
+            st.subheader("Code")
+            st.code(f"blur = cv.bilateralFilter(img, {d}, {sigma_color}, {sigma_space})")
+            
+            st.subheader("Output")
+            self.grid(1, 2, titles=['Original', 'Bilateral Filter'], images=[self.img, bilateral_filter(self.img, d, sigma_color, sigma_space)])
             
         st.markdown("""
                     Image blurring is achieved by convolving the image with 

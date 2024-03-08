@@ -223,3 +223,6 @@ def gaussian_blur(img, dim=(5,5), intensity=0):
 
 def median_blur(img, intensity=5):
     return cv.medianBlur(img,intensity)
+
+def bilateral_filter(img, d, sigma_color, sigma_space):
+    return cv.bilateralFilter(img, d, sigma_color, sigma_space)
