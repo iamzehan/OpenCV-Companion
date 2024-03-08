@@ -220,3 +220,6 @@ def averaging(img, dim = (5,5)):
 
 def gaussian_blur(img, dim=(5,5), intensity=0):
     return cv.GaussianBlur(img, dim, intensity)
+
+def median_blur(img, intensity=5):
+    return cv.medianBlur(img,intensity)

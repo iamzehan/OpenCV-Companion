@@ -29,7 +29,8 @@ from utils.opencv.images import (
     otsus_binarization,
     conv2D,
     averaging,
-    gaussian_blur)
+    gaussian_blur,
+    median_blur)
 
 # Getting Started with Images (Page - 2)
 
@@ -1846,14 +1847,16 @@ class SmoothingImages(ImageProcessing):
             dimensions = {"3 x 3": (3, 3), "5 x 5": (5,5), "7 x 7": (7, 7)}
             
             col1, col2 = st.columns([4, 8])
-            col1.subheader("Parameters")
             
-            dim = dimensions[col1.selectbox("Kernel:", index=1, options=["3 x 3", "5 x 5", "7 x 7"])]
-            
-            intensity = col1.slider('Intensity', max_value=10)
-            
-            col2.subheader("Code")
-            col2.code(f"blur = cv.GaussianBlur(img,{dim},{intensity})")
+            with col1.container(border=True):
+                st.subheader("Parameters")
+                dim = dimensions[st.selectbox("Kernel:", index=1, options=["3 x 3", "5 x 5", "7 x 7"])]
+                intensity = st.slider('Intensity', max_value=10)
+                
+            with col2.container(border=True):
+                st.subheader("Code")
+                st.divider()
+                st.code(f"blur = cv.GaussianBlur(img,{dim},{intensity})")
             
             info1=st.info("Example code")
             st.subheader("Output")
@@ -1868,6 +1871,31 @@ class SmoothingImages(ImageProcessing):
             
         def MedianBlurring():
             st.subheader("3. Median Blurring")
+            
+            st.markdown("""
+            The `cv.medianBlur()` function takes the median of all the pixels under
+            the kernel area, and the central element is replaced with this median value. 
+            This is highly effective against salt-and-pepper noise in an image. Interestingly,
+            in the above filters, the central element is a newly calculated value, 
+            which may be a pixel value in the image or a new value. However, in median blurring,
+            the central element is always replaced by some pixel value in the image, 
+            reducing the noise effectively. The kernel size should be a positive odd integer.
+
+            In this demo, I added a 50% noise to our original image and applied median blurring. 
+            Check the result:
+            """)
+            
+            col1, col2 = st.columns([3, 9])
+            
+            col1.subheader("Parameter")
+            intensity = col1.slider('Intensity', min_value=1, value=5, step=2, max_value=9, label_visibility="collapsed")
+            
+            col2.subheader("Code")
+            col2.code(f"median = cv.medianBlur(img,{intensity})")
+            
+            st.subheader("Output")
+            self.grid(1, 2, titles=['Original', 'Median Blur'], images = [self.img, median_blur(self.img, intensity)])
+
         
         def BilateralFiltering():
             st.subheader("4. Bilateral Filtering")
