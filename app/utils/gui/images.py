@@ -28,8 +28,8 @@ from utils.opencv.images import (
     adaptive_thresholding,
     otsus_binarization,
     conv2D,
-    averaging
-    )
+    averaging,
+    gaussian_blur)
 
 # Getting Started with Images (Page - 2)
 
@@ -71,7 +71,7 @@ class CommonComponents:
             columns = st.columns(num_columns)
             for col in range(num_columns):
                 index = row * num_columns + col
-                columns[col].image(images[index], caption=titles[index], use_column_width=True)
+                columns[col].image(images[index], channels='BGR', caption=titles[index], use_column_width=True)
                         
 class GUIFeatures(CommonComponents):
     
@@ -1730,9 +1730,10 @@ class SmoothingImages(ImageProcessing):
         st.subheader("Code")
         code_placeholder=st.empty()
         info1 = st.info("Example Code")
-        dimensions = {"2 x 2": (2,2), "5 x 5": (5,5), "10 x 10": (10, 10)}
-        dim = dimensions[st.selectbox("Kernel Dimensions:", index=1, options=["2 x 2", "5 x 5", "10 x 10"])]
-        
+        dimensions = {"3 x 3": (3, 3), "5 x 5": (5,5), "7 x 7": (7, 7)}
+        dim = dimensions[st.selectbox("Kernel Dimensions:", index=1, 
+                                      options=["3 x 3", "5 x 5", "7 x 7"])]
+            
         code_placeholder.code(f"""
                 import numpy as np
                 import cv2 as cv
@@ -1792,8 +1793,8 @@ class SmoothingImages(ImageProcessing):
             code_placeholder=st.empty()
             info1 = st.info("Example Code")
             
-            dimensions = {"2 x 2": (2,2), "5 x 5": (5,5), "10 x 10": (10, 10)}
-            dim = dimensions[st.selectbox("Kernel Dimensions:", index=1, options=["2 x 2", "5 x 5", "10 x 10"])]
+            dimensions = {"3 x 3": (3, 3), "5 x 5": (5,5), "7 x 7": (7, 7)}
+            dim = dimensions[st.selectbox("Kernel Dimensions:", index=1, options=["3 x 3", "5 x 5", "7 x 7"])]
             
             sample.markdown(f"Check a sample demo below with a kernel of `{dim}` size:")
             code_placeholder.code(f"""
@@ -1814,7 +1815,8 @@ class SmoothingImages(ImageProcessing):
                     """)
             
             st.subheader("Output")
-            self.grid(1, 2, titles=['Original', 'Blurred'], images=[self.img, averaging(self.img, dim)])
+            self.grid(1, 2, titles=['Original', 'Blurred'], 
+                      images=[self.img, averaging(self.img, dim)])
             info2 = st.info("Example Output")
             
             if dim!=(5,5) or self.img_file:
@@ -1824,7 +1826,46 @@ class SmoothingImages(ImageProcessing):
                 
         def GaussianBlurring():
             st.subheader("2. Gaussian Blurring")
-        
+            st.markdown("""
+                        In this method, instead of a box filter, a Gaussian kernel is used.
+                        It is done with the function, `cv.GaussianBlur()`. 
+                        We should specify the width and height of the kernel which should 
+                        be positive and odd. We also should specify the standard deviation 
+                        in the X and Y directions, sigmaX and sigmaY respectively. If only 
+                        sigmaX is specified, sigmaY is taken as the same as sigmaX. If both 
+                        are given as zeros, they are calculated from the kernel size. 
+                        Gaussian blurring is highly effective in removing Gaussian noise 
+                        from an image.
+
+                        If you want, you can create a Gaussian kernel with the function, 
+                        `cv.getGaussianKernel()`.
+
+                        The previous code can be modified for Gaussian blurring:
+                        """)
+            
+            dimensions = {"3 x 3": (3, 3), "5 x 5": (5,5), "7 x 7": (7, 7)}
+            
+            col1, col2 = st.columns([4, 8])
+            col1.subheader("Parameters")
+            
+            dim = dimensions[col1.selectbox("Kernel:", index=1, options=["3 x 3", "5 x 5", "7 x 7"])]
+            
+            intensity = col1.slider('Intensity', max_value=10)
+            
+            col2.subheader("Code")
+            col2.code(f"blur = cv.GaussianBlur(img,{dim},{intensity})")
+            
+            info1=st.info("Example code")
+            st.subheader("Output")
+            
+            self.grid(1, 2, titles=['Original', 'Blurred'], images=[self.img, gaussian_blur(self.img, dim, intensity)])
+            info2= st.info("Example Output")
+            
+            if self.img_file or dim!=(5,5) or intensity!=0:
+                info1.success("Changed code")
+                info2.success("Changed Output")
+                
+            
         def MedianBlurring():
             st.subheader("3. Median Blurring")
         
@@ -1862,7 +1903,3 @@ class SmoothingImages(ImageProcessing):
                 
             elif options == "Bilateral Filtering":
                 BilateralFiltering()
-            
-        
-    
-     

@@ -217,3 +217,6 @@ def conv2D(img, dim=(5,5), div=25):
 
 def averaging(img, dim = (5,5)):
     return cv.blur(img, dim)
+
+def gaussian_blur(img, dim=(5,5), intensity=0):
+    return cv.GaussianBlur(img, dim, intensity)
