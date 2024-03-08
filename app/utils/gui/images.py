@@ -1704,3 +1704,43 @@ class ImageThresholding(ImageProcessing):
                     There are some optimizations available for Otsu's binarization. You can search and implement it.
                     * You can also look at this [link](https://learnopencv.com/otsu-thresholding-with-opencv/)
                     """) 
+
+class SmoothingImages(ImageProcessing):
+    
+    def Convolution2D(self):
+        pass
+    
+    def ImageBlurring(self):
+        
+        def Averaging():
+            pass 
+        
+        def GaussianBlurring():
+            pass
+        
+        def MedianBlurring():
+            pass 
+        
+        def BilateralFiltering():
+            pass 
+        with st.container(border=True):
+            options = st.radio("Options: ", 
+                               options = [
+                                   "Averaging",
+                                    "Gaussian Blurring",
+                                    "Median Blurring",
+                                    "Bilateral Filtering"
+                                    ],
+                        label_visibility="collapsed")
+        
+        if options == "Averaging":
+            Averaging()
+        elif options == "Gaussian Blurring":
+            GaussianBlurring()
+        elif options == "Median Blurring":
+            MedianBlurring()
+        elif options == "Bilateral Filtering":
+            BilateralFiltering()
+        
+    
+     
