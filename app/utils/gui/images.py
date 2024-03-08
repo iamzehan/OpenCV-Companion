@@ -27,7 +27,8 @@ from utils.opencv.images import (
     simple_thresholding,
     adaptive_thresholding,
     otsus_binarization,
-    conv2D
+    conv2D,
+    averaging
     )
 
 # Getting Started with Images (Page - 2)
@@ -1728,7 +1729,7 @@ class SmoothingImages(ImageProcessing):
                     """)
         st.subheader("Code")
         code_placeholder=st.empty()
-        info1 = st.info("Example Code and Ouput")
+        info1 = st.info("Example Code")
         dimensions = {"2 x 2": (2,2), "5 x 5": (5,5), "10 x 10": (10, 10)}
         dim = dimensions[st.selectbox("Kernel Dimensions:", index=1, options=["2 x 2", "5 x 5", "10 x 10"])]
         
@@ -1749,14 +1750,17 @@ class SmoothingImages(ImageProcessing):
                 plt.xticks([]), plt.yticks([])
                 plt.show()
                 """)
+        
         images = [self.img, conv2D(self.img, dim, dim[0]*dim[1])]
         titles = ['Original', 'Averaging']
         
         st.subheader("Output")
+        
         with st.container(border=True):
             self.grid(1, 2, titles, images)
+            
         info2 = st.info("Example Output")
-        if dim!=(5,5):
+        if dim!=(5,5) or self.img_file:
             info1.success("Showing Changed Code")
             info2.success("Showing Changed Output")
         
@@ -1764,34 +1768,101 @@ class SmoothingImages(ImageProcessing):
     def ImageBlurring(self):
         
         def Averaging():
-            pass 
-        
+            st.subheader("1. Averaging")
+            
+            st.markdown("""
+                        This is done by convolving an image with a normalized box filter.
+                        It simply takes the average of all the pixels under the kernel 
+                        area and replaces the central element. This is done by the function
+                        `cv.blur()` or `cv.boxFilter()`. Check the docs for more details about 
+                        the kernel. We should specify the width and height of the kernel. 
+                        A `3x3` normalized box filter would look like the below:
+                        """)
+            
+            st.latex(r"K =  \frac{1}{9} \begin{bmatrix} 1 & 1 & 1  \\ 1 & 1 & 1 \\ 1 & 1 & 1 \end{bmatrix}")
+            
+            st.info("""
+                    ⚠️ Note
+                    > If you don't want to use a normalized box filter, use `cv.boxFilter()`. 
+                    Pass an argument normalize=False to the function.
+                    """)
+            
+            sample = st.empty()
+            
+            code_placeholder=st.empty()
+            info1 = st.info("Example Code")
+            
+            dimensions = {"2 x 2": (2,2), "5 x 5": (5,5), "10 x 10": (10, 10)}
+            dim = dimensions[st.selectbox("Kernel Dimensions:", index=1, options=["2 x 2", "5 x 5", "10 x 10"])]
+            
+            sample.markdown(f"Check a sample demo below with a kernel of `{dim}` size:")
+            code_placeholder.code(f"""
+                    import cv2 as cv
+                    import numpy as np
+                    from matplotlib import pyplot as plt
+                    
+                    img = cv.imread('{self.img_file_name}')
+                    assert img is not None, "file could not be read, check with os.path.exists()"
+                    
+                    blur = cv.blur(img,{dim})
+                    
+                    plt.subplot(121),plt.imshow(img),plt.title('Original')
+                    plt.xticks([]), plt.yticks([])
+                    plt.subplot(122),plt.imshow(blur),plt.title('Blurred')
+                    plt.xticks([]), plt.yticks([])
+                    plt.show()
+                    """)
+            
+            st.subheader("Output")
+            self.grid(1, 2, titles=['Original', 'Blurred'], images=[self.img, averaging(self.img, dim)])
+            info2 = st.info("Example Output")
+            
+            if dim!=(5,5) or self.img_file:
+                sample.markdown(f"Check the changed code below with a kernel of `{dim}` size:")
+                info1.success("Showing Changed Code")
+                info2.success("Showing Changed Output")
+                
         def GaussianBlurring():
-            pass
+            st.subheader("2. Gaussian Blurring")
         
         def MedianBlurring():
-            pass 
+            st.subheader("3. Median Blurring")
         
         def BilateralFiltering():
-            pass 
-        with st.container(border=True):
-            options = st.radio("Options: ", 
-                               options = [
-                                   "Averaging",
-                                    "Gaussian Blurring",
-                                    "Median Blurring",
-                                    "Bilateral Filtering"
-                                    ],
-                        label_visibility="collapsed")
+            st.subheader("4. Bilateral Filtering")
+            
+        st.markdown("""
+                    Image blurring is achieved by convolving the image with 
+                    a low-pass filter kernel. It is useful for removing noise.
+                    It actually removes high frequency content (eg: noise, edges)
+                    from the image. So edges are blurred a little bit in this operation 
+                    (there are also blurring techniques which don't blur the edges). 
+                    OpenCV provides four main types of blurring techniques.
+                    """)
         
-        if options == "Averaging":
-            Averaging()
-        elif options == "Gaussian Blurring":
-            GaussianBlurring()
-        elif options == "Median Blurring":
-            MedianBlurring()
-        elif options == "Bilateral Filtering":
-            BilateralFiltering()
+        options = st.radio("Options: ", 
+                            options = [
+                                "Averaging",
+                                "Gaussian Blurring",
+                                "Median Blurring",
+                                "Bilateral Filtering"
+                                ],
+                            horizontal=True,
+                    label_visibility="collapsed")
+        
+        with st.container(border=True):
+            if options == "Averaging":
+                Averaging()
+                
+            elif options == "Gaussian Blurring":
+                GaussianBlurring()
+                
+            elif options == "Median Blurring":
+                MedianBlurring()
+                
+            elif options == "Bilateral Filtering":
+                BilateralFiltering()
+            
         
     
      

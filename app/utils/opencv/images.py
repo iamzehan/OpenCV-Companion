@@ -214,3 +214,6 @@ def conv2D(img, dim=(5,5), div=25):
     kernel = np.ones(dim,np.float32)/div
     dst = cv.filter2D(img,-1,kernel)
     return dst
+
+def averaging(img, dim = (5,5)):
+    return cv.blur(img, dim)
