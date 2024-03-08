@@ -1955,6 +1955,13 @@ class SmoothingImages(ImageProcessing):
             st.subheader("Output")
             self.grid(1, 2, titles=['Original', 'Bilateral Filter'], images=[self.img, bilateral_filter(self.img, d, sigma_color, sigma_space)])
             
+            st.write("See, the texture on the surface is gone, but the edges are still preserved.")
+            
+        st.markdown("""
+                    ### Additional Resources
+                    - Details about the [bilateral filtering](https://people.csail.mit.edu/sparis/bf_course/)
+                    """)
+        
         st.markdown("""
                     Image blurring is achieved by convolving the image with 
                     a low-pass filter kernel. It is useful for removing noise.
