@@ -5,16 +5,19 @@ from utils.gui.images import ChangingColorSpace
 
 def main():
     ccs = ChangingColorSpace()
-    with st.sidebar.container(border=True):
+    st.title("Image Processing in OpenCV")
+    with st.container(border=True):
         st.subheader("Topics")
         options = st.radio("Select: ", options=['Introduction',
                                                 'Changing Color-Space',
                                                 'Object-Tracking',
-                                                ], label_visibility="collapsed")
-    st.title("Image Processing in OpenCV")
+                                                ], 
+                           horizontal=True,
+                           label_visibility="collapsed")
+    
     if options == "Introduction":
+        st.subheader("Goals")
         st.markdown("""
-                    ## Goal
                     - In this tutorial, you will learn how to convert images from one color-space to another,
                     like BGR $$\leftrightarrow$$ Gray, BGR $$\leftrightarrow$$ HSV etc.
                     - In addition to that, we will create an application which extracts a colored object in a video

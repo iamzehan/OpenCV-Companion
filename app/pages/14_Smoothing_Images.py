@@ -4,7 +4,7 @@ from utils.gui import footer, menu, images
 def main():
     smoothing_images = images.SmoothingImages()
     st.title("Smoothing Images")
-    with st.sidebar.container(border=True):
+    with st.container(border=True):
         st.subheader("Topics")
         options = st.radio("Options: ", 
                                 options = [
@@ -12,11 +12,12 @@ def main():
                                     "2D Convolution",
                                     "Image Blurring"
                                         ],
+                            horizontal=True,
                             label_visibility="collapsed")
     
     if options == "Introduction":
+        st.subheader("Goals")
         st.markdown("""
-                    ### Goals
                     Learn to:
 
                     - Blur images with various low pass filters

@@ -12,9 +12,8 @@ def main():
                         horizontal=True, label_visibility="collapsed")
     with st.container(border=True):
         if options == "Introduction":
+            st.subheader("Goals")
             st.markdown("""    
-                    ## Goal
-
                     In this chapter,
                     We will learn different morphological operations like Erosion, Dilation, Opening, Closing, etc.
                     We will see different functions like:

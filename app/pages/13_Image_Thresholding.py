@@ -9,17 +9,18 @@ def main():
     st.title("Image Thresholding")
 
     # Select box for choosing the thresholding method
-    with st.sidebar.container(border=True):
+    with st.container(border=True):
         st.subheader("Topics")
         options = st.radio("Select Thresholding Method", 
                                         ["Introduction",
                                          "Simple Thresholding", 
                                         "Adaptive Thresholding", 
                                         "Otsu's Binarization"],
+                                        horizontal=True,
                                         label_visibility="collapsed")
 
     if options == "Introduction":
-        st.subheader("Goal")
+        st.subheader("Goals")
         st.markdown("""
                     - In this tutorial, you will learn Simple thresholding, Adaptive thresholding, 
                     Otsu’s thresholding etc.

@@ -8,7 +8,7 @@ def main():
     
     geoTrans = images.GeometricTransformations()
     
-    with st.sidebar.container(border=True):
+    with st.container(border=True):
         st.subheader("Topics")
         options = st.radio("Topics", options=['Introduction',
                                     'Scaling',
@@ -16,11 +16,12 @@ def main():
                                     'Rotation',
                                     'Affine Transformation',
                                     'Perspective Transformation'],
+                           horizontal=True,
                            label_visibility='collapsed')
         
     if options == 'Introduction':
+        st.subheader("Goals")
         st.markdown("""
-            ## Goals
             Learn to apply different geometric transformations to images, such as translation, rotation, affine transformation, etc.
             You will encounter these functions: `cv2.getPerspectiveTransform`
             ### Transformations
