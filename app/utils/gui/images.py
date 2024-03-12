@@ -2195,3 +2195,14 @@ class MorphologicalTransformation(ImageProcessing):
             st.code(f"{get_structuring_element(option, dim)}")
         except:
             st.info(f"Option not available for {option}")
+
+class ImageGradients(ImageProcessing):
+    def __init__(self):
+        pass
+    
+    def Theory(self):
+        pass
+    
+    def Important(self):
+        pass
+    
