@@ -2010,25 +2010,25 @@ class MorphologicalTransformation(ImageProcessing):
         st.image("app/assets/Images/j.png", width=200)
     
     def Erosion(self):
-        pass
+        st.subheader("1. Erosion")
     
     def Dilation(self):
-        pass 
+        st.subheader("2. Dilation")
     
     def Opening(self):
-        pass
+        st.subheader("3. Opening")
     
     def Closing(self):
-        pass
+        st.subheader("4. Closing")
     
     def MorphGradient(self):
-        pass
+        st.subheader("5. Morphological Gradient")
     
     def TopHat(self):
-        pass
+        st.subheader("6. Top Hat")
     
     def BlackHat(self):
-        pass
+        st.subheader("7. Black Hat")
     
     def StructuringElement(self):
-        pass
+        st.subheader("Structuring Element")
