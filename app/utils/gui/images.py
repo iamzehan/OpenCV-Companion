@@ -2205,4 +2205,43 @@ class ImageGradients(ImageProcessing):
     
     def Important(self):
         pass
+
+class CannyEdgeDetection(ImageProcessing):
+    def __init__(self):
+        pass
+
+class ImagePyramids(ImageProcessing):
+    def __init__(self):
+        pass
     
+class Contours(ImageProcessing):
+    def __init__(self):
+        pass
+
+class Histograms(ImageProcessing):
+    def __init__(self):
+        pass
+
+class ImageTransformations(ImageProcessing):
+    def __init__(self):
+        pass
+
+class TemplateMatching(ImageProcessing):
+    def __init__(self):
+        pass
+
+class HoughLineTransform(ImageProcessing):
+    def __init__(self):
+        pass
+
+class HoughCircleTransform(ImageProcessing):
+    def __init__(self):
+        pass
+
+class ImageSegmentation(ImageProcessing):
+    def __init__(self):
+        pass
+
+class InteractiveForegroundExtraction(ImageProcessing):
+    def __init__(self):
+        pass
