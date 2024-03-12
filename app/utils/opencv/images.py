@@ -226,3 +226,13 @@ def median_blur(img, intensity=5):
 
 def bilateral_filter(img, d, sigma_color, sigma_space):
     return cv.bilateralFilter(img, d, sigma_color, sigma_space)
+
+def get_binary_image(img):
+    _, binary_image = cv.threshold(img, 127, 255, cv.THRESH_BINARY)
+    return binary_image
+
+def erosion(img):
+    img = get_binary_image(img)
+    kernel = np.ones((5,5),np.uint8)
+    erosion = cv.erode(img, kernel, iterations = 1)
+    return erosion

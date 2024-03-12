@@ -39,7 +39,7 @@ class CommonComponents:
     def __init__(self):
         pass
     
-    def side_bar(self, multiple=False):
+    def side_bar(self, multiple=False, custom_msg=None):
         
         # File and name handling
         file = st.sidebar.file_uploader("Upload an Image:",
@@ -50,6 +50,8 @@ class CommonComponents:
         if not file:
             if multiple:
                 message.error("Upload images to see changes")
+            elif custom_msg:
+                message.error(custom_msg)
             else:
                 message.error("Upload an image to see changes")
             
@@ -1996,7 +1998,9 @@ class SmoothingImages(ImageProcessing):
 
 class MorphologicalTransformation(ImageProcessing):
     def __init__(self):
-        pass 
+        self.img = read_image("app/assets/Images/j.png")
+        self.img_file_name = 'j.png'
+        self.img_file=None
     
     def Theory(self):
         st.markdown("""
@@ -2012,10 +2016,31 @@ class MorphologicalTransformation(ImageProcessing):
     def Erosion(self):
         st.subheader("1. Erosion")
         st.markdown("""
+                    The basic idea of erosion is similar to soil erosion. It erodes away the boundaries of the foreground object 
+                    (Always try to keep foreground in white). So, what does it do? The kernel slides through the image (as in 2D 
+                    convolution). A pixel in the original image (either 1 or 0) will be considered 1 only if all the pixels under
+                    the kernel are 1; otherwise, it is eroded (made to zero).
+
+                    So what happens is that all the pixels near the boundary will be discarded depending upon the size of the kernel.
+                    The thickness or size of the foreground object decreases, or simply, the white region decreases in the image. 
+                    It is useful for removing small white noises (as we have seen in the color space chapter), detaching two connected
+                    objects, etc.
+
+                    Here, as an example, I would use a 5x5 kernel filled with ones. Let’s see how it works:
+                    """
+                    )
+        st.subheader("Code")
+        st.code(f"""
+                import cv2
+                import numpy as np
+
+                img = cv2.imread('{self.img_file_name}',0)
+                kernel = np.ones((5,5),np.uint8)
+                erosion = cv2.erode(img, kernel, iterations = 1)
                 """)
-        st.code("""
-                """)
-    
+        st.subheader("Output")
+        st.image(self.img)
+        
     def Dilation(self):
         st.subheader("2. Dilation")
         st.markdown("""
