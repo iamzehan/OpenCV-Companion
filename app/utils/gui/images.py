@@ -84,7 +84,10 @@ class CommonComponents:
             columns = st.columns(num_columns)
             for col in range(num_columns):
                 index = row * num_columns + col
-                columns[col].image(images[index], channels='BGR', caption=titles[index], use_column_width=True)
+                try:
+                    columns[col].image(images[index], channels='BGR', caption=titles[index], use_column_width=True)
+                except:
+                    columns[col].image(images[index], caption=titles[index], use_column_width=True)
                         
 class GUIFeatures(CommonComponents):
     
