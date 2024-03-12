@@ -31,7 +31,16 @@ from utils.opencv.images import (
     averaging,
     gaussian_blur,
     median_blur,
-    bilateral_filter)
+    bilateral_filter,
+    erosion,
+    dilation,
+    opening,
+    closing,
+    morph_gradient,
+    top_hat,
+    black_hat,
+    get_morph,
+    get_structuring_element)
 
 # Getting Started with Images (Page - 2)
 
@@ -2029,62 +2038,160 @@ class MorphologicalTransformation(ImageProcessing):
                     Here, as an example, I would use a 5x5 kernel filled with ones. Let’s see how it works:
                     """
                     )
+        st.subheader("Perameters")
+        dimensions = {"3 x 3": (3, 3), "5 x 5": (5,5), "7 x 7": (7, 7)}
+        dim = dimensions[st.selectbox("Kernel:", index=1, options=["3 x 3", "5 x 5", "7 x 7"])]
+        iterations = st.slider("Iterations: ", min_value=1, value=1, max_value=10)
         st.subheader("Code")
         st.code(f"""
                 import cv2
                 import numpy as np
 
                 img = cv2.imread('{self.img_file_name}',0)
-                kernel = np.ones((5,5),np.uint8)
-                erosion = cv2.erode(img, kernel, iterations = 1)
+                kernel = np.ones({dim},np.uint8)
+                erosion = cv2.erode(img, kernel, iterations = {iterations})
                 """)
         st.subheader("Output")
-        st.image(self.img)
-        
+        images = [self.img, erosion(self.img, dim, iterations)]
+        titles = ['Original', 'Erosion']
+        self.grid(1, 2, titles, images)
+        st.info("""
+                ⚠️ Note:
+                > In order for the function `cv2.erode()` to work, the input image must be
+                a binary image or to be converted into a binary image. We can do that by 
+                using the following function:
+                
+                ```python
+                def get_binary_image(img):
+                    _, binary_image = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)
+                    return binary_image
+                ```
+                """)
     def Dilation(self):
         st.subheader("2. Dilation")
         st.markdown("""
+                    It is just opposite of erosion. Here, a pixel element is ‘1’ if at least one pixel under the kernel is ‘1’. 
+                    So it increases the white region in the image or the size of the foreground object increases. Normally, 
+                    in cases like noise removal, erosion is followed by dilation. Because erosion removes white noises, 
+                    but it also shrinks our object. So we dilate it. Since noise is gone, they won’t come back, 
+                    but our object area increases. It is also useful in joining broken parts of an object.
+                    """
+                    )
+        st.subheader("Perameters")
+        dimensions = {"3 x 3": (3, 3), "5 x 5": (5,5), "7 x 7": (7, 7)}
+        dim = dimensions[st.selectbox("Kernel:", index=1, options=["3 x 3", "5 x 5", "7 x 7"])]
+        iterations = st.slider("Iterations: ", min_value=1, value=1, max_value=10)
+        st.subheader("Code")
+        st.code(f"""
+                dilation = cv2.dilate(img,kernel,iterations = {iterations})
                 """)
-        st.code("""
-                """)
+        erode, dilate = dilation(self.img, dim, iterations)
+        st.subheader("Output")
+        self.grid(1, 3, titles=['Original','Erosion', 'Dilation'],images=[self.img, erode, dilate])
         
     def Opening(self):
         st.subheader("3. Opening")
         st.markdown("""
+                    Opening is just another name of **erosion followed by dilation**. 
+                    It is useful in removing noise, 
+                    as we explained above. Here we use the function, `cv2.morphologyEx()`
                 """)
+        if not self.img_file:
+            self.img = read_image('app/assets/Images/j - noise.png')
+        st.subheader("Perameters")
+        dimensions = {"3 x 3": (3, 3), "5 x 5": (5,5), "7 x 7": (7, 7)}
+        dim = dimensions[st.selectbox("Kernel:", index=1, options=["3 x 3", "5 x 5", "7 x 7"])]
+        st.subheader("Code")
         st.code("""
+                opening = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
                 """)
-         
+        st.subheader("Output")
+        self.grid(1, 2, titles=['Original', 'Opening'], images=[self.img, opening(self.img, dim)])
+    
     def Closing(self):
         st.subheader("4. Closing")
         st.markdown("""
+                    Closing is reverse of Opening, Dilation followed by Erosion. 
+                    It is useful in closing small holes inside the foreground objects, 
+                    or small black points on the object.
                 """)
+        
+        if not self.img_file:
+            self.img = read_image('app/assets/Images/j - holes.png')
+            
+        st.subheader("Perameters")
+        dimensions = {"3 x 3": (3, 3), "5 x 5": (5,5), "7 x 7": (7, 7)}
+        dim = dimensions[st.selectbox("Kernel:", index=1, options=["3 x 3", "5 x 5", "7 x 7"])]
+        st.subheader("Code")
         st.code("""
+                closing = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)
                 """)
-           
+        st.subheader("Output")
+        self.grid(1, 2, titles=['Original', 'Closing'], images=[self.img, closing(self.img, dim)])
+        
     def MorphGradient(self):
         st.subheader("5. Morphological Gradient")
         st.markdown("""
+                    It is the difference between dilation and erosion of an image.
+
+                    The result will look like the outline of the object.
                 """)
+        st.subheader("Perameters")
+        dimensions = {"3 x 3": (3, 3), "5 x 5": (5,5), "7 x 7": (7, 7)}
+        dim = dimensions[st.selectbox("Kernel:", index=1, options=["3 x 3", "5 x 5", "7 x 7"])]
+        st.subheader("Code")
         st.code("""
+                gradient = cv2.morphologyEx(img, cv2.MORPH_GRADIENT, kernel)
                 """) 
+        st.subheader("Output")
+        self.grid(1, 2, titles=['Original', 'Morphological Gradient'], images = [self.img, morph_gradient(self.img, dim)])
+        
     def TopHat(self):
         st.subheader("6. Top Hat")
         st.markdown("""
+                    It is the difference between input image and Opening of the image. Below example is done for a 9x9 kernel.
                 """)
+        dimensions = {"3 x 3": (3, 3), "5 x 5": (5,5), "7 x 7": (7, 7), "9 x 9": (9, 9)}
+        dim = dimensions[st.selectbox("Kernel:", index=3, options=["3 x 3", "5 x 5", "7 x 7", "9 x 9"])]
+        st.subheader("Code")
         st.code("""
+                tophat = cv2.morphologyEx(img, cv2.MORPH_TOPHAT, kernel)
                 """)
+        st.subheader("Output")
+        self.grid(1, 2, titles=['Original', 'Top Hat'], images = [self.img, top_hat(self.img, dim)])
           
     def BlackHat(self):
         st.subheader("7. Black Hat")
         st.markdown("""
+                    It is the difference between the closing of the input image and input image.
                 """)
+        dimensions = {"3 x 3": (3, 3), "5 x 5": (5,5), "7 x 7": (7, 7), "9 x 9": (9, 9)}
+        dim = dimensions[st.selectbox("Kernel:", index=3, options=["3 x 3", "5 x 5", "7 x 7", "9 x 9"])]
+        st.subheader("Code")
         st.code("""
+                blackhat = cv2.morphologyEx(img, cv2.MORPH_BLACKHAT, kernel)
                 """)
+        st.subheader("Output")
+        self.grid(1, 2, titles=['Original', 'Black Hat'], images = [self.img, black_hat(self.img, dim)])
         
     def StructuringElement(self):
         st.subheader("Structuring Element")
         st.markdown("""
+                    We manually created a structuring elements in the previous examples with help of Numpy.
+                    It is rectangular shape. But in some cases, you may need elliptical/circular shaped kernels. 
+                    So for this purpose, OpenCV has a function, `cv2.getStructuringElement()`. 
+                    You just pass the shape and size of the kernel, you get the desired kernel.
                 """)
-        st.code("""
+        option = st.selectbox("Options:", index=2, options=get_morph())
+        dimensions = {"3 x 3": (3, 3), "5 x 5": (5,5), "7 x 7": (7, 7), "9 x 9": (9, 9)}
+        dim = dimensions[st.selectbox("Kernel:", index=1, options=["3 x 3", "5 x 5", "7 x 7", "9 x 9"])]
+        st.subheader("Code")
+        st.code(f"""
+                import cv2
+                cv2.getStructuringElement(cv2.{option},{dim})
                 """)
+        st.subheader("Output")
+        try:
+            st.code(f"{get_structuring_element(option, dim)}")
+        except:
+            st.info(f"Option not available for {option}")

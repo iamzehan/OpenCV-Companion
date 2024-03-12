@@ -242,3 +242,54 @@ def dilation(img, dim=(5,5), iterations=1):
     kernel = np.ones(dim, np.uint8)
     dilation = cv.dilate(img, kernel, iterations=iterations)
     return erode, dilation
+
+def opening(img, dim=(5,5)):
+    img = get_binary_image(img)
+    kernel = np.ones(dim, np.uint8)
+    opening = cv.morphologyEx(img, cv.MORPH_OPEN, kernel)
+    return opening
+
+def closing(img, dim=(5,5)):
+    img = get_binary_image(img)
+    kernel = np.ones(dim, np.uint8)
+    closing = cv.morphologyEx(img, cv.MORPH_CLOSE, kernel)
+    return closing
+
+def morph_gradient(img, dim=(5,5)):
+    img = get_binary_image(img)
+    kernel = np.ones(dim, np.uint8)
+    gradient = cv.morphologyEx(img, cv.MORPH_GRADIENT, kernel)
+    return gradient 
+
+def top_hat(img, dim=(9,9)):
+    img = get_binary_image(img)
+    kernel = np.ones(dim, np.uint8)
+    tophat = cv.morphologyEx(img, cv.MORPH_TOPHAT, kernel)
+    return tophat
+
+def black_hat(img, dim=(9,9)):
+    img = get_binary_image(img)
+    kernel = np.ones(dim, np.uint8)
+    blackhat = cv.morphologyEx(img, cv.MORPH_BLACKHAT, kernel)
+    return blackhat
+
+def get_morph():
+    flags = [i for i in dir(cv) if i.startswith('MORPH_')]
+    return flags
+
+def get_structuring_element(key, dim):
+    morph_operations = {
+    "MORPH_BLACKHAT": cv.MORPH_BLACKHAT,
+    "MORPH_CLOSE": cv.MORPH_CLOSE,
+    "MORPH_CROSS": cv.MORPH_CROSS,
+    "MORPH_DILATE": cv.MORPH_DILATE,
+    "MORPH_ELLIPSE": cv.MORPH_ELLIPSE,
+    "MORPH_ERODE": cv.MORPH_ERODE,
+    "MORPH_GRADIENT": cv.MORPH_GRADIENT,
+    "MORPH_HITMISS": cv.MORPH_HITMISS,
+    "MORPH_OPEN": cv.MORPH_OPEN,
+    "MORPH_RECT": cv.MORPH_RECT,
+    "MORPH_TOPHAT": cv.MORPH_TOPHAT,
+    }
+    
+    return cv.getStructuringElement(morph_operations[key],dim)
