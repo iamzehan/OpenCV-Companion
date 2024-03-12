@@ -1999,7 +1999,15 @@ class MorphologicalTransformation(ImageProcessing):
         pass 
     
     def Theory(self):
-        pass
+        st.markdown("""
+                    ### Theory
+                    Morphological transformations are some simple operations based on the image shape. 
+                    It is normally performed on binary images. It needs two inputs, one is our original image,
+                    second one is called structuring element or kernel which decides the nature of operation.
+                    Two basic morphological operators are Erosion and Dilation. Then its variant forms like Opening,
+                    Closing, Gradient etc also comes into play. We will see them one-by-one with help of following image:
+                    """)
+        st.image("https://opencv24-python-tutorials.readthedocs.io/en/latest/_images/j.png", width=200)
     
     def Erosion(self):
         pass
