@@ -3,9 +3,16 @@ from utils.gui import footer, menu, images
 
 def main():
     morph_trans = images.MorphologicalTransformation()
-    st.markdown("""
-                # Morphological Transformations
+    st.header("Morphological Transformations")
+    
+    with st.container(border=True):
+        st.subheader("Topics")
+        options = st.radio("Select Function:", ["Introduction", "Theory", "Erosion", "Dilation", "Opening", "Closing", 
+                                            "MorphGradient", "TopHat", "BlackHat", "StructuringElement"], 
+                        horizontal=True, label_visibility="collapsed")
 
+    if options == "Introduction":
+        st.markdown("""    
                 ## Goal
 
                 In this chapter,
@@ -14,15 +21,8 @@ def main():
                 - `cv2.erode()`
                 - `cv2.dilate()`
                 - `cv2.morphologyEx()`
-
                 """)
-    with st.container(border=True):
-        st.subheader("Topics")
-        options = st.radio("Select Function:", ["Theory", "Erosion", "Dilation", "Opening", "Closing", 
-                                            "MorphGradient", "TopHat", "BlackHat", "StructuringElement"], 
-                        horizontal=True, label_visibility="collapsed")
-
-    if options == "Theory":
+    elif options == "Theory":
         morph_trans.Theory()
     elif options == "Erosion":
         morph_trans.Erosion()
