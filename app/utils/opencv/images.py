@@ -231,8 +231,14 @@ def get_binary_image(img):
     _, binary_image = cv.threshold(img, 127, 255, cv.THRESH_BINARY)
     return binary_image
 
-def erosion(img):
+def erosion(img, dim=(5,5), iterations=1):
     img = get_binary_image(img)
-    kernel = np.ones((5,5),np.uint8)
-    erosion = cv.erode(img, kernel, iterations = 1)
+    kernel = np.ones(dim,np.uint8)
+    erosion = cv.erode(img, kernel, iterations = iterations)
     return erosion
+
+def dilation(img, dim=(5,5), iterations=1):
+    erode = erosion(img, dim, iterations)
+    kernel = np.ones(dim, np.uint8)
+    dilation = cv.dilate(img, kernel, iterations=iterations)
+    return erode, dilation
