@@ -2007,7 +2007,7 @@ class MorphologicalTransformation(ImageProcessing):
                     Two basic morphological operators are Erosion and Dilation. Then its variant forms like Opening,
                     Closing, Gradient etc also comes into play. We will see them one-by-one with help of following image:
                     """)
-        st.image("assets/Images/j.png", width=200)
+        st.image("app/assets/Images/j.png", width=200)
     
     def Erosion(self):
         pass
