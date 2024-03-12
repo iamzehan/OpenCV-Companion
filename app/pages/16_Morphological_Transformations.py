@@ -16,9 +16,11 @@ def main():
                 - `cv2.morphologyEx()`
 
                 """)
-    
-    options = st.radio("Select Function:", ["Theory", "Erosion", "Dilation", "Opening", "Closing", 
-                                           "MorphGradient", "TopHat", "BlackHat", "StructuringElement"])
+    with st.container(border=True):
+        st.subheader("Topics")
+        options = st.radio("Select Function:", ["Theory", "Erosion", "Dilation", "Opening", "Closing", 
+                                            "MorphGradient", "TopHat", "BlackHat", "StructuringElement"], 
+                        horizontal=True, label_visibility="collapsed")
 
     if options == "Theory":
         morph_trans.Theory()
