@@ -2011,24 +2011,55 @@ class MorphologicalTransformation(ImageProcessing):
     
     def Erosion(self):
         st.subheader("1. Erosion")
+        st.markdown("""
+                """)
+        st.code("""
+                """)
     
     def Dilation(self):
         st.subheader("2. Dilation")
-    
+        st.markdown("""
+                """)
+        st.code("""
+                """)
+        
     def Opening(self):
         st.subheader("3. Opening")
-    
+        st.markdown("""
+                """)
+        st.code("""
+                """)
+         
     def Closing(self):
         st.subheader("4. Closing")
-    
+        st.markdown("""
+                """)
+        st.code("""
+                """)
+           
     def MorphGradient(self):
         st.subheader("5. Morphological Gradient")
-    
+        st.markdown("""
+                """)
+        st.code("""
+                """) 
     def TopHat(self):
         st.subheader("6. Top Hat")
-    
+        st.markdown("""
+                """)
+        st.code("""
+                """)
+          
     def BlackHat(self):
         st.subheader("7. Black Hat")
-    
+        st.markdown("""
+                """)
+        st.code("""
+                """)
+        
     def StructuringElement(self):
         st.subheader("Structuring Element")
+        st.markdown("""
+                """)
+        st.code("""
+                """)
