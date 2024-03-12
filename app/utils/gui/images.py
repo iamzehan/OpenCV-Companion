@@ -1993,3 +1993,34 @@ class SmoothingImages(ImageProcessing):
                 
             elif options == "Bilateral Filtering":
                 BilateralFiltering()
+
+class MorphologicalTransformation(ImageProcessing):
+    def __init__(self):
+        pass 
+    
+    def Theory(self):
+        pass
+    
+    def Erosion(self):
+        pass
+    
+    def Dilation(self):
+        pass 
+    
+    def Opening(self):
+        pass
+    
+    def Closing(self):
+        pass
+    
+    def MorphGradient(self):
+        pass
+    
+    def TopHat(self):
+        pass
+    
+    def BlackHat(self):
+        pass
+    
+    def StructuringElement(self):
+        pass
