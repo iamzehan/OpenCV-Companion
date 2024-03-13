@@ -324,3 +324,9 @@ def low_reso(img, level=1):
 
 def high_reso(img):
     return cv.pyrUp(img)
+
+def laplacian_levels(img, level = 1):
+    img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    img = low_reso(img, level)
+    
+    return cv.Laplacian(img,cv.CV_64F)
