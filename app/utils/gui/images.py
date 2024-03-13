@@ -2639,7 +2639,7 @@ class ImagePyramids(ImageProcessing):
                 cv2.imwrite('Pyramid_blending2.jpg',ls_)
                 cv2.imwrite('Direct_blending.jpg',real)
                 """)
-        st.subheader("Output")
+        st.subheader("Output (Creating Orapple)")
         self.grid(1,2, titles=['Pyramid Blending', 'Direct Blending'], images=[pyr_blend, dir_blend])
         
     
