@@ -2258,6 +2258,11 @@ class ImageGradients(ImageProcessing):
         st.subheader("Output")
         self.grid(2, 2, titles=["Original", "Laplacian", "Sobel - X", "Sobel - Y"],
                   images=img_gradient(self.img, param),clamp=True)
+        
+        if self.img_file:
+            st.success("Showing results for uploaded image") 
+        else:
+            st.info("Showing results for example image")
     
     def Important(self, param):
         
@@ -2308,6 +2313,11 @@ class ImageGradients(ImageProcessing):
         st.subheader("Output")
         self.grid(1, 3, titles=["Original", "Sobel CV_8U", "Sobel abs(CV_64F)"],
                   images=img_gradient(self.img, param),clamp=True)
+        
+        if self.img_file:
+            st.success("Showing results for uploaded image") 
+        else:
+            st.info("Showing results for example image")
 
 class CannyEdgeDetection(ImageProcessing):
     def __init__(self):
