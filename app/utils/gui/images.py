@@ -44,7 +44,8 @@ from utils.opencv.images import (
     img_gradient,
     Canny,
     low_reso,
-    high_reso)
+    high_reso,
+    laplacian_levels)
 
 # Getting Started with Images (Page - 2)
 
@@ -2520,7 +2521,23 @@ class ImagePyramids(ImageProcessing):
         hh, ww, _ = levelwise.shape 
         self.grid(1, 2, titles=[f"Original ({h} x {w})", f"Lower Resolution ({hh} x {ww}) - Level {level}"], images=[self.img, levelwise])
         
-
+        st.markdown("""
+                    Laplacian Pyramids are formed from the Gaussian Pyramids. There is no exclusive function for that. 
+                    Laplacian pyramid images are like edge images only. Most of its elements are zeros. 
+                    They are used in image compression. A level in Laplacian Pyramid is formed by the difference between 
+                    that level in Gaussian Pyramid and expanded version of its upper level in Gaussian Pyramid. The three
+                    levels of a Laplacian level will look like below (contrast is adjusted to enhance the contents):
+                    """)
+        
+        titles = []
+        laplacian_images = []
+        for i in range(1,4):
+            laplacian_image = laplacian_levels(self.img, i)
+            laplacian_images.append(laplacian_image)
+            lh, lw = laplacian_image.shape 
+            titles.append(f"Level - {i} ({lh} x {lw})")
+        self.grid(1, 3, titles, images=laplacian_images,clamp=True)
+        
     def ImageBlending(self):
         pass
     
