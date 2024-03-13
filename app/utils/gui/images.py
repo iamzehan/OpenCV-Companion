@@ -2516,27 +2516,31 @@ class ImagePyramids(ImageProcessing):
                     """)
         
         st.subheader("Parameter")
-        level = st.number_input("Level",min_value=1, max_value=5) 
+        level = st.number_input("Pyramid Level: ",min_value=1, max_value=5) 
         levelwise = low_reso(self.img, level)
         hh, ww, _ = levelwise.shape 
+        st.subheader("Output")
         self.grid(1, 2, titles=[f"Original ({h} x {w})", f"Lower Resolution ({hh} x {ww}) - Level {level}"], images=[self.img, levelwise])
         
-        st.markdown("""
-                    Laplacian Pyramids are formed from the Gaussian Pyramids. There is no exclusive function for that. 
-                    Laplacian pyramid images are like edge images only. Most of its elements are zeros. 
-                    They are used in image compression. A level in Laplacian Pyramid is formed by the difference between 
-                    that level in Gaussian Pyramid and expanded version of its upper level in Gaussian Pyramid. The three
-                    levels of a Laplacian level will look like below (contrast is adjusted to enhance the contents):
-                    """)
+        passage = st.empty()
         
         titles = []
         laplacian_images = []
-        for i in range(1,4):
+        level = st.number_input("Laplacian Level: ",min_value=1, value=3, max_value=5) 
+        passage.markdown(f"""
+                    Laplacian Pyramids are formed from the Gaussian Pyramids. There is no exclusive function for that. 
+                    Laplacian pyramid images are like edge images only. Most of its elements are zeros. 
+                    They are used in image compression. A level in Laplacian Pyramid is formed by the difference between 
+                    that level in Gaussian Pyramid and expanded version of its upper level in Gaussian Pyramid. The {level}
+                    levels of a Laplacian level will look like below (contrast is adjusted to enhance the contents):
+                    """)
+        for i in range(1,level+1):
             laplacian_image = laplacian_levels(self.img, i)
             laplacian_images.append(laplacian_image)
             lh, lw = laplacian_image.shape 
-            titles.append(f"Level - {i} ({lh} x {lw})")
-        self.grid(1, 3, titles, images=laplacian_images,clamp=True)
+            titles.append(f"Laplacian Level - {i} ({lh} x {lw})")
+        st.subheader("Output")
+        self.grid(1, level, titles, images=laplacian_images,clamp=True)
         
     def ImageBlending(self):
         pass
