@@ -293,3 +293,19 @@ def get_structuring_element(key, dim):
     }
     
     return cv.getStructuringElement(morph_operations[key],dim)
+
+def img_gradient(img, options = None):
+    img = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
+    if options == "Theory":
+        laplacian = cv.Laplacian(img,cv.CV_64F)
+        sobelx = cv.Sobel(img,cv.CV_64F,1,0,ksize=5)
+        sobely = cv.Sobel(img,cv.CV_64F,0,1,ksize=5)
+        return [img, laplacian, sobelx, sobely]
+    if options == "One important matter!":
+        # Output dtype = cv2.CV_8U
+        sobelx8u = cv.Sobel(img,cv.CV_8U,1,0,ksize=5)
+        # Output dtype = cv2.CV_64F. Then take its absolute and convert to cv2.CV_8U
+        sobelx64f = cv.Sobel(img,cv.CV_64F,1,0,ksize=5)
+        abs_sobel64f = np.absolute(sobelx64f)
+        sobel_8u = np.uint8(abs_sobel64f)
+        return [img, sobelx8u, sobel_8u]

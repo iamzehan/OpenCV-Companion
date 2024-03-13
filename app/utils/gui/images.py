@@ -40,7 +40,8 @@ from utils.opencv.images import (
     top_hat,
     black_hat,
     get_morph,
-    get_structuring_element)
+    get_structuring_element,
+    img_gradient)
 
 # Getting Started with Images (Page - 2)
 
@@ -79,15 +80,15 @@ class CommonComponents:
                 self.img_file_name = file.name
                 self.img = bytes_to_image(file.read())
                 
-    def grid(self, num_rows, num_columns, titles, images):
+    def grid(self, num_rows, num_columns, titles, images, clamp=False):
         for row in range(num_rows):
             columns = st.columns(num_columns)
             for col in range(num_columns):
                 index = row * num_columns + col
                 try:
-                    columns[col].image(images[index], channels='BGR', caption=titles[index], use_column_width=True)
+                    columns[col].image(images[index], channels='BGR',clamp=clamp, caption=titles[index], use_column_width=True)
                 except:
-                    columns[col].image(images[index], caption=titles[index], use_column_width=True)
+                    columns[col].image(images[index], caption=titles[index], clamp=clamp, use_column_width=True)
                         
 class GUIFeatures(CommonComponents):
     
@@ -2200,14 +2201,113 @@ class MorphologicalTransformation(ImageProcessing):
             st.info(f"Option not available for {option}")
 
 class ImageGradients(ImageProcessing):
-    def __init__(self):
-        pass
+
+    def Theory(self, param):
+        st.markdown("""
+                    # Gradient Filters in OpenCV
+
+                    OpenCV provides three types of gradient filters or High-pass filters: Sobel, Scharr, and Laplacian. 
+                    We will explore each one of them.
+
+                    ## 1. Sobel and Scharr Derivatives
+
+                    Sobel operators are a joint Gaussian smoothing plus differentiation operation, making them more resistant to noise. 
+                    You can specify the direction of derivatives to be taken (vertical or horizontal) using the arguments `yorder` and `xorder` respectively.
+                    Additionally, you can specify the size of the kernel with the argument `ksize`. If `ksize = -1`, a 3x3 Scharr filter is used, which gives
+                    better results than a 3x3 Sobel filter. Please refer to the documentation for details on the kernels used.
+
+                    ## 2. Laplacian Derivatives
+
+                    Laplacian Derivatives calculate the Laplacian of the image using the relation:
+                    $$\Delta src = \\frac{\partial ^2{src}}{\partial x^2} + \\frac{\partial ^2{src}}{\partial y^2}$$ 
+                    where each derivative is found using Sobel derivatives. If `ksize = 1`, the following kernel is used for filtering:""")
+
+        st.latex(r"kernel = \begin{bmatrix} 0 & 1 & 0 \\ 1 & -4 & 1 \\ 0 & 1 & 0  \end{bmatrix}")
+        
+        st.subheader("Code")
+        st.markdown("""Below code shows all operators in a single diagram. 
+                    All kernels are of 5x5 size. Depth of output image is 
+                    passed -1 to get the result in np.uint8 type.""")
+        
+        if not self.img_file:
+            self.img = read_image('app/assets/Images/sudoku.jpg')
+            self.img_file_name = 'sudoku.jpg'
+            
+        st.code(f"""
+                import cv2
+                import numpy as np
+                from matplotlib import pyplot as plt
+
+                img = cv2.imread('{self.img_file_name}',0)
+
+                laplacian = cv2.Laplacian(img,cv2.CV_64F)
+                sobelx = cv2.Sobel(img,cv2.CV_64F,1,0,ksize=5)
+                sobely = cv2.Sobel(img,cv2.CV_64F,0,1,ksize=5)
+
+                plt.subplot(2,2,1),plt.imshow(img,cmap = 'gray')
+                plt.title('Original'), plt.xticks([]), plt.yticks([])
+                plt.subplot(2,2,2),plt.imshow(laplacian,cmap = 'gray')
+                plt.title('Laplacian'), plt.xticks([]), plt.yticks([])
+                plt.subplot(2,2,3),plt.imshow(sobelx,cmap = 'gray')
+                plt.title('Sobel X'), plt.xticks([]), plt.yticks([])
+                plt.subplot(2,2,4),plt.imshow(sobely,cmap = 'gray')
+                plt.title('Sobel Y'), plt.xticks([]), plt.yticks([])
+
+                plt.show()
+                """)
+        st.subheader("Output")
+        self.grid(2, 2, titles=["Original", "Laplacian", "Sobel - X", "Sobel - Y"],
+                  images=img_gradient(self.img, param),clamp=True)
     
-    def Theory(self):
-        pass
-    
-    def Important(self):
-        pass
+    def Important(self, param):
+        
+        st.markdown("""
+                    In our last example, the output datatype is `cv2.CV_8U` or `np.uint8`. 
+                    However, there is a slight problem with that. The Black-to-White transition 
+                    is taken as a positive slope (it has a positive value), while White-to-Black 
+                    transition is taken as a negative slope (it has a negative value). So when you
+                    convert data to `np.uint8`, all negative slopes are made zero. 
+                    In simple words, you miss that edge.
+
+                    If you want to detect both edges, a better option is to keep the output datatype 
+                    to some higher forms, like `cv2.CV_16S`, `cv2.CV_64F`, etc., take its absolute value,
+                    and then convert back to `cv2.CV_8U`. The below code demonstrates this procedure for 
+                    a horizontal Sobel filter and highlights the difference in results.
+                    """)
+        
+        if not self.img_file:
+            self.img = read_image('app/assets/Images/box.png')
+            self.img_file_name = 'box.png'
+        
+        st.subheader("Code")
+        st.code(f"""
+                import cv2
+                import numpy as np
+                from matplotlib import pyplot as plt
+
+                img = cv2.imread('{self.img_file_name}',0)
+
+                # Output dtype = cv2.CV_8U
+                sobelx8u = cv2.Sobel(img,cv2.CV_8U,1,0,ksize=5)
+
+                # Output dtype = cv2.CV_64F. Then take its absolute and convert to cv2.CV_8U
+                sobelx64f = cv2.Sobel(img,cv2.CV_64F,1,0,ksize=5)
+                abs_sobel64f = np.absolute(sobelx64f)
+                sobel_8u = np.uint8(abs_sobel64f)
+
+                plt.subplot(1,3,1),plt.imshow(img,cmap = 'gray')
+                plt.title('Original'), plt.xticks([]), plt.yticks([])
+                plt.subplot(1,3,2),plt.imshow(sobelx8u,cmap = 'gray')
+                plt.title('Sobel CV_8U'), plt.xticks([]), plt.yticks([])
+                plt.subplot(1,3,3),plt.imshow(sobel_8u,cmap = 'gray')
+                plt.title('Sobel abs(CV_64F)'), plt.xticks([]), plt.yticks([])
+
+                plt.show()
+                """)
+        
+        st.subheader("Output")
+        self.grid(1, 3, titles=["Original", "Sobel CV_8U", "Sobel abs(CV_64F)"],
+                  images=img_gradient(self.img, param),clamp=True)
 
 class CannyEdgeDetection(ImageProcessing):
     def __init__(self):

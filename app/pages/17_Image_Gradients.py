@@ -23,12 +23,12 @@ def main():
         elif options == "Theory":
             st.subheader("Theory")
             image_gradient.side_bar()
-            image_gradient.Theory()
+            image_gradient.Theory(options)
         
         elif options == "One important matter!":
             st.subheader("One important matter!")
             image_gradient.side_bar()
-            image_gradient.Important()
+            image_gradient.Important(options)
         
 if __name__ == '__main__':
     st.set_page_config("Image Gradients", page_icon='app/assets/Images/OpenCV_Logo_with_text.png')
