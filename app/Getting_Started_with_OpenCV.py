@@ -20,7 +20,7 @@ def main():
                     .button-link {
                         display: inline-block;
                         padding: 10px 40px;
-                        background-color: #4BFF90;
+                        background-color: #FF4B4B;
                         color: #FFFFFF!important;
                         text-align: center;
                         text-decoration: none;

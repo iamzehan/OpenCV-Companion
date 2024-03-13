@@ -34,14 +34,14 @@ def footer():
                     width: 100%;
                 }}
                 a {{
-                    color: #fff;
+                    color: #fff!important;
                     text-decoration: none;
                     font-weight: bold;
                 }}
                 
                 a:hover {{
                     text-decoration: underline;
-                    color: #34eb5b;
+                    color: #FF4B4B!important;
                 }}
                 
                 .blank-div {{
@@ -56,12 +56,12 @@ def footer():
             }}
             
             .Label--success {{
-                    border-color: #34eb5b;
-                    color: #34eb5b;
+                    border-color: #FF4B4B;
+                    color: #FF4B4B;
             }}
 
             .Label, .label {{
-                border: 1px solid #34eb5b;
+                border: 1px solid #FF4B4B;
                 border-radius: 1em;
                 display: inline-block;
                 font-size: var(--text-body-size-small, 0.75rem);
