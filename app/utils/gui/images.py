@@ -2552,8 +2552,13 @@ class ImagePyramids(ImageProcessing):
                     example of this is the blending of two fruits, Orange and Apple. See the result now itself to understand 
                     what I am saying:
                     """)
+        # reading images
+        img1 = read_image('app/assets/Images/apple.jpg')
+        img2 = read_image('app/assets/Images/orange.jpg')
         
-        st.image("app/assets/Images/orapple.jpg", use_column_width=True)
+        pyr_blend, dir_blend = image_blending(img1, img2)
+        
+        self.grid(2,2, titles=['Apple', 'Orange', 'Pyramid Blending', 'Direct Blending'], images=[img1, img2, pyr_blend, dir_blend])
         
         st.markdown("""
                     Please check the first reference in additional resources; it has full diagrammatic details on image blending, 
@@ -2570,9 +2575,7 @@ class ImagePyramids(ImageProcessing):
 
                     """)
         
-        # reading images
-        img1 = read_image('app/assets/Images/apple.jpg')
-        img2 = read_image('app/assets/Images/orange.jpg')
+        
         
         st.subheader("Code")
         st.code("""
@@ -2637,7 +2640,7 @@ class ImagePyramids(ImageProcessing):
                 cv2.imwrite('Direct_blending.jpg',real)
                 """)
         st.subheader("Output")
-        self.grid(1,2, titles=['Pyramid Blending', 'Direct Blending'], images=image_blending(img1, img2))
+        self.grid(1,2, titles=['Pyramid Blending', 'Direct Blending'], images=[pyr_blend, dir_blend])
         
     
 class Contours(ImageProcessing):
