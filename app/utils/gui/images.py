@@ -45,7 +45,8 @@ from utils.opencv.images import (
     Canny,
     low_reso,
     high_reso,
-    laplacian_levels)
+    laplacian_levels,
+    image_blending)
 
 # Getting Started with Images (Page - 2)
 
@@ -2511,7 +2512,7 @@ class ImagePyramids(ImageProcessing):
         
         st.markdown("""
                     Remember, higher_reso2 is not equal to higher_reso, because once you decrease the resolution, 
-                    you loose the information. Below image is 3 level down the pyramid created from smallest image
+                    you lose the information. Below image is 3 level down the pyramid created from smallest image
                     in previous case. Compare it with original image:
                     """)
         
@@ -2543,7 +2544,101 @@ class ImagePyramids(ImageProcessing):
         self.grid(1, level, titles, images=laplacian_images,clamp=True)
         
     def ImageBlending(self):
-        pass
+        st.subheader("Image Blending using Pyramids")
+        st.markdown("""
+                    One application of Pyramids is Image Blending. For example, in image stitching, you will need to stack 
+                    two images together, but it may not look good due to discontinuities between images. In that case, image
+                    blending with Pyramids gives you seamless blending without leaving much data in the images. One classical
+                    example of this is the blending of two fruits, Orange and Apple. See the result now itself to understand 
+                    what I am saying:
+                    """)
+        
+        st.image("app/assets/Images/orapple.jpg", use_column_width=True)
+        
+        st.markdown("""
+                    Please check the first reference in additional resources; it has full diagrammatic details on image blending, 
+                    Laplacian Pyramids, etc. Simply, it is done as follows:
+
+                    1. Load the two images of apple and orange.
+                    2. Find the Gaussian Pyramids for apple and orange (in this particular example, the number of levels is 6).
+                    3. From Gaussian Pyramids, find their Laplacian Pyramids.
+                    4. Now, join the left half of the apple and the right half of the orange in each level of Laplacian Pyramids.
+                    5. Finally, from this joint image pyramids, reconstruct the original image.
+
+                    Below is the full code. (For the sake of simplicity, each step is done separately, which may take more memory. 
+                    You can optimize it if you want to).
+
+                    """)
+        
+        # reading images
+        img1 = read_image('app/assets/Images/apple.jpg')
+        img2 = read_image('app/assets/Images/orange.jpg')
+        
+        st.subheader("Code")
+        st.code("""
+                import cv2
+                import numpy as np,sys
+
+                A = cv2.imread('apple.jpg')
+                B = cv2.imread('orange.jpg')
+
+                # generate Gaussian pyramid for A
+                G = A.copy()
+                gpA = [G]
+                for i in range(6):
+                    G = cv2.pyrDown(G)
+                    gpA.append(G)
+
+                # generate Gaussian pyramid for B
+                G = B.copy()
+                gpB = [G]
+                for i in range(6):
+                    G = cv2.pyrDown(G)
+                    gpB.append(G)
+
+                # generate Laplacian Pyramid for A
+                lpA = [gpA[5]]
+                for i in range(5, 0, -1):
+                    GE = cv2.pyrUp(gpA[i])
+                    rows, cols, dpt = gpA[i-1].shape
+                    GE = cv2.resize(GE, (cols, rows))
+                    L = cv2.subtract(gpA[i-1], GE)
+                    lpA.append(L)
+
+                # generate Laplacian Pyramid for B
+                lpB = [gpB[5]]
+                for i in range(5, 0, -1):
+                    GE = cv2.pyrUp(gpB[i])
+                    rows, cols, dpt = gpB[i-1].shape
+                    GE = cv2.resize(GE, (cols, rows))
+                    L = cv2.subtract(gpB[i-1], GE)
+                    lpB.append(L)
+
+                # Now add left and right halves of images in each level
+                LS = []
+                for la, lb in zip(lpA, lpB):
+                    rows, cols, dpt = la.shape
+                    ls = np.hstack((la[:, :cols//2], lb[:, cols//2:]))
+                    LS.append(ls)
+
+                # now reconstruct
+                ls_ = LS[0]
+                for i in range(1, 6):
+                    ls_ = cv2.pyrUp(ls_)
+                    rows, cols, dpt = ls_.shape
+                    LS[i] = cv2.resize(LS[i], (cols, rows))
+                    ls_ = cv2.add(ls_, LS[i])
+
+                # image with direct connecting each half
+                cols = A.shape[1]
+                real = np.hstack((A[:, :cols//2], B[:, cols//2:]))
+
+                cv2.imwrite('Pyramid_blending2.jpg',ls_)
+                cv2.imwrite('Direct_blending.jpg',real)
+                """)
+        st.subheader("Output")
+        self.grid(1,2, titles=['Pyramid Blending', 'Direct Blending'], images=image_blending(img1, img2))
+        
     
 class Contours(ImageProcessing):
     def __init__(self):
