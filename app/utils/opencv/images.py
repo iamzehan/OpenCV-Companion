@@ -314,3 +314,13 @@ def Canny(img, minVal = 100, maxVal=200):
     img = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
     edges = cv.Canny(img,minVal,maxVal)
     return img, edges
+
+def low_reso(img, level=1):
+    i = 1
+    while i<=level:
+        img = cv.pyrDown(img)
+        i+=1
+    return img
+
+def high_reso(img):
+    return cv.pyrUp(img)
