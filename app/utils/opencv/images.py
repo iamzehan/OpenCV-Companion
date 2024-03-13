@@ -309,3 +309,8 @@ def img_gradient(img, options = None):
         abs_sobel64f = np.absolute(sobelx64f)
         sobel_8u = np.uint8(abs_sobel64f)
         return [img, sobelx8u, sobel_8u]
+
+def Canny(img, minVal = 100, maxVal=200):
+    img = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
+    edges = cv.Canny(img,minVal,maxVal)
+    return img, edges
