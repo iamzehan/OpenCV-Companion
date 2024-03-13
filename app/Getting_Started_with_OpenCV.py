@@ -14,8 +14,7 @@ def main():
                 <h2 align="center"> Installation Guide </h2>
                 """,
                 unsafe_allow_html=True)
-    win, fed, ubu = st.columns([4,4,4])
-
+    # style
     st.markdown("""
                 <style>
                     .button-link {
@@ -29,31 +28,27 @@ def main():
                         margin: 4px 2px;
                         cursor: pointer;
                         border-radius: 5px;
+                        width:100%;
                     }
                 </style>
-                <table align="center">
-                    <tr style="border: none;">
-                        <td style="border: none;">
-                            <a href="https://docs.opencv.org/3.4/d5/de5/tutorial_py_setup_in_windows.html" class="button-link" target="_blank">
-                            🪟 Windows
-                            </a>
-                        </td>
-                        <td style="border: none;">
-                            <a href="https://docs.opencv.org/3.4/dd/dd5/tutorial_py_setup_in_fedora.html" class="button-link" target="_blank"> 
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Fedora_icon_%282021%29.svg" alt="Ubuntu" style="vertical-align:middle;height:20px;"> 
-                                Fedora
-                            </a>
-                        </td>
-                        <td style="border: none;">
-                            <a href="https://docs.opencv.org/3.4/d2/de6/tutorial_py_setup_in_ubuntu.html" class="button-link" target="_blank">
+                """,
+                unsafe_allow_html=True)
+    
+    # columns and buttons
+    c1, c2, c3 = st.columns([4,4,4])
+    c1.markdown("""<a href='https://docs.opencv.org/3.4/d5/de5/tutorial_py_setup_in_windows.html' class="button-link" target="_blank">🪟 Windows</a>""", unsafe_allow_html=True)
+    c2.markdown("""<a href="https://docs.opencv.org/3.4/dd/dd5/tutorial_py_setup_in_fedora.html" class="button-link" target="_blank"> 
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Fedora_icon_%282021%29.svg" alt="Ubuntu" style="vertical-align:middle;height:20px;"> 
+                    Fedora
+                    </a>
+                """, unsafe_allow_html=True)
+    c3.markdown("""
+                <a href="https://docs.opencv.org/3.4/d2/de6/tutorial_py_setup_in_ubuntu.html" class="button-link" target="_blank">
                                 <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/Former_Ubuntu_logo.svg" alt="Ubuntu" style="vertical-align:middle;height:20px;"> 
                                 Ubuntu
                             </a>
-                        </td>
-                    </tr>
-                </table>
-                """,
-                unsafe_allow_html=True)
+                """, unsafe_allow_html=True)
+
     st.markdown("""<h2 align="center">Installing as a pip package</h2>""", unsafe_allow_html=True)
     st.markdown("Run the following command:")
     st.code("""pip install opencv-python""")
