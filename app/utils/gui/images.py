@@ -42,7 +42,9 @@ from utils.opencv.images import (
     get_morph,
     get_structuring_element,
     img_gradient,
-    Canny)
+    Canny,
+    low_reso,
+    high_reso)
 
 # Getting Started with Images (Page - 2)
 
@@ -2394,10 +2396,12 @@ class CannyEdgeDetection(ImageProcessing):
         if not self.img_file:
             self.img = read_image("app/assets/Images/messi5.jpg")
             self.img_file_name = 'messi5.jpg'
+        
         st.subheader("Parameters")
         with st.container(border=True):
             col1, col2 = st.columns(2)
             minVal, maxVal = col1.slider("`minVal`", value=100, max_value=500), col2.slider("`maxVal`", value=200, max_value=500)
+            
         st.subheader("Code")
         st.code(f"""
                 import cv2
@@ -2425,7 +2429,99 @@ class CannyEdgeDetection(ImageProcessing):
                     """)
         
 class ImagePyramids(ImageProcessing):
-    def __init__(self):
+    
+    def Introduction(self):
+        st.subheader("Goals")
+        st.markdown("""
+                    In this chapter,
+                    - We will learn about Image Pyramids
+                    - We will use Image pyramids to create a new fruit, “Orapple”
+                    - We will see these functions: `cv2.pyrUp()`, `cv2.pyrDown()`
+                    """)
+    
+    def Theory(self):
+        st.subheader("Theory")
+        st.markdown("""
+                    Normally, we used to work with an image of constant size. 
+                    But in some occassions, we need to work with images of different
+                    resolution of the same image. For example, while searching for 
+                    something in an image, like face, we are not sure at what size 
+                    the object will be present in the image. In that case, we will 
+                    need to create a set of images with different resolution and search
+                    for object in all the images. These set of images with different resolution
+                    are called Image Pyramids (because when they are kept in a stack with 
+                    biggest image at bottom and smallest image at top look like a pyramid).
+
+                    There are two kinds of Image Pyramids. 1) Gaussian Pyramid and 2) Laplacian Pyramids
+
+                    Higher level (Low resolution) in a Gaussian Pyramid is formed by removing consecutive
+                    rows and columns in Lower level (higher resolution) image. Then each pixel in higher 
+                    level is formed by the contribution from 5 pixels in underlying level with gaussian 
+                    weights. By doing so, a $$M \\times N$$ image becomes $$M/2 \\times N/2$$ image. So area reduces 
+                    to one-fourth of original area. It is called an Octave. The same pattern continues as 
+                    we go upper in pyramid (ie, resolution decreases). Similarly while expanding, area becomes
+                    4 times in each level. We can find Gaussian pyramids using `cv2.pyrDown()` and `cv2.pyrUp()` functions.
+                    """)
+                
+        if not self.img_file:
+            self.img = read_image('app/assets/Images/messi5.jpg')
+            self.img_file_name = 'messi5.jpg'
+            
+        st.subheader("Code")
+        st.code(f"""
+                import cv2
+                img = cv2.imread('{self.img_file_name}')
+                lower_reso = cv2.pyrDown(img)
+                cv2.imshow('Original Image', img)
+                cv2.imshow('Lower Resolution Image', lower_reso)
+
+                cv2.waitKey(0)
+                cv2.destroyAllWindows()
+                """)
+        h, w, _ = self.img.shape
+        
+        st.subheader("Below is the 4 levels in an image pyramid.")
+        titles = [f'Original - ({h} x {w})', ]
+        low_images = [self.img]
+        for i in range(1,5):
+            low_image = low_reso(self.img, i)
+            low_images.append(low_image)
+            lh, lw, _ = low_image.shape 
+            titles.append(f"Level - {i} ({lh} x {lw})")
+            
+        self.grid(1, 5, titles, images=low_images)
+        
+        st.markdown("Now you can go down the image pyramid with `cv2.pyrUp()` function.")
+        
+        st.subheader("Code")
+        st.code("higher_reso = cv2.pyrUp(lower_reso)")
+        st.subheader("Output")
+        self.grid(1, 2, titles=["Lower Resolution", "Lower to Higher Resolution"], images=[low_images[1], high_reso(low_images[1])])
+        st.subheader("What if we apply `cv2.pyrUp()` to the original image?")
+        high_image= high_reso(self.img)
+        hh, ww, _ = high_image.shape
+        self.grid(1, 2, titles=[f"Original ({h} x {w})", f"Higher Resolution ({hh} x {ww})"], images=[self.img, high_image])
+        
+        st.info("""
+                ℹ️nfo
+                
+                > Zoom in to see the difference in photos
+                """)
+        
+        st.markdown("""
+                    Remember, higher_reso2 is not equal to higher_reso, because once you decrease the resolution, 
+                    you loose the information. Below image is 3 level down the pyramid created from smallest image
+                    in previous case. Compare it with original image:
+                    """)
+        
+        st.subheader("Parameter")
+        level = st.number_input("Level",min_value=1, max_value=5) 
+        levelwise = low_reso(self.img, level)
+        hh, ww, _ = levelwise.shape 
+        self.grid(1, 2, titles=[f"Original ({h} x {w})", f"Lower Resolution ({hh} x {ww}) - Level {level}"], images=[self.img, levelwise])
+        
+
+    def ImageBlending(self):
         pass
     
 class Contours(ImageProcessing):
