@@ -384,3 +384,48 @@ def image_blending(A, B):
     real = np.hstack((A[:, :cols//2], B[:, cols//2:]))
     
     return ls_, real
+
+def get_started_contours(im, 
+                         thresh = 'THRESH_BINARY', 
+                         retr='RETR_TREE', 
+                         chain= 'CHAIN_APPROX_SIMPLE'):
+    
+    chains = {
+    'CHAIN_APPROX_NONE': cv.CHAIN_APPROX_NONE,
+    'CHAIN_APPROX_SIMPLE': cv.CHAIN_APPROX_SIMPLE,
+    'CHAIN_APPROX_TC89_KCOS': cv.CHAIN_APPROX_TC89_KCOS,
+    'CHAIN_APPROX_TC89_L1': cv.CHAIN_APPROX_TC89_L1
+    }
+    
+    threshold_options = {
+    'THRESH_BINARY': cv.THRESH_BINARY,
+    'THRESH_BINARY_INV': cv.THRESH_BINARY_INV,
+    'THRESH_MASK': cv.THRESH_MASK,
+    'THRESH_OTSU': cv.THRESH_OTSU,
+    'THRESH_TOZERO': cv.THRESH_TOZERO,
+    'THRESH_TOZERO_INV': cv.THRESH_TOZERO_INV,
+    'THRESH_TRIANGLE': cv.THRESH_TRIANGLE,
+    'THRESH_TRUNC': cv.THRESH_TRUNC
+    }
+    
+    retrieval_options = {
+    'RETR_CCOMP': cv.RETR_CCOMP,
+    'RETR_EXTERNAL': cv.RETR_EXTERNAL,
+    'RETR_FLOODFILL': cv.RETR_FLOODFILL,
+    'RETR_LIST': cv.RETR_LIST,
+    'RETR_TREE': cv.RETR_TREE
+    }
+
+    imgray = cv.cvtColor(im, cv.COLOR_BGR2GRAY)
+    ret,thresh = cv.threshold(imgray,127,255,threshold_options[thresh])
+    contours, hierarchy = cv.findContours(thresh,retrieval_options[retr],chains[chain])
+    data = ["The contours have this data \n %r" %data for data in contours]
+    return data, contours
+
+def draw_contours(img, contours, points, color, thickness=5):
+    cv.drawContours(img, contours, points, color, thickness)
+    return img
+
+def get_flags(name):
+    flags = [i for i in dir(cv) if i.startswith(name)]
+    return flags

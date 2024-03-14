@@ -46,7 +46,10 @@ from utils.opencv.images import (
     low_reso,
     high_reso,
     laplacian_levels,
-    image_blending)
+    image_blending,
+    get_started_contours,
+    get_flags,
+    draw_contours)
 
 # Getting Started with Images (Page - 2)
 
@@ -2643,9 +2646,166 @@ class ImagePyramids(ImageProcessing):
         self.grid(1,2, titles=['Pyramid Blending', 'Direct Blending'], images=[pyr_blend, dir_blend])
         
     
-class Contours(ImageProcessing):
-    def __init__(self):
-        pass
+class Contours:
+    
+    class GettingStarted(ImageProcessing):
+        def __init__(self):
+            super().__init__()
+            
+        def Introduction(self):
+            st.subheader("Goals")
+            st.markdown("""
+                        - Understand what contours are.
+                        - Learn to find contours, draw contours etc
+                        - You will see these functions : `cv2.findContours()`, 
+                        `cv2.drawContours()`
+                        """)
+        
+        def What_are_Contours(self):
+            st.subheader("What are contours?")
+            st.markdown("""
+                        Contours can be explained simply as a curve joining all the continuous points (along the boundary), 
+                        having same color or intensity. The contours are a useful tool for shape analysis and object detection 
+                        and recognition.
+
+                        - For better accuracy, use binary images. So before finding contours, apply threshold or canny edge detection.
+                        - `findContours()` function modifies the source image. So if you want source image even after finding contours, 
+                        already store it to some other variables.
+                        - In OpenCV, finding contours is like finding white object from black background. So remember, object to be 
+                        found should be white and background should be black.
+                        
+                        Let’s see how to find contours of a binary image:
+                        """)
+            
+            if not self.img_file:
+                self.img = read_image('app/assets/Images/box.png')
+                self.img_file_name = 'box.png'
+            
+            st.subheader("Code")
+            code_placeholder= st.empty()
+            self.side_bar()
+            
+            with st.container(border=True):
+                st.subheader("Parameters")
+                col1, col2= st.columns(2)
+                thresh = col1.selectbox("Threshold options: ", index=0, options=get_flags("THRESH_"))
+                retr = col2.selectbox("Retrieval Options: ",index=4, options = get_flags("RETR_"))
+                chain = col1.selectbox("Contour Approx: ",index=1, options=get_flags("CHAIN_") )
+                color= col2.color_picker("Color", value="#00ff00")
+                color= tuple(ImageColor.getcolor(f'{color}','RGB')[::-1])
+                thickness = col1.number_input("Thickness", min_value = 1, value=3, max_value=5)
+            
+            code_placeholder.code(f"""
+                    import numpy as np
+                    import cv2
+
+                    im = cv2.imread('{self.img_file_name}',cv2.IMREAD_COLOR)
+                    imgray = cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)
+                    ret,thresh = cv2.threshold(imgray,127,255,cv2.{thresh})
+                    contours, hierarchy = cv2.findContours(thresh,cv2.{retr},cv2.{chain})
+                    for data in contours:
+                        print "The contours have this data %r" %data
+                    cv2.drawContours(im,contours,-1,{color},{thickness})
+                    cv2.imshow('output',im)
+                    while True:
+                        if cv2.waitKey(6) & 0xff == 27:
+                            break
+                    """)
+            try:
+                data, contours = get_started_contours(self.img.copy(),thresh, retr, chain)
+                st.subheader("Output")
+                with st.expander("Reveal print output"):
+                    for i in data:
+                        st.write(i)
+                st.write("Image Output: ")
+                self.grid(1, 2, titles=['Original', 'output'], images=[self.img, draw_contours(self.img.copy(), contours, points=-1, color=color, thickness=3)])
+                
+            except Exception as e:
+                st.error(f"Error ⚠️: {e}")
+                
+            st.markdown("""
+                        See, there are three arguments in `cv2.findContours()` function, 
+                        first one is source image, second is contour retrieval mode, 
+                        third is contour approximation method. And it outputs the contours
+                        and hierarchy. `contours` is a Python list of all the contours in 
+                        the image. Each individual contour is a Numpy array of (x,y) coordinates
+                        of boundary points of the object.
+                        And the source image is modified by `cv2.drawContours()` function.
+                        """)
+            st.info("""
+                    :red[ℹ️] Note
+                    
+                    > We will discuss second and third arguments and about hierarchy in details later.
+                    Until then, the values given to them in code sample will work fine for all images.
+                    """)
+            
+        def How_to_Draw(self):
+            st.subheader("How to draw the Contours?")
+            st.markdown("""
+                        To draw the contours, `cv2.drawContours` function is used. It can also be used to draw any shape provided you have its boundary points. 
+                        Its first argument is source and destination image, second argument is the contours which should be passed as a Python list, 
+                        third argument is index of contours (useful when drawing individual contour. To draw all contours, pass -1) and remaining arguments are color,
+                        thickness etc.
+                        
+                        To draw all the contours in an image:
+                        
+                        ```python
+                        cv2.drawContours(img, contours, -1, (0,255,0), 3)
+                        ```
+                        To draw an individual contour, say 4th contour:
+                        
+                        ```python
+                        cv2.drawContours(img, contours, 3, (0,255,0), 3)
+                        ```
+                        
+                        But most of the time, below method will be useful:
+                        
+                        ```python
+                        cnt = contours[4]
+                        cv2.drawContours(img, [cnt], 0, (0,255,0), 3)
+                        ```
+                        
+                        """)
+            st.info("""
+                    :red[ℹ️] Note
+                    > Last two methods are same, but when you go forward, you will see last one is more useful.
+                    """)
+        
+        def Contour_Approx_Method(self):
+            st.subheader("Contour Approximation Method")
+            exp = st.empty()
+            if not self.img_file:
+                self.img = read_image('app/assets/Images/square.png')
+                self.img_file_name = 'box.png'
+                
+            data1, contours1 = get_started_contours(self.img.copy(), chain='CHAIN_APPROX_NONE')
+            data2, contours2 = get_started_contours(self.img.copy(), chain='CHAIN_APPROX_SIMPLE')
+            points1=len([c for c in contours1][0]) if contours1 else 0
+            points2=len([c for c in contours2][0]) if contours2 else 0
+            exp.markdown(f"""
+                        This is the third argument in `cv2.findContours` function. What does it denote actually?
+
+                        Above, we told that contours are the boundaries of a shape with same intensity. 
+                        It stores the `(x,y)` coordinates of the boundary of a shape. But does it store all the coordinates ? 
+                        That is specified by this contour approximation method.
+
+                        If you pass `cv2.CHAIN_APPROX_NONE`, all the boundary points are stored. But actually do we need all the points? 
+                        For eg, you found the contour of a straight line. Do you need all the points on the line to represent that line?
+                        No, we need just two end points of that line. This is what `cv2.CHAIN_APPROX_SIMPLE` does. It removes all redundant
+                        points and compresses the contour, thereby saving memory.
+
+                        Below image of a rectangle demonstrate this technique. Just draw a circle on all the coordinates in the contour 
+                        array (drawn in blue color). 
+                        - First image shows points I got with `cv2.CHAIN_APPROX_NONE` ({points1} points) and 
+                        - second image shows the one with `cv2.CHAIN_APPROX_SIMPLE` (only {points2} points). 
+                        See, how much memory it saves!!!
+                    """)
+            
+            self.grid(1, 2, titles=[f"CHAIN_APPROX_NONE {points1}", f"CHAIN_APPROX_SIMPLE {points2}"], 
+                      images=[draw_contours(self.img.copy(), contours1[0][:points1+1], -1, color=(255, 0, 0)), 
+                              draw_contours(self.img.copy(), contours2[0][:points2+1], -1, color=(255, 0, 0))])
+
+
 
 class Histograms(ImageProcessing):
     def __init__(self):
