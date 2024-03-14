@@ -1,7 +1,5 @@
 import streamlit as st
-from utils.gui.footer import footer
-from  utils.gui.menu import menu
-from utils.gui.images import PerformanceMeasurement
+from utils.gui import footer, menu, images
 def main():
     st.markdown("""
                 <center> 
@@ -11,9 +9,9 @@ def main():
                 
                 """, unsafe_allow_html=True)
     
-    perfM = PerformanceMeasurement()
+    perfM = images.PerformanceMeasurement()
     
-    with st.sidebar.container(border=True):
+    with st.container(border=True):
         st.subheader("Topics")
         options = st.radio("Select: ", options=['Introduction',
                                                 'Measuring Performance with OpenCV',
@@ -21,6 +19,7 @@ def main():
                                                 'Measuring Performance in IPython',
                                                 'More IPython magic Commands',
                                                 'Performance Optimization Techniques'],
+                           horizontal=True,
                            label_visibility="collapsed")
 
     if options == "Introduction":
@@ -72,6 +71,6 @@ def main():
 if __name__ == '__main__':
     st.set_page_config(page_title="Performance Measurement & Improvement",
                        page_icon="app/assets/Images/OpenCV_Logo_with_text.png")
-    menu()
+    menu.menu()
     main()
-    footer()
+    footer.footer()

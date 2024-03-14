@@ -1,22 +1,19 @@
 import streamlit as st 
-from utils.gui.footer import footer
-from  utils.gui.menu import menu
-from utils.gui.images import ArithmeticOperations
+from utils.gui import footer, menu, images
 
-if __name__ == '__main__':
-    st.set_page_config(page_icon="app/assets/Images/OpenCV_Logo_with_text.png",
-                       page_title="Arithmetic Operations on Images")
-    menu()
-    
-    with st.sidebar.container(border=True):
-        st.subheader("Topics")
-        options = st.radio(label="Navigate: ",options=["Introduction",
-                                                               "Image Addition",
-                                                               "Image Blending",
-                                                               "Bitwise Operations"],
-                                   label_visibility="collapsed")
-    arithmeticOps = ArithmeticOperations() 
+def main():
     st.markdown("# Arithmetic Operations on Images")
+    arithmeticOps = images.ArithmeticOperations() 
+    
+    with st.container(border=True):
+        st.subheader("Topics")
+        options = st.radio(label="Navigate: ",
+                           options=["Introduction",
+                                    "Image Addition",
+                                    "Image Blending",
+                                    "Bitwise Operations"],
+                            horizontal=True,
+                            label_visibility="collapsed")
     
     if options == "Introduction":
         st.markdown("""
@@ -37,5 +34,10 @@ if __name__ == '__main__':
         arithmeticOps.side_bar(multiple=True)
         arithmeticOps.Bitwise_Operations()
 
-    footer()
+if __name__ == "__main__":
+    st.set_page_config(page_icon="app/assets/Images/OpenCV_Logo_with_text.png",
+                       page_title="Arithmetic Operations on Images")
+    menu.menu()
+    main()
+    footer.footer()
     

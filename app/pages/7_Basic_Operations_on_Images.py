@@ -1,24 +1,21 @@
 import streamlit as st
-from utils.gui.footer import footer
-from utils.gui.menu import menu
-from utils.gui.images import BasicOperations
-
-    
+from utils.gui import menu, footer, images
+ 
 def main():
-    st.set_page_config(page_icon="app/assets/Images/OpenCV_Logo_with_text.png",
-                       page_title="Basic Operations on Images")
-    menu()
-    basicOp= BasicOperations()
-    with st.sidebar.container(border=True):
+    st.markdown("# Basic Operations on Images")
+    basicOp= images.BasicOperations()
+    with st.container(border=True):
         st.subheader("Topics")
         options=st.radio("Select: ", ["Introduction", 
                                               "Accessing and Modifying pixel values",
                                               "Accessing Image Properties",
                                               "Image ROI",
                                               "Splitting and Merging Image Channels",
-                                              "Making Borders for Images (Padding)"], label_visibility="collapsed")
+                                              "Making Borders for Images (Padding)"], 
+                         horizontal=True,
+                         label_visibility="collapsed")
 
-    st.markdown("# Basic Operations on Images")
+    
     if options == "Introduction":
         st.markdown("""
                     ## Goal
@@ -58,5 +55,9 @@ def main():
         basicOp.Making_Borders_for_Images()
     
 if __name__ == '__main__':
+    st.set_page_config(page_icon="app/assets/Images/OpenCV_Logo_with_text.png",
+                       page_title="Basic Operations on Images")
+    
+    menu.menu()
     main()
-    footer()
+    footer.footer()
