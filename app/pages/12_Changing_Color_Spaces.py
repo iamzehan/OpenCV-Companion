@@ -5,7 +5,7 @@ from utils.gui.images import ChangingColorSpace
 
 def main():
     ccs = ChangingColorSpace()
-    st.title("Image Processing in OpenCV")
+    st.title("Changing Colorspaces")
     with st.container(border=True):
         st.subheader("Topics")
         options = st.radio("Select: ", options=['Introduction',
