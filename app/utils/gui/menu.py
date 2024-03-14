@@ -37,14 +37,23 @@ def menu():
                 st.page_link("pages/18_Canny_Edge_Detection.py", label = "Canny Edge Detection")
                 st.page_link("pages/19_Image_Pyramids.py", label = "Image Pyramids")
                 
-                st.page_link("pages/20_Contours_in_OpenCV.py", label = "Contours in OpenCV")
-                st.page_link("pages/20_1_Contours_GettingStarted.py", label = "Contours: Getting Started")
-                st.page_link("pages/20_2_Contour_Features.py", label = "Contour Features")
-                st.page_link("pages/20_3_Contour_Properties.py", label = "Contour Properties")
-                st.page_link("pages/20_4_Contour_More_Functions.py", label = "Contour: More Functions.py")
-                st.page_link("pages/20_5_Contours_Hierarchy.py", label = "Contours Hierarchy")
-                    
-                st.page_link("pages/21_Histograms_in_OpenCV.py", label = "Histograms in OpenCV")
+                # Contours in OpenCV
+                st.page_link("pages/20_0_Contours_in_OpenCV.py", label = "Contours in OpenCV")
+                with st.container(border=True):
+                    st.page_link("pages/20_1_Contours_GettingStarted.py", label = "Contours: Getting Started")
+                    st.page_link("pages/20_2_Contour_Features.py", label = "Contour Features")
+                    st.page_link("pages/20_3_Contour_Properties.py", label = "Contour Properties")
+                    st.page_link("pages/20_4_Contour_More_Functions.py", label = "Contour: More Functions.py")
+                    st.page_link("pages/20_5_Contours_Hierarchy.py", label = "Contours Hierarchy")
+                
+                # Histograms in OpenCV
+                st.page_link("pages/21_0_Histograms_in_OpenCV.py", label = "Histograms in OpenCV")
+                with st.container(border=True):
+                    st.page_link("pages/21_1_Histograms_1.py", label = "Histograms - 1 : Find, Plot, Analyze !!!")
+                    st.page_link("pages/21_2_Histograms_2.py", label = "Histograms - 2: Histogram Equalization")
+                    st.page_link("pages/21_3_Histograms_3.py", label = "Histograms - 3 : 2D Histograms")
+                    st.page_link("pages/21_4_Histograms_4.py", label = "Histogram - 4 : Histogram Backprojection")
+
                 st.page_link("pages/22_Image_Transforms_in_OpenCV.py", label = "Image Transforms in OpenCV")
                 st.page_link("pages/23_Template_Matching.py", label = "Template Matching")
                 st.page_link("pages/24_Hough_Line_Transform.py", label = "Hough Line Transform")
