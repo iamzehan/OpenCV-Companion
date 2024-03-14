@@ -3,7 +3,7 @@ from utils.gui import footer, menu, images
 
 def main():
     morph_trans = images.MorphologicalTransformation()
-    st.header("Morphological Transformations")
+    st.title("Morphological Transformations")
     
     with st.container(border=True):
         st.subheader("Topics")
