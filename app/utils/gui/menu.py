@@ -36,7 +36,14 @@ def menu():
                 st.page_link("pages/17_Image_Gradients.py", label = "Image Gradients")
                 st.page_link("pages/18_Canny_Edge_Detection.py", label = "Canny Edge Detection")
                 st.page_link("pages/19_Image_Pyramids.py", label = "Image Pyramids")
+                
                 st.page_link("pages/20_Contours_in_OpenCV.py", label = "Contours in OpenCV")
+                st.page_link("pages/20_1_Contours_GettingStarted.py", label = "Contours: Getting Started")
+                st.page_link("pages/20_2_Contour_Features.py", label = "Contour Features")
+                st.page_link("pages/20_3_Contour_Properties.py", label = "Contour Properties")
+                st.page_link("pages/20_4_Contour_More_Functions.py", label = "Contour: More Functions.py")
+                st.page_link("pages/20_5_Contours_Hierarchy.py", label = "Contours Hierarchy")
+                    
                 st.page_link("pages/21_Histograms_in_OpenCV.py", label = "Histograms in OpenCV")
                 st.page_link("pages/22_Image_Transforms_in_OpenCV.py", label = "Image Transforms in OpenCV")
                 st.page_link("pages/23_Template_Matching.py", label = "Template Matching")
