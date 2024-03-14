@@ -2802,8 +2802,8 @@ class Contours:
                     """)
             
             self.grid(1, 2, titles=[f"CHAIN_APPROX_NONE {points1}", f"CHAIN_APPROX_SIMPLE {points2}"], 
-                      images=[draw_contours(self.img.copy(), contours1[0][:points1+1], -1, color=(255, 0, 0)), 
-                              draw_contours(self.img.copy(), contours2[0][:points2+1], -1, color=(255, 0, 0))])
+                      images=[draw_contours(self.img.copy(), contours1[0][:points1], -1, color=(255, 0, 0)), 
+                              draw_contours(self.img.copy(), contours2[0][:points2], -1, color=(255, 0, 0))])
 
 
 
