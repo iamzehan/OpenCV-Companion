@@ -25,12 +25,10 @@ def main():
                     """)
     if options == "2D Convolution":
         st.subheader("2D Convolution ( Image Filtering )")
-        smoothing_images.uploader()
         smoothing_images.Convolution2D()
     
     if options == "Image Blurring":
         st.subheader("Image Blurring (Image Smoothing)")
-        smoothing_images.uploader()
         smoothing_images.ImageBlurring()
     
 if __name__ == '__main__':

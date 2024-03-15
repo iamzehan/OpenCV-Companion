@@ -1790,9 +1790,13 @@ class SmoothingImages(ImageProcessing):
         st.subheader("Code")
         code_placeholder=st.empty()
         info1 = st.info("Example Code")
-        dimensions = {"3 x 3": (3, 3), "5 x 5": (5,5), "7 x 7": (7, 7)}
-        dim = dimensions[st.selectbox("Kernel Dimensions:", index=1, 
+        
+        with st.container(border=True):
+            dimensions = {"3 x 3": (3, 3), "5 x 5": (5,5), "7 x 7": (7, 7)}
+            dim = dimensions[st.selectbox("Kernel Dimensions:", index=1, 
                                       options=["3 x 3", "5 x 5", "7 x 7"])]
+            st.write("Upload image:")
+            self.uploader()
             
         code_placeholder.code(f"""
                 import numpy as np
@@ -1853,8 +1857,12 @@ class SmoothingImages(ImageProcessing):
             code_placeholder=st.empty()
             info1 = st.info("Example Code")
             
-            dimensions = {"3 x 3": (3, 3), "5 x 5": (5,5), "7 x 7": (7, 7)}
-            dim = dimensions[st.selectbox("Kernel Dimensions:", index=1, options=["3 x 3", "5 x 5", "7 x 7"])]
+            with st.container(border=True):
+                dimensions = {"3 x 3": (3, 3), "5 x 5": (5,5), "7 x 7": (7, 7)}
+                dim = dimensions[st.selectbox("Kernel Dimensions:", index=1, 
+                                        options=["3 x 3", "5 x 5", "7 x 7"])]
+                st.write("Upload image:")
+                self.uploader()
             
             sample.markdown(f"Check a sample demo below with a kernel of `{dim}` size:")
             code_placeholder.code(f"""
@@ -1912,10 +1920,12 @@ class SmoothingImages(ImageProcessing):
                 dim = dimensions[st.selectbox("Kernel:", index=1, options=["3 x 3", "5 x 5", "7 x 7"])]
                 intensity = st.slider('Intensity', max_value=10)
                 
+                
             with col2.container(border=True):
                 st.subheader("Code")
                 st.divider()
                 st.code(f"blur = cv.GaussianBlur(img,{dim},{intensity})")
+                self.uploader()
             
             info1=st.info("Example code")
             st.subheader("Output")
@@ -1946,11 +1956,14 @@ class SmoothingImages(ImageProcessing):
             
             col1, col2 = st.columns([3, 9])
             
-            col1.subheader("Parameter")
-            intensity = col1.slider('Intensity', min_value=1, value=5, step=2, max_value=9, label_visibility="collapsed")
+            with col1.container(border=True):
+                st.subheader("Parameter")
+                intensity = st.slider('Intensity', min_value=1, value=5, step=2, max_value=9)
+            with col2.container(border=True):
+                st.subheader("Code")
+                st.code(f"median = cv.medianBlur(img,{intensity})")
+                self.uploader()
             
-            col2.subheader("Code")
-            col2.code(f"median = cv.medianBlur(img,{intensity})")
             
             st.subheader("Output")
             self.grid(1, 2, titles=['Original', 'Median Blur'], images = [self.img, median_blur(self.img, intensity)])
@@ -2001,11 +2014,13 @@ class SmoothingImages(ImageProcessing):
                         75: The standard deviation in the color space (sigmaColor). It controls color similarity.
                         75: The standard deviation in the coordinate space (sigmaSpace). It controls spatial proximity.
                          """)
+                
             with st.container(border=True):
                 st.subheader("Parameters")
                 d = st.slider("Diameter of Pixel Neighborhood (d)", 1, 20, 9, 1)
                 sigma_color = st.slider("Sigma Color", 1, 200, 75, 1)
                 sigma_space = st.slider("Sigma Space", 1, 200, 75, 1)
+                self.uploader()
             
             st.subheader("Code")
             st.code(f"blur = cv.bilateralFilter(img, {d}, {sigma_color}, {sigma_space})")
