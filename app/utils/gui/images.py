@@ -67,11 +67,15 @@ class CommonComponents:
         message = st.empty()
         if not file:
             if multiple:
-                message.error("Upload images to see changes")
-            elif custom_msg:
-                message.error(custom_msg)
+                if custom_msg:
+                    message.error(custom_msg)
+                else:
+                    message.error("Upload images to see changes")
             else:
-                message.error("Upload an image to see changes")
+                if custom_msg:
+                    message.error(custom_msg)
+                else:
+                    message.error("Upload an image to see changes")
             
         else:
             if multiple:
@@ -601,12 +605,11 @@ class ArithmeticOperations(CommonComponents):
                     [4]
                     ```
                     """)
-        
+        with st.container(border=True):
+            st.subheader("Try it yourself: ")
+            self.uploader(multiple=True, custom_msg="Upload two images to see changes")
         with st.expander("Example:", expanded=False):
-            col1, col2 = st.columns(2)
-            
-            col1.image(self.img1, 'img1', channels= 'BGR', use_column_width=True)
-            col2.image(self.img2, 'img2', channels= 'BGR', use_column_width=True)
+            self.grid(1, 2, titles=['img1', 'img2'], images=[self.img1, self.img2])
             
             st.image(add_two_img(self.img1, self.img2), 'Image Addition', channels= 'BGR', use_column_width=True)
             
@@ -714,6 +717,7 @@ class ArithmeticOperations(CommonComponents):
             alpha = st.slider('$\\alpha$:', value = 0.7, min_value=0.0, max_value=1.0)
             beta = st.slider('$\\beta$:', value = 0.3, min_value=0.0, max_value=1.0)
             gamma = st.slider('$\\gamma$ :', value=0, min_value=0, max_value=1)
+            self.uploader(multiple=True)
             if defaults != [self.img_file_name1, self.img_file_name2, alpha, beta, gamma]:
                 show_image(self.img1, self.img2, alpha, beta, gamma)
                 st.success("Your ouput")
@@ -781,7 +785,9 @@ class ArithmeticOperations(CommonComponents):
                     
                     """)
         defaults = ['ml.png', 'OpenCV_Logo_with_text.png']
-        
+        with st.container(border=True):
+            st.subheader("Try it yourself:")
+            self.uploader()
         with st.container(border=True):
             if defaults != [self.img_file_name1, self.img_file_name2]:
                 show_image(self.img1, self.img2)

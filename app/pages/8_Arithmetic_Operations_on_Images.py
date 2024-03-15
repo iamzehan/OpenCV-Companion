@@ -25,13 +25,11 @@ def main():
                     """)
         
     if options == "Image Addition":
-        arithmeticOps.uploader(multiple=True)
+        
         arithmeticOps.Image_Addition()
     if options == "Image Blending":
-        arithmeticOps.uploader(multiple=True)
         arithmeticOps.Image_Blending()
     if options == "Bitwise Operations":
-        arithmeticOps.uploader(multiple=True)
         arithmeticOps.Bitwise_Operations()
 
 if __name__ == "__main__":
