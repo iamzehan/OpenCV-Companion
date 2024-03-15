@@ -18,7 +18,6 @@ def main():
             img_pyr.Introduction()
             
         elif options=="Theory":
-            img_pyr.uploader()
             img_pyr.Theory()
         
         elif options == "Image Blending using Pyramids":

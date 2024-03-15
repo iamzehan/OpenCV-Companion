@@ -28,7 +28,6 @@ def main():
             canny_edge_detect.Theory()
         
         elif options == "Canny Edge Detection":
-            canny_edge_detect.uploader()
             canny_edge_detect.Canny_Edge_Detection()
 
 if __name__ == '__main__':

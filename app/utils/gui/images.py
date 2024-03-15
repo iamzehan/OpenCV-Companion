@@ -2440,6 +2440,7 @@ class CannyEdgeDetection(ImageProcessing):
                     derivative in horizontal direction $$(G_x)$$ and vertical direction $$(G_y)$$. From these two images, we can 
                     find edge gradient and direction for each pixel as follows:
                     """)
+        
         st.latex(r"Edge\_Gradient \; (G) = \sqrt{G_x^2 + G_y^2} \\ Angle \; (\theta) = \tan^{-1} \bigg(\frac{G_y}{G_x}\bigg)")
         
         st.markdown("""
@@ -2452,6 +2453,7 @@ class CannyEdgeDetection(ImageProcessing):
                     For this, at every pixel, pixel is checked if it is a local maximum in its neighborhood in the direction of gradient.
                     Check the image below:
                     """)
+        
         st.image("app/assets/Images/nms.jpg", caption="Non-maximum Suppression", use_column_width=True)
         
         st.markdown("""
@@ -2502,6 +2504,8 @@ class CannyEdgeDetection(ImageProcessing):
         with st.container(border=True):
             col1, col2 = st.columns(2)
             minVal, maxVal = col1.slider("`minVal`", value=100, max_value=500), col2.slider("`maxVal`", value=200, max_value=500)
+            st.write("Upload image: ")
+            self.uploader()
             
         st.subheader("Code")
         st.code(f"""
@@ -2568,17 +2572,22 @@ class ImagePyramids(ImageProcessing):
             self.img = read_image('app/assets/Images/messi5.jpg')
             self.img_file_name = 'messi5.jpg'
             
-        st.subheader("Code")
-        st.code(f"""
-                import cv2
-                img = cv2.imread('{self.img_file_name}')
-                lower_reso = cv2.pyrDown(img)
-                cv2.imshow('Original Image', img)
-                cv2.imshow('Lower Resolution Image', lower_reso)
+        code_placeholder = st.empty()
+        st.write("Upload image: ")
+        self.uploader()
+        
+        with code_placeholder:
+            st.subheader("Code")
+            st.code(f"""
+                    import cv2
+                    img = cv2.imread('{self.img_file_name}')
+                    lower_reso = cv2.pyrDown(img)
+                    cv2.imshow('Original Image', img)
+                    cv2.imshow('Lower Resolution Image', lower_reso)
 
-                cv2.waitKey(0)
-                cv2.destroyAllWindows()
-                """)
+                    cv2.waitKey(0)
+                    cv2.destroyAllWindows()
+                    """)
         h, w, _ = self.img.shape
         
         st.subheader("Below is the 4 levels in an image pyramid.")
