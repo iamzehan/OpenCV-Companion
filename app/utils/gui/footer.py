@@ -34,14 +34,14 @@ def footer():
                     width: 100%;
                 }}
                 a {{
-                    color: #fff!important;
+                    color: #FF4B4B!important;
                     text-decoration: none;
                     font-weight: bold;
                 }}
                 
                 a:hover {{
                     text-decoration: underline;
-                    color: #FF4B4B!important;
+                    color: #fff!important;
                 }}
                 
                 .blank-div {{
