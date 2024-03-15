@@ -831,8 +831,11 @@ class PerformanceMeasurement(CommonComponents):
                     a kernel of odd size ranging from 5 to 49. 
                     (Don’t worry about what will the result look like,
                     that is not our goal):""")
-        
-        st.code(f"""
+        code_placeholder= st.empty()
+        with st.container(border=True):
+            st.subheader("Try it yourself:")
+            self.uploader()
+        code_placeholder.code(f"""
                 img1 = cv2.imread('{self.img_file_name}')
                 e1 = cv2.getTickCount()
                 for i in xrange(5,49,2):
