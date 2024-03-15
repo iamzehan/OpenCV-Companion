@@ -2,10 +2,11 @@ import tempfile
 import cv2 as cv
 import streamlit as st
 
-def video_capture(button_space=st, path=None):
+def video_capture(button_space=st, inf=st, path=None):
     cap = cv.VideoCapture(path) if path else cv.VideoCapture(0) 
     video_placeholder = st.empty()
     stop = button_space.button("Stop :red[🟥]")
+    inf.error("Press :red[🟥] to stop")
     if not cap.isOpened():
         st.error("Cannot open camera")
         exit()

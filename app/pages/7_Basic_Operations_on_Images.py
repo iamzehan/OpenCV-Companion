@@ -36,11 +36,9 @@ def main():
                  since most of them are just single lines of code )*""")
     
     if options == "Accessing and Modifying pixel values":
-            basicOp.uploader()
             basicOp.Accessing_Modifying_Pixel_Values()
         
     if options == "Accessing Image Properties":
-        basicOp.uploader()
         basicOp.Accessing_Image_Properties()
     
     if options == "Image ROI":

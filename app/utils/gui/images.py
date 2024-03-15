@@ -179,7 +179,7 @@ class GUIFeatures(CommonComponents):
     # This brings the whole rendition together
     def Read_and_Show_Image(self):
         with st.sidebar:
-            self.uploader()        
+            self.uploader()
         self.main_body()
 
 # Basic Operations On Images (Page - 6)
@@ -228,8 +228,7 @@ class BasicOperations(CommonComponents):
                     ## Accessing and Modifying pixel values
                     Let's load a color image first:
                 """)
-        self.main_body()
-        img = self.img
+                
         with st.container():
             
             st.write("""
@@ -238,12 +237,19 @@ class BasicOperations(CommonComponents):
                     For grayscale image, just corresponding intensity is returned.
                     """)
             
-            row_max, column_max, channels = get_shape(img)
+            main = st.empty()
             
             with st.container(border=True):
                 st.subheader("Playground")
-                dimensions = st.slider("Row (Height): ", value=100, max_value=row_max),\
-                            st.slider("Column (Width):", value=100, max_value=column_max)
+                dim1 = st.empty()
+                dim2 = st.empty()
+                self.uploader()
+                img = self.img
+                row_max, column_max, channels = get_shape(img)
+                dimensions = dim1.slider("Row (Height): ", value=100, max_value=row_max),\
+                            dim2.slider("Column (Width):", value=100, max_value=column_max)
+            with main:
+                self.main_body()
             st.code(f"""
                     >>> px = img[{dimensions[0]},{dimensions[1]}]
                     >>> print( px )

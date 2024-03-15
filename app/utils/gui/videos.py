@@ -5,14 +5,16 @@ from utils.opencv.videos import (video_capture,
 def Capture_Video_from_Webcam():
     
     st.subheader("Capture Video from Camera with `cv.VideoCapture()`")
-    st.sidebar.info("Press :green[▶️] to capture")
+    inf = st.empty()
+    inf.info("Press :green[▶️] to capture")
+    button_space = st.empty()
     main_container = st.empty().container()
-    button_space = st.sidebar.empty()
     start = button_space.button("Run :green[▶️]", key="Run 1")
     
     if start:
         with main_container:
-            video_capture(button_space)
+            st.subheader("Output")
+            video_capture(button_space, inf)
         
     else:
         with main_container:
