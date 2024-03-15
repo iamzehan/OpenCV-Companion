@@ -1273,6 +1273,9 @@ class GeometricTransformations(ImageProcessing):
                                         options=["INTER_CUBIC",
                                                     "INTER_AREA",
                                                     "INTER_LINEAR"])
+            
+            st.write("Upload image:")
+            self.uploader()
         
             st.subheader("Code")
             st.code(f"""
@@ -1313,6 +1316,8 @@ class GeometricTransformations(ImageProcessing):
         with st.container(border=True):
             st.subheader("Parameters")
             shift=st.slider("Shift: ", min_value=10, step=10, value=50, max_value=90)
+            st.write("Upload image:")
+            self.uploader()
             st.subheader("Code")
             st.code(f"""
                     import cv2
@@ -1383,6 +1388,8 @@ class GeometricTransformations(ImageProcessing):
         with st.container(border=True):
             st.subheader("Parameters")
             rotate = st.slider("Rotation in degree: ", min_value=0, step=10, value=90, max_value=360)
+            st.write("Upload image:")
+            self.uploader()
             st.subheader("Code")
             st.code(f"""
                     img = cv2.imread('{self.img_file_name}',0)
@@ -1410,22 +1417,29 @@ class GeometricTransformations(ImageProcessing):
                     (which are marked in Green color):
                     """)
         with st.container(border=True):
-            st.subheader("Code")
-            st.code(f"""
-                    img = cv2.imread('{self.img_file_name}')
-                    rows,cols,ch = img.shape
+            code_placeholder = st.empty()
+            
+            with st.container(border=True):
+                st.subheader("Try it yourself:")
+                self.uploader()
+                
+            with code_placeholder:
+                st.subheader("Code")
+                st.code(f"""
+                        img = cv2.imread('{self.img_file_name}')
+                        rows,cols,ch = img.shape
 
-                    pts1 = np.float32([[50,50],[200,50],[50,200]])
-                    pts2 = np.float32([[10,100],[200,50],[100,250]])
+                        pts1 = np.float32([[50,50],[200,50],[50,200]])
+                        pts2 = np.float32([[10,100],[200,50],[100,250]])
 
-                    M = cv2.getAffineTransform(pts1,pts2)
+                        M = cv2.getAffineTransform(pts1,pts2)
 
-                    dst = cv2.warpAffine(img,M,(cols,rows))
+                        dst = cv2.warpAffine(img,M,(cols,rows))
 
-                    plt.subplot(121),plt.imshow(img),plt.title('Input')
-                    plt.subplot(122),plt.imshow(dst),plt.title('Output')
-                    plt.show()
-                    """)
+                        plt.subplot(121),plt.imshow(img),plt.title('Input')
+                        plt.subplot(122),plt.imshow(dst),plt.title('Output')
+                        plt.show()
+                        """)
             
             st.subheader("Output")
             col1, col2 = st.columns(2)
@@ -1457,6 +1471,8 @@ class GeometricTransformations(ImageProcessing):
                     st.slider("`4`", value = [389,390], max_value = 500)
             
             pts1=[list(pt) for pt in pt1]
+            st.write("Upload image:")
+            self.uploader()
             st.subheader("Code")
             st.code(f"""
                     img = cv2.imread('sudokusmall.png')

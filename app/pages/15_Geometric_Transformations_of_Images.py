@@ -33,27 +33,22 @@ def main():
 
     elif options == 'Scaling':
         st.markdown("## Scaling")
-        geoTrans.uploader()
         geoTrans.Scaling()
 
     elif options == 'Translation':
         st.markdown("## Translation")
-        geoTrans.uploader()
         geoTrans.Translation()
 
     elif options == 'Rotation':
         st.markdown("## Rotation")
-        geoTrans.uploader()
         geoTrans.Rotation()
 
     elif options == 'Affine Transformation':
         st.markdown("## Affine Transformation")
-        geoTrans.uploader()
         geoTrans.AffineTransformation()
         
     elif options == 'Perspective Transformation':
         st.markdown("## Perspective Transformation")
-        geoTrans.uploader()
         geoTrans.PerspectiveTransform()
 
 if __name__ == '__main__':
