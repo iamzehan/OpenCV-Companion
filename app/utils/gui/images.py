@@ -831,10 +831,12 @@ class PerformanceMeasurement(CommonComponents):
                     a kernel of odd size ranging from 5 to 49. 
                     (Don’t worry about what will the result look like,
                     that is not our goal):""")
+        
         code_placeholder= st.empty()
         with st.container(border=True):
             st.subheader("Try it yourself:")
             self.uploader()
+            
         code_placeholder.code(f"""
                 img1 = cv2.imread('{self.img_file_name}')
                 e1 = cv2.getTickCount()
@@ -1081,10 +1083,19 @@ class ChangingColorSpace(ImageProcessing):
             
         }
         
-        colorspace = st.selectbox(label="Choose colorspace", options=["blue",
-                                                                      "green",
-                                                                      "red"])
-        st.code(f"""
+        with st.container(border=True):
+            st.subheader("Code")
+            code_placeholder = st.empty()
+            
+        with st.container(border=True):
+            st.subheader("Try it yourself: ")
+            color_dots= {'blue': '🔵', 'red':'🔴', 'green':'🟢'}
+            colorspace = st.selectbox(label="Choose colorspace", options=["blue",
+                                                                        "green",
+                                                                        "red"])
+            self.uploader()
+            
+        code_placeholder.code(f"""
                 import cv2
                 import numpy as np
 
@@ -1098,7 +1109,7 @@ class ChangingColorSpace(ImageProcessing):
                     # Convert BGR to HSV
                     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-                    # define range of blue color in HSV
+                    # define range of {colorspace} - {color_dots[colorspace]} color in HSV
                     lower_{colorspace} = np.array({colorspaces[colorspace][0]})
                     upper_{colorspace} = np.array({colorspaces[colorspace][1]})
 
@@ -1118,7 +1129,7 @@ class ChangingColorSpace(ImageProcessing):
                 cv2.destroyAllWindows()
                 """)
         
-        st.write(f"Below image shows tracking of the {colorspace} object:")
+        st.write(f"Below image shows tracking of the {colorspace} - {color_dots[colorspace]} object:")
         frame, mask, res = object_tracking(self.img, colorspaces[colorspace])
         with st.container(border=True):
             col1, col2, col3 = st.columns(3)
@@ -1152,6 +1163,7 @@ class ChangingColorSpace(ImageProcessing):
                 you want. For example, to find the HSV value of Green,
                 try following commands in Python terminal:
                  """)
+        
         with st.container(border=True):
             color = st.color_picker("Pick a color",value="#ff0000")
             color = list(ImageColor.getcolor(f'{color}','RGB')[::-1])
