@@ -323,6 +323,7 @@ class BasicOperations(CommonComponents):
                     """)
         
         with st.container(border=True):
+            st.subheader("Try it yourself:")
             self.uploader()
             
         self.main_body(show=False)
@@ -423,6 +424,7 @@ class BasicOperations(CommonComponents):
                     ## Splitting and Merging Image Channels
                     """)
         with st.container(border=True):
+            st.subheader("Try it yourself:")
             self.uploader()
             
         self.main_body(show=False)
