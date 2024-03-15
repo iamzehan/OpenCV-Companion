@@ -28,17 +28,14 @@ def main():
                     """)
     if options == "Simple Thresholding":
         st.subheader("Simple Thresholding")
-        image_thresholding.uploader()
         image_thresholding.Simple_Thresholding()
         
     elif options == "Adaptive Thresholding":
         st.subheader("Adaptive Thresholding")
-        image_thresholding.uploader()
         image_thresholding.Adaptive_Thresholding()
         
     elif options == "Otsu's Binarization":
         st.subheader("Otsu's Binarization")
-        image_thresholding.uploader()
         image_thresholding.Otsus_Binarization()
 
 if __name__ == '__main__':

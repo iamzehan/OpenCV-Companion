@@ -1497,8 +1497,15 @@ class ImageThresholding(ImageProcessing):
                     Two outputs are obtained. First one is a retval which will be explained later. Second output is our thresholded image.
                     """)
         
-        st.subheader("Code")
-        st.code(f"""
+        with st.container(border=True):
+            st.subheader("Code")
+            code_placeholder = st.empty()
+            
+        with st.container(border=True):
+            st.subheader("Try it yourself: ")
+            self.uploader()
+            
+        code_placeholder.code(f"""
                     import cv2
                     import numpy as np
                     from matplotlib import pyplot as plt
@@ -1561,10 +1568,16 @@ class ImageThresholding(ImageProcessing):
         if not self.img_file:
             self.img = read_image("app/assets/Images/sudoku.jpg")
             self.img_file_name='sudoku.jpg'
-            
+        
         with st.container(border=True):
             st.subheader("Code")
-            st.code(f"""
+            code_placeholder = st.empty()
+            
+        with st.container(border=True):
+            st.subheader("Try it yourself: ")
+            self.uploader()
+            
+        code_placeholder.code(f"""
                     import cv2 as cv
                     import numpy as np
                     from matplotlib import pyplot as plt
@@ -1586,16 +1599,16 @@ class ImageThresholding(ImageProcessing):
                         plt.title(titles[i])
                         plt.xticks([]),plt.yticks([])
                     plt.show()
-                    """)
+            """)
             
-            st.subheader("Output")
-            with st.container(border=True):
-                titles = ['Original Image', 'Global Thresholding (v = 127)',
-                'Adaptive Mean Thresholding', 'Adaptive Gaussian Thresholding']
-                images = adaptive_thresholding(self.img)
-                num_columns = 2
-                num_rows = len(titles) // num_columns
-                self.grid(num_columns, num_rows, titles, images)
+        st.subheader("Output")
+        with st.container(border=True):
+            titles = ['Original Image', 'Global Thresholding (v = 127)',
+            'Adaptive Mean Thresholding', 'Adaptive Gaussian Thresholding']
+            images = adaptive_thresholding(self.img)
+            num_columns = 2
+            num_rows = len(titles) // num_columns
+            self.grid(num_columns, num_rows, titles, images)
                 
     def Otsus_Binarization(self):
         st.markdown("""
@@ -1621,67 +1634,73 @@ class ImageThresholding(ImageProcessing):
         if not self.img_file:
             self.img_file_name = 'noisy.jpeg'
             self.img = read_image('app/assets/Images/noisy.jpeg')
-            
+
         with st.container(border=True):
             st.subheader("Code")
-            st.code(f"""
-                    import cv2 as cv
-                    import numpy as np
-                    from matplotlib import pyplot as plt
-                    
-                    img = cv.imread('{self.img_file_name}', cv.IMREAD_GRAYSCALE)
-                    assert img is not None, "file could not be read, check with os.path.exists()"
-                    
-                    # global thresholding
-                    ret1,th1 = cv.threshold(img,127,255,cv.THRESH_BINARY)
-                    
-                    # Otsu's thresholding
-                    ret2,th2 = cv.threshold(img,0,255,cv.THRESH_BINARY+cv.THRESH_OTSU)
-                    
-                    # Otsu's thresholding after Gaussian filtering
-                    blur = cv.GaussianBlur(img,(5,5),0)
-                    ret3,th3 = cv.threshold(blur,0,255,cv.THRESH_BINARY+cv.THRESH_OTSU)
-                    
-                    # plot all the images and their histograms
-                    images = [img, 0, th1,
-                            img, 0, th2,
-                            blur, 0, th3]
-                    titles = ['Original Noisy Image','Histogram','Global Thresholding (v=127)',
-                            'Original Noisy Image','Histogram',"Otsu's Thresholding",
-                            'Gaussian filtered Image','Histogram',"Otsu's Thresholding"]
-                    
-                    for i in range(3):
-                        plt.subplot(3,3,i*3+1),plt.imshow(images[i*3],'gray')
-                        plt.title(titles[i*3]), plt.xticks([]), plt.yticks([])
-                        plt.subplot(3,3,i*3+2),plt.hist(images[i*3].ravel(),256)
-                        plt.title(titles[i*3+1]), plt.xticks([]), plt.yticks([])
-                        plt.subplot(3,3,i*3+3),plt.imshow(images[i*3+2],'gray')
-                        plt.title(titles[i*3+2]), plt.xticks([]), plt.yticks([])
-                    plt.show()
-                    """)
-            st.subheader("Output")
+            code_placeholder = st.empty()
+        
+        with st.container(border=True):
+            st.subheader("Try it yourself: ")
+            self.uploader()
             
-            with st.container(border=True):
+        code_placeholder.code(f"""
+                import cv2 as cv
+                import numpy as np
+                from matplotlib import pyplot as plt
+                
+                img = cv.imread('{self.img_file_name}', cv.IMREAD_GRAYSCALE)
+                assert img is not None, "file could not be read, check with os.path.exists()"
+                
+                # global thresholding
+                ret1,th1 = cv.threshold(img,127,255,cv.THRESH_BINARY)
+                
+                # Otsu's thresholding
+                ret2,th2 = cv.threshold(img,0,255,cv.THRESH_BINARY+cv.THRESH_OTSU)
+                
+                # Otsu's thresholding after Gaussian filtering
+                blur = cv.GaussianBlur(img,(5,5),0)
+                ret3,th3 = cv.threshold(blur,0,255,cv.THRESH_BINARY+cv.THRESH_OTSU)
+                
+                # plot all the images and their histograms
+                images = [img, 0, th1,
+                        img, 0, th2,
+                        blur, 0, th3]
                 titles = ['Original Noisy Image','Histogram','Global Thresholding (v=127)',
-                          'Original Noisy Image','Histogram',"Otsu's Thresholding",
-                          'Gaussian filtered Image','Histogram',"Otsu's Thresholding"]
+                        'Original Noisy Image','Histogram',"Otsu's Thresholding",
+                        'Gaussian filtered Image','Histogram',"Otsu's Thresholding"]
                 
-                fig, axes = plt.subplots(3, 3, figsize=(15, 15))
-                images=otsus_binarization(self.img)
-                
-                # 3 rows
                 for i in range(3):
-                    axes[i, 0].imshow(images[i * 3], cmap='gray')
-                    axes[i, 0].set_title(titles[i * 3])
-                    axes[i, 0].axis('off')
+                    plt.subplot(3,3,i*3+1),plt.imshow(images[i*3],'gray')
+                    plt.title(titles[i*3]), plt.xticks([]), plt.yticks([])
+                    plt.subplot(3,3,i*3+2),plt.hist(images[i*3].ravel(),256)
+                    plt.title(titles[i*3+1]), plt.xticks([]), plt.yticks([])
+                    plt.subplot(3,3,i*3+3),plt.imshow(images[i*3+2],'gray')
+                    plt.title(titles[i*3+2]), plt.xticks([]), plt.yticks([])
+                plt.show()
+                """)
+        st.subheader("Output")
+        
+        with st.container(border=True):
+            titles = ['Original Noisy Image','Histogram','Global Thresholding (v=127)',
+                        'Original Noisy Image','Histogram',"Otsu's Thresholding",
+                        'Gaussian filtered Image','Histogram',"Otsu's Thresholding"]
+            
+            fig, axes = plt.subplots(3, 3, figsize=(15, 15))
+            images=otsus_binarization(self.img)
+            
+            # 3 rows
+            for i in range(3):
+                axes[i, 0].imshow(images[i * 3], cmap='gray')
+                axes[i, 0].set_title(titles[i * 3])
+                axes[i, 0].axis('off')
 
-                    axes[i, 1].hist(images[i * 3].ravel(), 256)
-                    axes[i, 1].set_title(titles[i * 3 + 1])
+                axes[i, 1].hist(images[i * 3].ravel(), 256)
+                axes[i, 1].set_title(titles[i * 3 + 1])
 
-                    axes[i, 2].imshow(images[i * 3 + 2], cmap='gray')
-                    axes[i, 2].set_title(titles[i * 3 + 2])
-                    axes[i, 2].axis('off')
-                st.pyplot(fig)
+                axes[i, 2].imshow(images[i * 3 + 2], cmap='gray')
+                axes[i, 2].set_title(titles[i * 3 + 2])
+                axes[i, 2].axis('off')
+            st.pyplot(fig)
                 
         st.markdown("""
                         #### How does Otsu's Binarization work?
