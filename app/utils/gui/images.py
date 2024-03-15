@@ -2116,10 +2116,14 @@ class MorphologicalTransformation(ImageProcessing):
                     Here, as an example, I would use a 5x5 kernel filled with ones. Let’s see how it works:
                     """
                     )
+        
         st.subheader("Perameters")
         dimensions = {"3 x 3": (3, 3), "5 x 5": (5,5), "7 x 7": (7, 7)}
         dim = dimensions[st.selectbox("Kernel:", index=1, options=["3 x 3", "5 x 5", "7 x 7"])]
         iterations = st.slider("Iterations: ", min_value=1, value=1, max_value=10)
+        st.write("Upload image: ")
+        self.uploader()
+        
         st.subheader("Code")
         st.code(f"""
                 import cv2
@@ -2159,6 +2163,9 @@ class MorphologicalTransformation(ImageProcessing):
         dimensions = {"3 x 3": (3, 3), "5 x 5": (5,5), "7 x 7": (7, 7)}
         dim = dimensions[st.selectbox("Kernel:", index=1, options=["3 x 3", "5 x 5", "7 x 7"])]
         iterations = st.slider("Iterations: ", min_value=1, value=1, max_value=10)
+        st.write("Upload image: ")
+        self.uploader()
+        
         st.subheader("Code")
         st.code(f"""
                 dilation = cv2.dilate(img,kernel,iterations = {iterations})
@@ -2179,6 +2186,9 @@ class MorphologicalTransformation(ImageProcessing):
         st.subheader("Perameters")
         dimensions = {"3 x 3": (3, 3), "5 x 5": (5,5), "7 x 7": (7, 7)}
         dim = dimensions[st.selectbox("Kernel:", index=1, options=["3 x 3", "5 x 5", "7 x 7"])]
+        st.write("Upload image: ")
+        self.uploader()
+        
         st.subheader("Code")
         st.code("""
                 opening = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
@@ -2200,6 +2210,9 @@ class MorphologicalTransformation(ImageProcessing):
         st.subheader("Perameters")
         dimensions = {"3 x 3": (3, 3), "5 x 5": (5,5), "7 x 7": (7, 7)}
         dim = dimensions[st.selectbox("Kernel:", index=1, options=["3 x 3", "5 x 5", "7 x 7"])]
+        st.write("Upload image: ")
+        self.uploader()
+        
         st.subheader("Code")
         st.code("""
                 closing = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)
@@ -2217,6 +2230,9 @@ class MorphologicalTransformation(ImageProcessing):
         st.subheader("Perameters")
         dimensions = {"3 x 3": (3, 3), "5 x 5": (5,5), "7 x 7": (7, 7)}
         dim = dimensions[st.selectbox("Kernel:", index=1, options=["3 x 3", "5 x 5", "7 x 7"])]
+        st.write("Upload image: ")
+        self.uploader()
+        
         st.subheader("Code")
         st.code("""
                 gradient = cv2.morphologyEx(img, cv2.MORPH_GRADIENT, kernel)
@@ -2231,6 +2247,9 @@ class MorphologicalTransformation(ImageProcessing):
                 """)
         dimensions = {"3 x 3": (3, 3), "5 x 5": (5,5), "7 x 7": (7, 7), "9 x 9": (9, 9)}
         dim = dimensions[st.selectbox("Kernel:", index=3, options=["3 x 3", "5 x 5", "7 x 7", "9 x 9"])]
+        st.write("Upload image: ")
+        self.uploader()
+        
         st.subheader("Code")
         st.code("""
                 tophat = cv2.morphologyEx(img, cv2.MORPH_TOPHAT, kernel)
@@ -2245,6 +2264,9 @@ class MorphologicalTransformation(ImageProcessing):
                 """)
         dimensions = {"3 x 3": (3, 3), "5 x 5": (5,5), "7 x 7": (7, 7), "9 x 9": (9, 9)}
         dim = dimensions[st.selectbox("Kernel:", index=3, options=["3 x 3", "5 x 5", "7 x 7", "9 x 9"])]
+        st.write("Upload image: ")
+        self.uploader()
+        
         st.subheader("Code")
         st.code("""
                 blackhat = cv2.morphologyEx(img, cv2.MORPH_BLACKHAT, kernel)
