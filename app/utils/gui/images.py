@@ -57,14 +57,14 @@ class CommonComponents:
     def __init__(self):
         pass
     
-    def side_bar(self, multiple=False, custom_msg=None):
+    def uploader(self, multiple=False, custom_msg=None):
         
         # File and name handling
-        file = st.sidebar.file_uploader("Upload an Image:",
+        file = st.file_uploader("Upload an Image:",
                                         type=["PNG","JPG"], 
                                         label_visibility="collapsed",
                                         accept_multiple_files=multiple)
-        message = st.sidebar.empty()
+        message = st.empty()
         if not file:
             if multiple:
                 message.error("Upload images to see changes")
@@ -178,7 +178,7 @@ class GUIFeatures(CommonComponents):
                 
     # This brings the whole rendition together
     def Read_and_Show_Image(self):
-        self.side_bar()        
+        self.uploader()        
         self.main_body()
 
 # Basic Operations On Images (Page - 6)
@@ -2683,7 +2683,6 @@ class Contours:
             
             st.subheader("Code")
             code_placeholder= st.empty()
-            self.side_bar()
             
             with st.container(border=True):
                 st.subheader("Parameters")
@@ -2694,6 +2693,8 @@ class Contours:
                 color= col2.color_picker("Color", value="#00ff00")
                 color= tuple(ImageColor.getcolor(f'{color}','RGB')[::-1])
                 thickness = col1.number_input("Thickness", min_value = 1, value=3, max_value=5)
+                with col2:
+                    self.uploader()
             
             code_placeholder.code(f"""
                     import numpy as np
