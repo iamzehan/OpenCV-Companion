@@ -26,31 +26,31 @@ def main():
             morph_trans.Theory()
             
         elif options == "Erosion":
-            morph_trans.side_bar()
+            morph_trans.uploader()
             morph_trans.Erosion()
             
         elif options == "Dilation":
-            morph_trans.side_bar()
+            morph_trans.uploader()
             morph_trans.Dilation()
             
         elif options == "Opening":
-            morph_trans.side_bar()
+            morph_trans.uploader()
             morph_trans.Opening()
             
         elif options == "Closing":
-            morph_trans.side_bar()
+            morph_trans.uploader()
             morph_trans.Closing()
             
         elif options == "MorphGradient":
-            morph_trans.side_bar()
+            morph_trans.uploader()
             morph_trans.MorphGradient()
             
         elif options == "TopHat":
-            morph_trans.side_bar()
+            morph_trans.uploader()
             morph_trans.TopHat()
             
         elif options == "BlackHat":
-            morph_trans.side_bar()
+            morph_trans.uploader()
             morph_trans.BlackHat()
             
         elif options == "StructuringElement":

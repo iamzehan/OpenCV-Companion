@@ -36,22 +36,22 @@ def main():
                  since most of them are just single lines of code )*""")
     
     if options == "Accessing and Modifying pixel values":
-            basicOp.side_bar()
+            basicOp.uploader()
             basicOp.Accessing_Modifying_Pixel_Values()
         
     if options == "Accessing Image Properties":
-        basicOp.side_bar()
+        basicOp.uploader()
         basicOp.Accessing_Image_Properties()
     
     if options == "Image ROI":
         basicOp.Image_ROI()
     
     if options == "Splitting and Merging Image Channels":
-        basicOp.side_bar()
+        basicOp.uploader()
         basicOp.Splitting_and_Merging_Image_Channels()
         
     if options == "Making Borders for Images (Padding)":
-        basicOp.side_bar()
+        basicOp.uploader()
         basicOp.Making_Borders_for_Images()
     
 if __name__ == '__main__':

@@ -1,29 +1,24 @@
 import streamlit as st
-from utils.gui.mouse_events import \
-    (Simple_Demo,
-    Advanced_Demo
-    )
-from utils.gui.menu import menu
-from utils.gui.footer import footer
+from utils.gui import menu, footer, mouse_events
 
 # Streamlit app
 def main():
-    st.set_page_config(page_icon="app/assets/Images/OpenCV_Logo_with_text.png",
-                       page_title="Mouse Events")
-    menu()
+    me = mouse_events.MouseEvents()
     st.title("OpenCV Mouse Events 🖱️")
-
     st.markdown("## Goal")
     st.write("Learn to handle mouse events in OpenCV using `cv.setMouseCallback()`.")
-    with st.sidebar.container(border=True):
+    with st.container(border=True):
         st.subheader("Topics")
-        options = st.radio("Select:", options=["Simple Demo", "Advanced Demo"])
+        options = st.radio("Select:", options=["Simple Demo", "Advanced Demo"], horizontal=True, label_visibility='collapsed')
     
     if options == "Simple Demo":
-        Simple_Demo()
+        me.Simple_Demo()
     if options == "Advanced Demo":
-        Advanced_Demo()
+        me.Advanced_Demo()
     
 if __name__ == "__main__":
+    st.set_page_config(page_icon="app/assets/Images/OpenCV_Logo_with_text.png",
+                       page_title="Mouse Events")
+    menu.menu()
     main()
-    footer()
+    footer.footer()

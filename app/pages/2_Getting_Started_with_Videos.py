@@ -13,13 +13,14 @@ if __name__ == "__main__":
                        page_title="Getting Started with Videos")
 
     menu()
-    with st.sidebar.container(border=True):
+    with st.container(border=True):
         st.subheader("Topics")
         options = st.radio("Select:", options=["Introduction",
                                                         "Capture Video from Camera",
                                                             "Playing Video from File",
                                                             "Save Video"],
-                                    label_visibility="collapsed" )
+                            horizontal=True,
+                            label_visibility="collapsed" )
     
     if options == "Introduction":
         st.markdown("""

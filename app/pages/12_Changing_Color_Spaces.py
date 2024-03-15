@@ -29,7 +29,7 @@ def main():
     
     if options == "Object-Tracking":
         st.subheader("Object-Tracking")
-        ccs.side_bar()
+        ccs.uploader()
         ccs.Object_Tracking()
 
 if __name__ == '__main__':

@@ -1,7 +1,5 @@
 import streamlit as st
-from utils.gui.footer import footer
-from utils.gui.menu import menu
-from utils.gui.images import GUIFeatures
+from utils.gui import footer, menu, images
 
 if __name__ == "__main__":
     
@@ -9,7 +7,7 @@ if __name__ == "__main__":
     st.set_page_config(page_icon="app/assets/Images/OpenCV_Logo_with_text.png",
                    page_title="Getting Started with Images")
     
-    menu()
+    menu.menu()
     # The Goals of the lesson
     st.markdown("""
                 # Getting Started with Images 🖼️
@@ -20,7 +18,7 @@ if __name__ == "__main__":
                 """,
                 unsafe_allow_html=True)
     
-    guiFeat = GUIFeatures()
+    guiFeat = images.GUIFeatures()
     guiFeat.Read_and_Show_Image()
     
-    footer()
+    footer.footer()

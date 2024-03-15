@@ -178,7 +178,8 @@ class GUIFeatures(CommonComponents):
                 
     # This brings the whole rendition together
     def Read_and_Show_Image(self):
-        self.uploader()        
+        with st.sidebar:
+            self.uploader()        
         self.main_body()
 
 # Basic Operations On Images (Page - 6)

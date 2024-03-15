@@ -16,7 +16,7 @@ if __name__ == "__main__":
     st.set_page_config(page_icon="app/assets/Images/OpenCV_Logo_with_text.png",
                        page_title="Drawing Geometric Shapes with OpenCV")
     menu()
-    with st.sidebar.container(border=True):
+    with st.container(border=True):
         st.subheader("Topics")
         options = st.radio(label="Select:",
                                    options=["Introduction",
@@ -26,6 +26,7 @@ if __name__ == "__main__":
                                             "Draw Ellipse",
                                             "Drawing Polygon",
                                             "Adding Texts"],
+                                   horizontal=True,
                                    label_visibility="collapsed")
     
     if options == "Introduction":

@@ -49,7 +49,7 @@ def main():
 
     elif options == "Measuring Performance with OpenCV":
         st.subheader("Measuring Performance with OpenCV")
-        perfM.side_bar()
+        perfM.uploader()
         perfM.Measuring_Performance()
        
     elif options == "Default Optimization":
