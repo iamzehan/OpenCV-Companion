@@ -258,14 +258,14 @@ class BasicOperations(CommonComponents):
                 st.markdown(load_by_pixels(img, dimensions)[0])
             
             color = st.selectbox("Get pixel by specific color?:",options=["Blue", "Green", "Red"])
-            colors = {'Blue':0, 'Green': 1, 'Red':2}
+            colors = {'Blue':[0, '🔵'], 'Green': [1, '🟢'], 'Red':[2, '🔴']}
             
             st.code(f"""
-                    # accessing only {color} pixel
-                    blue = img[{dimensions[0]},{dimensions[1]}, {colors[color]}]
-                    print( blue )
+                    # accessing only {color} {colors[color][1]} pixel
+                    {color.lower()} = img[{dimensions[0]},{dimensions[1]}, {colors[color][0]}]
+                    print( {color.lower()} )
                     """)
-            color_result = load_by_pixels(img, dimensions, colors[color])
+            color_result = load_by_pixels(img, dimensions, colors[color][0])
             with st.expander("Output: "):
                 st.markdown(color_result)
             
@@ -304,20 +304,23 @@ class BasicOperations(CommonComponents):
             modify_value=st.slider("Modify Value:", value = 100, max_value=255)
             
             st.code(f"""
-                    # accessing {color.upper()} value
-                    img.item({dimensions[0]}, {dimensions[1]}, {colors[color]})
+                    # accessing {color.upper()} {colors[color][1]} value
+                    img.item({dimensions[0]}, {dimensions[1]}, {colors[color][0]})
                     >> {color_result}
-                    # modifying {color.upper()} value
+                    # modifying {color.upper()} {colors[color][1]}  value
                     img.itemset({dimensions[0]}, {dimensions[1]}, {modify_value})
-                    img.item({dimensions[0]}, {dimensions[1]}, {colors[color]})
+                    img.item({dimensions[0]}, {dimensions[1]}, {colors[color][0]})
                     >> {modify_value}
                     """)
 
     def Accessing_Image_Properties(self):
         st.markdown("""
                     ## Accessing Image Properties
-                    Continuation from our previous task:
                     """)
+        
+        with st.container(border=True):
+            self.uploader()
+            
         self.main_body(show=False)
         img = self.img
         st.markdown("""
@@ -415,7 +418,11 @@ class BasicOperations(CommonComponents):
         st.markdown("""
                     ## Splitting and Merging Image Channels
                     """)
+        with st.container(border=True):
+            self.uploader()
+            
         self.main_body(show=False)
+        
         img = self.img
         st.markdown("""
                     Sometimes you will need to work separately on the B,G,R channels
@@ -503,33 +510,15 @@ class BasicOperations(CommonComponents):
             button_space = st.empty()
             container_space = st.empty()
             if button_space.button("▶️"):
-                replicate, reflect, reflect101, wrap, constant = make_borders(img)
                 with container_space.container(border=True):
-                    col1, col2, col3 = st.columns([4,4,4])
-                    
-                    col1.markdown("<center>ORIGINAL</center>", 
-                                    unsafe_allow_html=True)
-                    col1.image(img, channels='BGR')
-                    
-                    col2.markdown("<center>REPLICATE</center>", 
-                                    unsafe_allow_html=True)
-                    col2.image(replicate, channels='BGR')
-                    
-                    col3.markdown("<center>REFLECT</center>", 
-                                    unsafe_allow_html=True)
-                    col3.image(reflect, channels='BGR')
-                    
-                    col1.markdown("<center>REFLECT 101</center>", 
-                                    unsafe_allow_html=True)
-                    col1.image(reflect101, channels='BGR')
-                    
-                    col2.markdown("<center>WRAP</center>", 
-                                    unsafe_allow_html=True)
-                    col2.image(wrap, channels='BGR')
-                    
-                    col3.markdown("<center>CONSTANT</center>", 
-                                    unsafe_allow_html=True)
-                    col3.image(constant, channels='BGR')
+                    self.grid(2, 3, titles=["ORIGINAL",
+                                            "REPLICATE",
+                                            "REFLECT",
+                                            "REFLECT 101",
+                                            "WRAP",
+                                            "CONSTANT"
+                                            ],
+                              images=[img, *make_borders(img)])
                     st.success("Showing Results")
                     info.error("Press ❌ to exit")
                     
@@ -569,15 +558,12 @@ class BasicOperations(CommonComponents):
                     Below is a sample code demonstrating all these border types for 
                     better understanding:
                     """)
-        img_file = self.img_file
-        img_file_name = self.img_file_name
-        img = self.img
-        if img_file:
-            show_code(img_file_name)
-            show_image(img)
-        else:
-            show_code(img_file_name)
-            show_image(img)
+        
+        with st.container(border=True):
+            self.uploader()
+
+        show_code(self.img_file_name)
+        show_image(self.img)
 
 class ArithmeticOperations(CommonComponents):
     def __init__(self):

@@ -45,11 +45,9 @@ def main():
         basicOp.Image_ROI()
     
     if options == "Splitting and Merging Image Channels":
-        basicOp.uploader()
         basicOp.Splitting_and_Merging_Image_Channels()
         
     if options == "Making Borders for Images (Padding)":
-        basicOp.uploader()
         basicOp.Making_Borders_for_Images()
     
 if __name__ == '__main__':
