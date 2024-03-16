@@ -49,7 +49,9 @@ from utils.opencv.images import (
     image_blending,
     get_started_contours,
     get_flags,
-    draw_contours)
+    draw_contours,
+    get_moments,
+    get_centroid)
 
 # Getting Started with Images (Page - 2)
 
@@ -2910,8 +2912,104 @@ class Contours:
             self.grid(1, 2, titles=[f"CHAIN_APPROX_NONE {points1}", f"CHAIN_APPROX_SIMPLE {points2}"], 
                       images=[draw_contours(self.img.copy(), contours1[0][:points1], -1, color=(255, 0, 0)), 
                               draw_contours(self.img.copy(), contours2[0][:points2], -1, color=(255, 0, 0))])
+    
+    class Features(ImageProcessing):
+        def __init__(self):
+            super().__init__()
 
+        def Introduction(self):
+            st.subheader("Goals")
+            st.markdown("""
+                        Goal
+                        In this article, we will learn
 
+                        - To find the different features of contours, 
+                        like area, perimeter, centroid, bounding box etc
+                        - You will see plenty of functions related to contours.
+                        """)
+        
+        def Moments(self):
+            st.subheader("1. Moments")
+            st.markdown("""
+                        Image moments help you to calculate some features like center of mass of the object,
+                        area of the object etc. Check out the wikipedia page on Image Moments
+
+                        The function `cv.moments()` gives a dictionary of all moment values calculated.
+                        See below:
+                        """)
+            
+            if not self.img_file:
+                self.img = read_image('app/assets/Images/star.png')
+                self.img_file_name = 'star.png'
+            
+            code_placeholder=st.empty()
+            with st.container(border=True):
+                st.subheader("Try it yourself:")
+                self.uploader()
+                st.image(self.img, caption=self.img_file_name, use_column_width=True)
+                
+            code_placeholder.code(f"""
+                    import numpy as np
+                    import cv2 as cv
+                    
+                    img = cv.imread('{self.img_file_name}', cv.IMREAD_GRAYSCALE)
+                    assert img is not None, "file could not be read, check with os.path.exists()"
+                    ret,thresh = cv.threshold(img, 127, 255, 0)
+                    contours,hierarchy = cv.findContours(thresh, 1, 2)
+                    
+                    cnt = contours[0]
+                    M = cv.moments(cnt)
+                    print( M )
+                    """)
+            
+            st.subheader("Output")
+            with st.expander("Reveal output:"):
+                moments = get_moments(self.img)
+                st.write(moments)
+                
+            st.markdown("""
+                        From this moments, you can extract useful data like area, centroid etc. 
+                        Centroid is given by the relations, 
+                        $$C_x = \\frac{M_{10}}{M_{00}}$$
+                        and 
+                        $$C_y = \\frac{M_{01}}{M_{00}}$$
+                        . This can be done as follows:
+                        """)
+            
+            cx, cy = get_centroid(moments)
+            st.code(f"""
+                    cx = int(M['m10']/M['m00'])
+                    >> {cx}
+                    cy = int(M['m01']/M['m00'])
+                    >> {cy}
+                    """)
+        
+        def Contour_Area(self):
+            pass
+        
+        def Contour_Perimeter(self):
+            pass
+        
+        def Contour_Approximation(self):
+            pass
+        
+        def Convex_Hull(self):
+            pass
+        
+        def Checking_Convexity(self):
+            pass 
+        
+        def Bounding_Rectangle(self):
+            pass 
+        
+        def Minimum_Enclosing_Circle(self):
+            pass
+        
+        def Fitting_an_Ellipse(self):
+            pass 
+        
+        def Fitting_a_Line(self):
+            pass
 
 class Histograms(ImageProcessing):
     def __init__(self):

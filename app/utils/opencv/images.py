@@ -429,3 +429,18 @@ def draw_contours(img, contours, points, color, thickness=5):
 def get_flags(name):
     flags = [i for i in dir(cv) if i.startswith(name)]
     return flags
+
+def get_moments(img):
+    img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    ret,thresh = cv.threshold(img,127,255,0)
+    contours,hierarchy = cv.findContours(thresh, 1, 2)
+    
+    cnt = contours[0]
+    M = cv.moments(cnt)
+    return M
+
+def get_centroid(M):
+    cx = int(M['m10']/M['m00'])
+    cy = int(M['m01']/M['m00'])
+    
+    return cx, cy
