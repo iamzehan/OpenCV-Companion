@@ -54,7 +54,8 @@ from utils.opencv.images import (
     get_moments,
     get_centroid,
     get_contour_approx,
-    get_cvx_hull)
+    get_cvx_hull,
+    get_bounding_rect)
 
 # Getting Started with Images (Page - 2)
 
@@ -3146,8 +3147,14 @@ class Contours:
             st.markdown("""
                         Both the rectangles are shown in a single image. Green rectangle shows the normal bounding rect. Red rectangle is the rotated rect.
                         """)
+            with st.container(border=True):
+                st.subheader("Try it yourself: ")
+                self.uploader()
+                
             if not self.img_file: 
                 self.img = read_image("app/assets/Images/boundingrect.png")
+            else:
+                self.img = get_bounding_rect(self.img)
             st.image(self.img, caption="Bounding Rectangles", channels="BGR", use_column_width=True)
             
         def Minimum_Enclosing_Circle(self):
@@ -3156,12 +3163,14 @@ class Contours:
                         Next we find the circumcircle of an object using the function `cv.minEnclosingCircle()`. 
                         It is a circle which completely covers the object with minimum area.
                         """)
+            
             st.code("""
                     (x,y),radius = cv.minEnclosingCircle(cnt)
                     center = (int(x),int(y))
                     radius = int(radius)
                     cv.circle(img,center,radius,(0,255,0),2)
                     """)
+            
             if not self.img_file: 
                 self.img = read_image("app/assets/Images/circumcircle.png")
             st.image(self.img, caption="Min Enclosing Circle", channels="BGR", use_column_width=True)

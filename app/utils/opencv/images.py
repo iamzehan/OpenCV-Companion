@@ -470,3 +470,18 @@ def get_cvx_hull(img, check=False):
     if check:
         return cv.isContourConvex(hull)
     return img
+
+def get_bounding_rect(img):
+    gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    # Find edges using Canny edge detector
+    edges = cv.Canny(gray, 50, 150)
+    # Find contours
+    contours, _ = cv.findContours(edges, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+    cnt = contours[0]
+    x,y,w,h = cv.boundingRect(cnt)
+    img = cv.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
+    rect = cv.minAreaRect(cnt)
+    box = cv.boxPoints(rect)
+    box = np.int0(box)
+    img = cv.drawContours(img,[box],0,(0,0,255),2)
+    return img
