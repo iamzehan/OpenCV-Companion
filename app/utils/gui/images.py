@@ -51,7 +51,9 @@ from utils.opencv.images import (
     get_flags,
     draw_contours,
     get_moments,
-    get_centroid)
+    get_centroid,
+    get_contour_approx,
+    get_cvx_hull)
 
 # Getting Started with Images (Page - 2)
 
@@ -2985,31 +2987,205 @@ class Contours:
                     """)
         
         def Contour_Area(self):
-            pass
+            st.subheader("2. Contour Area")
+            st.markdown("""
+                        Contour area is given by the function `cv2.contourArea()` or from moments, `M[‘m00’]`.
+                        """)
+            st.code("""
+                    area = cv2.contourArea(cnt)
+                    """)
         
         def Contour_Perimeter(self):
-            pass
-        
+            st.subheader("3. Contour Perimeter")
+            st.markdown("""
+                        It is also called arc length. It can be found out using `cv2.arcLength()` function. 
+                        Second argument specify whether shape is a closed contour (if passed True), or just a curve.
+                        """)
+            st.code("perimeter = cv2.arcLength(cnt,True)")
+            
         def Contour_Approximation(self):
-            pass
-        
+            
+            st.subheader("4. Contour Approximation")
+            
+            st.markdown("""
+                        It approximates a contour shape to another shape with less number of vertices depending upon the precision we specify.
+                        It is an implementation of [Douglas-Peucker algorithm](http://en.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm). 
+                        Check the wikipedia page for algorithm and demonstration.
+
+                        To understand this, suppose you are trying to find a square in an image, but due to some problems in the image, 
+                        you didn’t get a perfect square, but a “bad shape” (As shown in first image below). Now you can use this function 
+                        to approximate the shape. In this, second argument is called epsilon, which is maximum distance from contour to 
+                        approximated contour. It is an accuracy parameter. A wise selection of epsilon is needed to get the correct output.
+                        """)
+            
+            st.code("""
+                    epsilon = 0.1*cv2.arcLength(cnt,True)
+                    approx = cv2.approxPolyDP(cnt,epsilon,True)
+                    """)
+            if not self.img_file: 
+                self.img = read_image("app/assets/Images/approx.jpg")
+                
+            with st.container(border=True):
+                st.subheader("Try it yourself:")
+                self.uploader()
+                
+            with st.expander("Reveal output"):
+                st.write(get_contour_approx(self.img))
+            
+            st.markdown("""
+                        Below, in second image, green line shows the approximated curve for epsilon = 10% of arc length. Third image shows 
+                        the same for epsilon = 1% of the arc length. Third argument specifies whether curve is closed or not.
+                        """)
+            st.image(self.img, caption="Contour Approximation", channels="BGR", use_column_width=True)
+            
+            
         def Convex_Hull(self):
-            pass
-        
+            st.subheader("5. Convex Hul")
+            st.markdown("""
+                        Convex Hull will look similar to contour approximation, but it is not (Both may provide same results in some cases). 
+                        Here, `cv2.convexHull()` function checks a curve for convexity defects and corrects it. Generally speaking, convex 
+                        curves are the curves which are always bulged out, or at-least flat. And if it is bulged inside, it is called 
+                        convexity defects. For example, check the below image of hand. Red line shows the convex hull of hand. The double-sided
+                        arrow marks shows the convexity defects, which are the local maximum deviations of hull from contours.
+                        """)
+            with st.container(border=True):
+                st.subheader("Try it yourself:")
+                self.uploader()
+                im = st.empty()
+                msg = st.empty()
+                if not self.img_file: 
+                    self.img = read_image("app/assets/Images/convexitydefects.jpg")
+                    msg.info("Example Image")
+                else:
+                    self.img = get_cvx_hull(self.img)
+                    msg.success("Uploaded Image")
+                try:
+                    im.image(self.img, caption="Convex Hul", width=500, channels="BGR", clamp=True)
+                except Exception as e:
+                    st.error(e)
+                
+            st.write("There is a little bit things to discuss about it its syntax:")
+            st.code("hull = cv2.convexHull(points[, hull[, clockwise[, returnPoints]]")
+            st.markdown("""
+                        Arguments details:
+
+                        - `points`: The contours we pass into.
+                        - `hull`: The output, normally we avoid it.
+                        - `clockwise`: Orientation flag. If it is `True`, the output convex hull is oriented clockwise. 
+                        Otherwise, it is oriented counter-clockwise.
+                        - `returnPoints`: By default, `True`. Then it returns the coordinates of the hull points. 
+                        If `False`, it returns the indices of contour points corresponding to the hull points.
+
+                        So to get a convex hull as in the above image, the following is sufficient:
+                        """)
+            st.code("hull = cv2.convexHull(cnt)")
+            st.markdown("""
+                        To understand how to find convexity defects, consider the following explanation:
+
+                        - If you want to find convexity defects, you need to pass `returnPoints = False`.
+                        - Let's use the example of a rectangle image.
+                        - First, find its contour as `cnt`.
+                        - Then, find its convex hull with `returnPoints = True`. You'll get the following values: 
+                        `[[[234, 202]], [[51, 202]], [[51, 79]], [[234, 79]]]`, which are the four corner points of the rectangle.
+                        - Now, if you do the same with `returnPoints = False`, you'll get the following result: `[[129], [67], [0], [142]]`. 
+                        These are the indices of corresponding points in `cnt`. For example, check the first value: `cnt[129] = [[234, 202]]`, 
+                        which is the same as the first result (and so on for others).
+
+                        This difference becomes relevant when discussing convexity defects and how to handle them.
+
+                        """)
+                
         def Checking_Convexity(self):
-            pass 
-        
+            st.subheader("6. Checking Convexity") 
+            st.markdown("""
+                        There is a function to check if a curve is convex or not, `cv2.isContourConvex()`. 
+                        It just return whether True or False. Not a big deal.
+                        """)
+            st.code("k = cv2.isContourConvex(cnt)")
+            
         def Bounding_Rectangle(self):
-            pass 
-        
+            st.subheader("7. Bounding Rectangle")
+            st.write("There are two types of bounding rectangles.")
+            st.markdown("""
+                        #### 7.a. Straight Bounding Rectangle
+                        It is a straight rectangle, it doesn’t consider the rotation of the object. 
+                        So area of the bounding rectangle won’t be minimum. 
+                        It is found by the function `cv2.boundingRect()`.
+                        
+                        Let `(x,y)` be the top-left coordinate of the rectangle and `(w,h)` be its width and height.
+                        """)
+            st.code("""
+                    x,y,w,h = cv2.boundingRect(cnt)
+                    img = cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
+                    """)
+            
+            st.markdown("""
+                        #### 7.b. Rotated Rectangle
+                        Here, bounding rectangle is drawn with minimum area, so it considers the rotation also. 
+                        The function used is cv2.minAreaRect(). It returns a `Box2D` structure which contains 
+                        following detals - `( top-left corner(x,y), (width, height), angle of rotation )`. 
+                        But to draw this rectangle, we need `4` corners of the rectangle. It is obtained by the function `cv2.boxPoints()`
+                        """)
+            st.code("""
+                    rect = cv2.minAreaRect(cnt)
+                    box = cv2.boxPoints(rect)
+                    box = np.int0(box)
+                    im = cv2.drawContours(im,[box],0,(0,0,255),2)
+                    """)
+            
+            st.markdown("""
+                        Both the rectangles are shown in a single image. Green rectangle shows the normal bounding rect. Red rectangle is the rotated rect.
+                        """)
+            if not self.img_file: 
+                self.img = read_image("app/assets/Images/boundingrect.png")
+            st.image(self.img, caption="Bounding Rectangles", channels="BGR", use_column_width=True)
+            
         def Minimum_Enclosing_Circle(self):
-            pass
-        
+            st.subheader("8. Minimum Enclosing Circle")
+            st.markdown("""
+                        Next we find the circumcircle of an object using the function `cv.minEnclosingCircle()`. 
+                        It is a circle which completely covers the object with minimum area.
+                        """)
+            st.code("""
+                    (x,y),radius = cv.minEnclosingCircle(cnt)
+                    center = (int(x),int(y))
+                    radius = int(radius)
+                    cv.circle(img,center,radius,(0,255,0),2)
+                    """)
+            if not self.img_file: 
+                self.img = read_image("app/assets/Images/circumcircle.png")
+            st.image(self.img, caption="Min Enclosing Circle", channels="BGR", use_column_width=True)
+            
         def Fitting_an_Ellipse(self):
-            pass 
+            st.subheader("9. Fitting an Ellipse")
+            st.markdown("""
+                        Next one is to fit an ellipse to an object. It returns the rotated rectangle 
+                        in which the ellipse is inscribed.
+                        """)
+            st.code("""
+                    ellipse = cv.fitEllipse(cnt)
+                    cv.ellipse(img,ellipse,(0,255,0),2)
+                    """)
+            if not self.img_file: 
+                self.img = read_image("app/assets/Images/fitellipse.png")
+            st.image(self.img, caption="Fitting an Ellipse", channels="BGR", use_column_width=True)
         
         def Fitting_a_Line(self):
-            pass
+            st.subheader("10. Fitting a Line")
+            st.markdown("""
+                        Similarly we can fit a line to a set of points. Below image contains a set of 
+                        white points. We can approximate a straight line to it.
+                        """)
+            st.code("""
+                    rows,cols = img.shape[:2]
+                    [vx,vy,x,y] = cv.fitLine(cnt, cv.DIST_L2,0,0.01,0.01)
+                    lefty = int((-x*vy/vx) + y)
+                    righty = int(((cols-x)*vy/vx)+y)
+                    cv.line(img,(cols-1,righty),(0,lefty),(0,255,0),2)
+                    """)
+            if not self.img_file: 
+                self.img = read_image("app/assets/Images/fitline.jpg")
+            st.image(self.img, caption="Fitting a Line", channels="BGR", use_column_width=True)
 
 class Histograms(ImageProcessing):
     def __init__(self):
