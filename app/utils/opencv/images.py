@@ -444,3 +444,27 @@ def get_centroid(M):
     cy = int(M['m01']/M['m00'])
     
     return cx, cy
+
+def get_contour_approx(img):
+    img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    ret,thresh = cv.threshold(img,127,255,0)
+    contours,hierarchy = cv.findContours(thresh, 1, 2)
+    cnt = contours[0]
+    epsilon = 0.1*cv.arcLength(cnt[0],True)
+    approx = cv.approxPolyDP(cnt,epsilon,True)
+    return approx
+
+def get_cvx_hull(img):
+    gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+
+    # Find edges using Canny edge detector
+    edges = cv.Canny(gray, 50, 150)
+
+    # Find contours
+    contours, _ = cv.findContours(edges, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+
+    # Draw convex hull for each contour
+    for contour in contours:
+        hull = cv.convexHull(contour)
+        img = cv.drawContours(img, [hull], 0, (0, 255, 0), 2)
+    return img
