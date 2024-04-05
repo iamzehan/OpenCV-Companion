@@ -1,3 +1,4 @@
+import time
 import streamlit as st
 from PIL import ImageColor
 import matplotlib.pyplot as plt
@@ -3102,6 +3103,15 @@ class Contours:
                         It just return whether True or False. Not a big deal.
                         """)
             st.code("k = cv2.isContourConvex(cnt)")
+            with st.container(border=True):
+                st.subheader("Try it yourself:")
+                self.uploader()
+                
+                if self.img_file:
+                    st.write("**Output**")
+                    with st.spinner("Wait.."):
+                        time.sleep(1)
+                        st.code(get_cvx_hull(self.img, check=True))
             
         def Bounding_Rectangle(self):
             st.subheader("7. Bounding Rectangle")

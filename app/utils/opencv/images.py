@@ -454,7 +454,7 @@ def get_contour_approx(img):
     approx = cv.approxPolyDP(cnt,epsilon,True)
     return approx
 
-def get_cvx_hull(img):
+def get_cvx_hull(img, check=False):
     gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 
     # Find edges using Canny edge detector
@@ -467,4 +467,6 @@ def get_cvx_hull(img):
     for contour in contours:
         hull = cv.convexHull(contour)
         img = cv.drawContours(img, [hull], 0, (0, 255, 0), 2)
+    if check:
+        return cv.isContourConvex(hull)
     return img
