@@ -55,7 +55,10 @@ from utils.opencv.images import (
     get_centroid,
     get_contour_approx,
     get_cvx_hull,
-    get_bounding_rect)
+    get_bounding_rect,
+    get_min_enclosing_circle,
+    fitting_ellipse,
+    fitting_line)
 
 # Getting Started with Images (Page - 2)
 
@@ -3151,11 +3154,11 @@ class Contours:
                 st.subheader("Try it yourself: ")
                 self.uploader()
                 
-            if not self.img_file: 
-                self.img = read_image("app/assets/Images/boundingrect.png")
-            else:
-                self.img = get_bounding_rect(self.img)
-            st.image(self.img, caption="Bounding Rectangles", channels="BGR", use_column_width=True)
+                if not self.img_file: 
+                    self.img = read_image("app/assets/Images/boundingrect.png")
+                else:
+                    self.img = get_bounding_rect(self.img)
+                st.image(self.img, caption="Bounding Rectangles", channels="BGR", use_column_width=True)
             
         def Minimum_Enclosing_Circle(self):
             st.subheader("8. Minimum Enclosing Circle")
@@ -3171,9 +3174,16 @@ class Contours:
                     cv.circle(img,center,radius,(0,255,0),2)
                     """)
             
-            if not self.img_file: 
-                self.img = read_image("app/assets/Images/circumcircle.png")
-            st.image(self.img, caption="Min Enclosing Circle", channels="BGR", use_column_width=True)
+            with st.container(border=True):
+                st.subheader("Try it yourself: ")
+                self.uploader()
+                
+                if not self.img_file: 
+                    self.img = read_image("app/assets/Images/circumcircle.png")
+                else:
+                    self.img = get_min_enclosing_circle(self.img)
+                    
+                st.image(self.img, caption="Min Enclosing Circle", channels="BGR", use_column_width=True)
             
         def Fitting_an_Ellipse(self):
             st.subheader("9. Fitting an Ellipse")
@@ -3185,9 +3195,17 @@ class Contours:
                     ellipse = cv.fitEllipse(cnt)
                     cv.ellipse(img,ellipse,(0,255,0),2)
                     """)
-            if not self.img_file: 
-                self.img = read_image("app/assets/Images/fitellipse.png")
-            st.image(self.img, caption="Fitting an Ellipse", channels="BGR", use_column_width=True)
+            
+            with st.container(border=True):
+                st.subheader("Try it yourself: ")
+                self.uploader()
+                
+                if not self.img_file: 
+                    self.img = read_image("app/assets/Images/fitellipse.png")
+                else:
+                    self.img = fitting_ellipse(self.img)
+                    
+                st.image(self.img, caption="Fitting an Ellipse", channels="BGR", use_column_width=True)
         
         def Fitting_a_Line(self):
             st.subheader("10. Fitting a Line")
@@ -3202,9 +3220,16 @@ class Contours:
                     righty = int(((cols-x)*vy/vx)+y)
                     cv.line(img,(cols-1,righty),(0,lefty),(0,255,0),2)
                     """)
-            if not self.img_file: 
-                self.img = read_image("app/assets/Images/fitline.jpg")
-            st.image(self.img, caption="Fitting a Line", channels="BGR", use_column_width=True)
+            with st.container(border=True):
+                st.subheader("Try it yourself: ")
+                self.uploader()
+                
+                if not self.img_file: 
+                    self.img = read_image("app/assets/Images/fitline.jpg")
+                else:
+                    self.img = fitting_line(self.img)
+                    
+                st.image(self.img, caption="Fitting a Line", channels="BGR", use_column_width=True)
 
 class Histograms(ImageProcessing):
     def __init__(self):

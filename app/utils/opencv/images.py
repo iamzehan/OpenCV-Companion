@@ -445,6 +445,22 @@ def get_centroid(M):
     
     return cx, cy
 
+def get_contours(img, retr="RETR_TREE"):
+    retrieval_options = {
+    'RETR_CCOMP': cv.RETR_CCOMP,
+    'RETR_EXTERNAL': cv.RETR_EXTERNAL,
+    'RETR_FLOODFILL': cv.RETR_FLOODFILL,
+    'RETR_LIST': cv.RETR_LIST,
+    'RETR_TREE': cv.RETR_TREE
+    }
+    gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    # Find edges using Canny edge detector
+    edges = cv.Canny(gray, 50, 150)
+    # Find contours
+    contours, _ = cv.findContours(edges, retrieval_options[retr], cv.CHAIN_APPROX_SIMPLE)
+    
+    return contours
+
 def get_contour_approx(img):
     img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
     ret,thresh = cv.threshold(img,127,255,0)
@@ -455,14 +471,7 @@ def get_contour_approx(img):
     return approx
 
 def get_cvx_hull(img, check=False):
-    gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-
-    # Find edges using Canny edge detector
-    edges = cv.Canny(gray, 50, 150)
-
-    # Find contours
-    contours, _ = cv.findContours(edges, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
-
+    contours = get_contours(img, "RETR_EXTERNAL")
     # Draw convex hull for each contour
     for contour in contours:
         hull = cv.convexHull(contour)
@@ -472,11 +481,7 @@ def get_cvx_hull(img, check=False):
     return img
 
 def get_bounding_rect(img):
-    gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-    # Find edges using Canny edge detector
-    edges = cv.Canny(gray, 50, 150)
-    # Find contours
-    contours, _ = cv.findContours(edges, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+    contours= get_contours(img)
     cnt = contours[0]
     x,y,w,h = cv.boundingRect(cnt)
     img = cv.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
@@ -484,4 +489,27 @@ def get_bounding_rect(img):
     box = cv.boxPoints(rect)
     box = np.int0(box)
     img = cv.drawContours(img,[box],0,(0,0,255),2)
+    return img
+
+def get_min_enclosing_circle(img):
+    cnt = get_contours(img)[0]
+    (x,y),radius = cv.minEnclosingCircle(cnt)
+    center = (int(x),int(y))
+    radius = int(radius)
+    img = cv.circle(img,center,radius,(0,255,0),2)
+    return img 
+
+def fitting_ellipse(img):
+    cnt = get_contours(img)[0]
+    ellipse = cv.fitEllipse(cnt)
+    img = cv.ellipse(img, ellipse, (0,255,0), 2)
+    return img
+
+def fitting_line(img):
+    cnt = get_contours(img)[0]
+    rows,cols = img.shape[:2]
+    [vx,vy,x,y] = cv.fitLine(cnt, cv.DIST_L2,0,0.01,0.01)
+    lefty = int((-x*vy/vx) + y)
+    righty = int(((cols-x)*vy/vx)+y)
+    img = cv.line(img,(cols-1,righty),(0,lefty),(0,255,0),2)
     return img

@@ -42,6 +42,13 @@ def main():
         features.Fitting_an_Ellipse()
     elif options == "Fitting a Line":
         features.Fitting_a_Line()
+    
+    st.info("""
+            **✒️ Note** 
+            
+            > Please make sure when you try with your own image,
+            use a photo that contains one contoured object (preferably
+            binary images) with a solid background.""")
 
 if __name__ == "__main__":
     st.set_page_config("Contours in OpenCV", page_icon='app/assets/Images/OpenCV_Logo_with_text.png')
