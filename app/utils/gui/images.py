@@ -58,7 +58,8 @@ from utils.opencv.images import (
     get_bounding_rect,
     get_min_enclosing_circle,
     fitting_ellipse,
-    fitting_line)
+    fitting_line,
+    get_aspect_ratio)
 
 # Getting Started with Images (Page - 2)
 
@@ -3230,7 +3231,156 @@ class Contours:
                     self.img = fitting_line(self.img)
                     
                 st.image(self.img, caption="Fitting a Line", channels="BGR", use_column_width=True)
+    
+    class Properties(ImageProcessing):
+        def __init__(self):
+            super().__init__()
+        
+        def AspectRatio(self):
+            
+            # Information Body
+            st.subheader("1. Aspect Ratio")
+            st.markdown("It is the ratio of width to height of bounding rect of the object")
+            st.latex(r"Aspect \; Ratio = \frac{Width}{Height}")
 
+            # Uploader
+            with st.container(border=True):
+                st.subheader("Try it yourself: ")
+                self.uploader()
+                with st.expander("Image Output"):
+                    st.image(get_bounding_rect(self.img), caption="Aspect Ratio", channels="BGR")
+                    
+            # Code
+            st.subheader("Code")
+            st.code(f""" 
+                    x,y,w,h = cv.boundingRect(cnt)
+                    aspect_ratio = float(w)/h
+                    >> {get_aspect_ratio(self.img)}
+                    """)
+            
+            
+        def Extent(self):
+            
+            # Information Body
+            st.subheader("2. Extent")
+            st.markdown("Extent is the ratio of contour area to bounding rectangle area.")
+            st.latex(r"Extent = \frac{Object \; Area}{Bounding \; Rectangle \; Area}")
+                        
+            # Code
+            st.subheader("Code")
+            st.code("""
+                    area = cv.contourArea(cnt)
+                    x,y,w,h = cv.boundingRect(cnt)
+                    rect_area = w*h
+                    extent = float(area)/rect_area
+                    """)
+            
+        
+        def Solidity(self):
+            
+            # Information Body
+            st.subheader("3. Solidity")
+            st.markdown("Solidity is the ratio of contour area to its convex hull area.")
+            st.latex(r"Solidity = \frac{Contour \; Area}{Convex \; Hull \; Area}")
+            
+            # Code
+            st.code("""
+                    area = cv.contourArea(cnt)
+                    hull = cv.convexHull(cnt)
+                    hull_area = cv.contourArea(hull)
+                    solidity = float(area)/hull_area
+                    """)
+        
+        def EquivalentDiameter(self):
+            
+            # Information Body
+            st.subheader("4. Equivalent Diameter")
+            st.markdown("Equivalent Diameter is the diameter of the circle whose area is same as the contour area.")
+            st.latex(r"Equivalent \; Diameter = \sqrt{\frac{4 \times Contour \; Area}{\pi}}")
+            
+            # Code 
+            st.code("""
+                    area = cv.contourArea(cnt)
+                    equi_diameter = np.sqrt(4*area/np.pi)
+                    """) 
+            
+        def Orientation(self):
+            
+            # Information Body
+            st.subheader("5. Orientation")
+            st.markdown("""Orientation is the angle at which object is directed. 
+                        Following method also gives the Major Axis and Minor Axis lengths.""")
+            
+            # Code
+            st.code("(x,y),(MA,ma),angle = cv.fitEllipse(cnt)")
+            
+        def Mask_and_Pixel_Points(self):
+            
+            # Information Body
+            st.subheader("6. Mask and Pixel Points")
+            st.markdown("""In some cases, we may need all the points which comprises that object. 
+                        It can be done as follows:""")
+            
+            code = st.empty() # code placeholder
+            
+            st.markdown("""
+                        Here, two methods, one using Numpy functions, next one using OpenCV 
+                        function (last commented line) are given to do the same. Results are 
+                        also same, but with a slight difference. Numpy gives coordinates in 
+                        `(row, column)` format, while OpenCV gives coordinates in `(x,y)` 
+                        format. So basically the answers will be interchanged. 
+                        Note that, **row = y** and **column = x**.
+                        """)
+            # Code 
+            code.code("""
+                    mask = np.zeros(imgray.shape,np.uint8)
+                    cv.drawContours(mask,[cnt],0,255,-1)
+                    pixelpoints = np.transpose(np.nonzero(mask))
+                    #pixelpoints = cv.findNonZero(mask)
+                    """)
+            
+        def MaxVal_MinVal_locations(self):
+            
+            # Information Body
+            st.subheader("7. Maximum Value, Minimum Value and their locations")
+            st.markdown("We can find these parameters using a mask image.")
+            
+            # Code
+            st.code("min_val, max_val, min_loc, max_loc = cv.minMaxLoc(imgray,mask = mask)")
+        
+        def MaximumColor_or_MeanIntensity(self):
+            
+            # Information Body
+            st.subheader("8. Mean Color or Mean Intensity")
+            st.markdown("""
+                        Here, we can find the average color of an object. 
+                        Or it can be average intensity of the object in grayscale mode.
+                        We again use the same mask to do it.
+                        """)
+            
+            # Code
+            st.code("""
+                    mean_val = cv.mean(im,mask = mask)
+                    """)
+
+        def ExtremePoints(self):
+            
+            # Information Body
+            st.subheader("9. Extreme Points")
+            st.markdown("""
+                        Extreme Points means topmost, bottommost, rightmost and leftmost points of the object.
+                        For eg, if I apply it to the map of India, I get the following result :
+                        """)
+            
+            # Code
+            st.code("""
+                    leftmost = tuple(cnt[cnt[:,:,0].argmin()][0])
+                    rightmost = tuple(cnt[cnt[:,:,0].argmax()][0])
+                    topmost = tuple(cnt[cnt[:,:,1].argmin()][0])
+                    bottommost = tuple(cnt[cnt[:,:,1].argmax()][0])
+                    """)
+            st.image("https://docs.opencv.org/4.x/extremepoints.jpg", caption="Extreme Points", use_column_width=True)
+            
 class Histograms(ImageProcessing):
     def __init__(self):
         pass
