@@ -513,3 +513,10 @@ def fitting_line(img):
     righty = int(((cols-x)*vy/vx)+y)
     img = cv.line(img,(cols-1,righty),(0,lefty),(0,255,0),2)
     return img
+
+# Contour Properties
+def get_aspect_ratio(img):
+    cnt = get_contours(img)[0]
+    x,y,w,h = cv.boundingRect(cnt)
+    
+    return float(w)/h
