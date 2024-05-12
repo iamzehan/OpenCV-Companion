@@ -3398,7 +3398,7 @@ class Histograms:
             
             functions = {
                 "Histogram Calculation" : HistogramCalculation(),
-                "Histogram Calculation with Numpy" : HistogramCalculation()
+                "Histogram Calculation with Numpy" : HistogramCalculationNumpy()
             }
             
             with st.container(border=True):
