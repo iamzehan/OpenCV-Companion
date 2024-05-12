@@ -3231,7 +3231,7 @@ class Contours:
                     self.img = fitting_line(self.img)
                     
                 st.image(self.img, caption="Fitting a Line", channels="BGR", use_column_width=True)
-    
+
     class Properties(ImageProcessing):
         def __init__(self):
             super().__init__()
@@ -3380,11 +3380,61 @@ class Contours:
                     bottommost = tuple(cnt[cnt[:,:,1].argmax()][0])
                     """)
             st.image("https://docs.opencv.org/4.x/extremepoints.jpg", caption="Extreme Points", use_column_width=True)
-            
-class Histograms(ImageProcessing):
-    def __init__(self):
-        super().__init__()
 
+class Histograms:
+
+    class Histograms1(ImageProcessing):
+        def __init__(self):
+            super().__init__()
+        
+        def Introduction(self):
+            pass
+        
+        def FindHistogram(self):
+            def HistogramCalculation(self):
+                pass
+            def HistogramCalculationNumpy(self):
+                pass
+            
+            functions = {
+                "Histogram Calculation" : HistogramCalculation(),
+                "Histogram Calculation with Numpy" : HistogramCalculation()
+            }
+            
+            with st.container(border=True):
+                st.subheader("Subtopics")
+                options = st.radio(label="Options: ",
+                                options=list(functions.keys()),
+                                horizontal = True,
+                                label_visibility="collapsed")
+            
+            if options:
+                functions[options]()
+        
+        def PlottingHistograms(self):
+            def UsingMatplotlib(self):
+                pass
+            def UsingOpenCV(self):
+                pass
+            
+            functions = {
+                "Using Matplotlib" : UsingMatplotlib(),
+                "Histogram Calculation with Numpy" : UsingOpenCV()
+            }
+            
+            with st.container(border=True):
+                st.subheader("Subtopics")
+                options = st.radio(label="Options: ",
+                                options=list(functions.keys()),
+                                horizontal = True,
+                                label_visibility="collapsed")
+            
+            if options:
+                functions[options]()
+        
+        def ApplicationOfMask(self):
+            pass
+        
 class ImageTransformations(ImageProcessing):
     def __init__(self):
         super().__init__()
