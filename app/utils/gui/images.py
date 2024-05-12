@@ -3383,29 +3383,29 @@ class Contours:
             
 class Histograms(ImageProcessing):
     def __init__(self):
-        super().__init__
+        super().__init__()
 
 class ImageTransformations(ImageProcessing):
     def __init__(self):
-        super().__init__
+        super().__init__()
 
 class TemplateMatching(ImageProcessing):
     def __init__(self):
-        super().__init__
+        super().__init__()
 
 class HoughLineTransform(ImageProcessing):
     def __init__(self):
-        super().__init__
+        super().__init__()
     
 
 class HoughCircleTransform(ImageProcessing):
     def __init__(self):
-        super().__init__
+        super().__init__()
 
 class ImageSegmentation(ImageProcessing):
     def __init__(self):
-        super().__init__
+        super().__init__()
 
 class InteractiveForegroundExtraction(ImageProcessing):
     def __init__(self):
-        super().__init__
+        super().__init__()
