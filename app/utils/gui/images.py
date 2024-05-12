@@ -3391,9 +3391,9 @@ class Histograms:
             pass
         
         def FindHistogram(self):
-            def HistogramCalculation(self):
+            def HistogramCalculation():
                 pass
-            def HistogramCalculationNumpy(self):
+            def HistogramCalculationNumpy():
                 pass
             
             functions = {
@@ -3409,12 +3409,12 @@ class Histograms:
                                 label_visibility="collapsed")
             
             if options:
-                functions[options]()
+                functions[options]
         
         def PlottingHistograms(self):
-            def UsingMatplotlib(self):
+            def UsingMatplotlib():
                 pass
-            def UsingOpenCV(self):
+            def UsingOpenCV():
                 pass
             
             functions = {
@@ -3430,7 +3430,7 @@ class Histograms:
                                 label_visibility="collapsed")
             
             if options:
-                functions[options]()
+                functions[options]
         
         def ApplicationOfMask(self):
             pass
