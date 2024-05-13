@@ -12,6 +12,9 @@ def read_image(path, grey=False):
         img = cv.imread(path)
     return img
 
+def get_greyscale(img):
+    return cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+
 def get_shape(img):
     return img.shape
 
@@ -520,3 +523,22 @@ def get_aspect_ratio(img):
     x,y,w,h = cv.boundingRect(cnt)
     
     return float(w)/h
+
+# Histogram 
+
+def calculate_histogram(img, i):
+    return cv.calcHist([img], [i], None, [256], [0, 256])
+
+def AppOfMask(img, h1=100, h2=300, w1=100, w2=400):
+    img = get_greyscale(img)
+    mask = np.zeros(img.shape[:2], np.uint8)
+    mask[h1:h2, w1:w2] = 255
+
+    # Apply the mask to the image
+    masked_img = cv.bitwise_and(img, img, mask=mask)
+
+    # Calculate histograms with and without mask
+    hist_full = cv.calcHist([img], [0], None, [256], [0, 256])
+    hist_mask = cv.calcHist([img], [0], mask, [256], [0, 256])
+    
+    return img, mask, masked_img, hist_full, hist_mask
