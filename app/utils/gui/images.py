@@ -3435,7 +3435,7 @@ class Histograms:
         def ApplicationOfMask(self):
             pass
     
-    class Histograms12(ImageProcessing):
+    class Histograms2(ImageProcessing):
         def __init__(self):
             super().__init__()
         
@@ -3473,7 +3473,7 @@ class Histograms:
                 pass
             def Method3():
                 pass
-        
+
 class ImageTransformations(ImageProcessing):
     def __init__(self):
         super().__init__()
