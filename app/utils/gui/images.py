@@ -10,6 +10,7 @@ from utils.opencv.images import (
     get_shape,
     get_size,
     get_dtype,
+    get_greyscale,
     list_to_np_array,
     split_channels,
     merge_channels,
@@ -59,7 +60,9 @@ from utils.opencv.images import (
     get_min_enclosing_circle,
     fitting_ellipse,
     fitting_line,
-    get_aspect_ratio)
+    get_aspect_ratio,
+    calculate_histogram,
+    AppOfMask)
 
 # Getting Started with Images (Page - 2)
 
@@ -3418,14 +3421,91 @@ class Histograms:
                         """)
         
         def FindHistogram(self):
-            def HistogramCalculation():
-                pass
-            def HistogramCalculationNumpy():
-                pass
+            st.header("Find Histogram")
+            st. markdown("""
+                        Now we have an idea on what is histogram, we can look into how to find this. Both OpenCV and 
+                        Numpy come with in-built function for this. Before using those functions, we need to understand
+                        some terminologies related with histograms.
+
+                        **BINS :** The above histogram shows the number of pixels for every pixel value, ie from 0 to 255.
+                        ie you need 256 values to show the above histogram. But consider, what if you need not find 
+                        the number of pixels for all pixel values separately, but number of pixels in a interval of 
+                        pixel values? say for example, you need to find the number of pixels lying between 0 to 15, 
+                        then 16 to 31, ..., 240 to 255. You will need only 16 values to represent the histogram. And 
+                        that is what is shown in example given in 
+                        [OpenCV Tutorials on histograms](https://docs.opencv.org/4.x/d5/daf/tutorial_py_histogram_equalization.html).
+
+                        So what you do is simply split the whole histogram to 16 sub-parts and value of each sub-part 
+                        is the sum of all pixel count in it. This each sub-part is called "BIN". In first case, number 
+                        of bins were 256 (one for each pixel) while in second case, it is only 16. BINS is represented 
+                        by the term histSize in OpenCV docs.
+
+                        **DIMS :** It is the number of parameters for which we collect the data. In this case, we collect 
+                        data regarding only one thing, intensity value. So here it is 1.
+
+                        **RANGE :** It is the range of intensity values you want to measure. Normally, it is [0,256], 
+                        ie all intensity values.
+                         """)
+            def HistogramCalculation(placeholder):
+                
+                with placeholder:
+                    st.subheader("1. Histogram Calculation in OpenCV")
+                    st.markdown("""
+                            So now we use `cv.calcHist()` function to find the histogram. Let's familiarize with the function 
+                            and its parameters:
+
+                            `cv.calcHist(images, channels, mask, histSize, ranges[, hist[, accumulate]])`
+
+                            - **images**: Source image of type uint8 or float32. It should be given in square brackets, i.e., "[img]".
+
+                            - **channels**: Index of the channel for which we calculate histogram. For example, if the input 
+                            is a grayscale image, its value is `[0]`. For a color image, you can pass `[0]`, `[1]`, or `[2]` to calculate 
+                            the histogram of the blue, green, or red channel respectively.
+
+                            - **mask**: Mask image. To find the histogram of the full image, it is given as "None". But if you want to 
+                            find the histogram of a particular region of the image, you have to create a mask image for that and give it 
+                            as `mask`. (I will show an example later.)
+
+                            - **histSize**: This represents our BIN count. Need to be given in square brackets. For full scale,
+                            we pass `[256]`.
+
+                            - **ranges**: This is our RANGE. Normally, it is `[0,256]`.
+
+                            So let's start with a sample image. Simply load an image in grayscale mode and find its full histogram.
+
+                            """)
+                    
+                    st.code("""
+                            img = cv.imread('home.jpg', cv.IMREAD_GRAYSCALE)
+                            assert img is not None, "file could not be read, check with os.path.exists()"
+                            hist = cv.calcHist([img],[0],None,[256],[0,256])
+                            """)
+                    st.write("hist is a `256x1` array, each value corresponds to number of pixels in that image with its corresponding pixel value.")
+                    
+            def HistogramCalculationNumpy(placeholder):
+                with placeholder:
+                    st.subheader("2. Histogram Calculation in Numpy")
+                    st.write("Numpy also provides you a function, `np.histogram()`. So instead of `calcHist()` function, you can try below line :")
+                    st.code("""
+                            hist,bins = np.histogram(img.ravel(),256,[0,256])
+                            """)
+                    st.markdown("""
+                                hist is same as we calculated before. But bins will have 257 elements, because Numpy calculates bins as `0-0.99`, `1-1.99`,
+                                `2-2.99` etc. So final range would be `255-255.99.` To represent that, they also add 256 at end of bins. But we don't need 
+                                that `256`. Upto `255` is sufficient.
+                                """)
+                    st.info("""
+                            **Note**
+                            > Numpy has another function, `np.bincount()` which is much faster than (around 10X) `np.histogram()`. So for one-dimensional histograms, 
+                            you can better try that. Don't forget to set minlength = 256 in np.bincount. For example, `hist = np.bincount(img.ravel(),minlength=256)`
+                            
+                            OpenCV function is faster than (around 40X) than `np.histogram()`. So stick with OpenCV function.
+                            """)
+                    st.write("Now we should plot histograms, but how?")
             
             functions = {
-                "Histogram Calculation" : HistogramCalculation(),
-                "Histogram Calculation with Numpy" : HistogramCalculationNumpy()
+                "Histogram Calculation" : HistogramCalculation,
+                "Histogram Calculation with Numpy" : HistogramCalculationNumpy
             }
             
             with st.container(border=True):
@@ -3434,19 +3514,97 @@ class Histograms:
                                 options=list(functions.keys()),
                                 horizontal = True,
                                 label_visibility="collapsed")
-            
+                
+            placeholder= st.container()
             if options:
-                functions[options]
+                functions[options](placeholder)
         
         def PlottingHistograms(self):
-            def UsingMatplotlib():
-                pass
-            def UsingOpenCV():
-                pass
+            st.header("Plotting Histograms")
+            st.markdown("""
+                        There are two ways for this,
+                        1. **Short Way :** use Matplotlib plotting functions
+                        2. **Long Way :** use OpenCV drawing functions
+                        """)
+            def UsingMatplotlib(placeholder):
+                with placeholder:
+                    st.subheader("1. Using Matplotlib")
+                    st.markdown("""
+                                Matplotlib comes with a histogram plotting function : `matplotlib.pyplot.hist()`
+
+                                It directly finds the histogram and plot it. You need not use `calcHist()` or `np.histogram()`
+                                function to find the histogram. See the code below:
+                                """)
+                    st.code("""
+                            import numpy as np
+                            import cv2 as cv
+                            from matplotlib import pyplot as plt
+                            
+                            img = cv.imread('home.jpg', cv.IMREAD_GRAYSCALE)
+                            assert img is not None, "file could not be read, check with os.path.exists()"
+                            plt.hist(img.ravel(),256,[0,256]); plt.show()
+                            """)
+                    with st.container(border=True):
+                        st.subheader("Try it yourself")
+                        self.uploader()
+                    grey = get_greyscale(self.img)
+                    fig, axes = plt.subplots(ncols=2, nrows=1, figsize=(15, 5))
+
+                    # Plot the grayscale image on the left subplot
+                    axes[0].imshow(grey, cmap='gray')
+                    axes[0].set_title('Grayscale Image')
+
+                    # Plot the histogram of pixel intensities on the right subplot
+                    hist = axes[1].hist(grey.ravel(), 256, [0, 256])
+                    axes[1].set_title('Histogram of Pixel Intensities')
+                    st.write("You will get a plot as below :")
+                    with st.container(border=True):
+                        st.pyplot(fig)
+                    
+                    st.write("Or you can use normal plot of matplotlib, which would be good for BGR plot. For that, you need to find the histogram data first. Try below code:")
+                    
+                    st.code("""
+                            import numpy as np
+                            import cv2 as cv
+                            from matplotlib import pyplot as plt
+                            
+                            img = cv.imread('home.jpg')
+                            assert img is not None, "file could not be read, check with os.path.exists()"
+                            color = ('b','g','r')
+                            for i,col in enumerate(color):
+                            histr = cv.calcHist([img],[i],None,[256],[0,256])
+                            plt.plot(histr,color = col)
+                            plt.xlim([0,256])
+                            plt.show()
+                            """)
+                    
+                    fig, ax = plt.subplots()
+
+                    # Plot histograms for each color channel
+                    colors = ('b', 'g', 'r')
+                    for i, col in enumerate(colors):
+                        histr = calculate_histogram(self.img, i)
+                        ax.plot(histr, color=col)
+                        ax.set_xlim([0, 256])
+
+                    # Set title and labels
+                    ax.set_title('Histograms for each color channel')
+                    ax.set_xlabel('Pixel value')
+                    ax.set_ylabel('Frequency')
+
+                    # Display the plot using Streamlit
+                    st.pyplot(fig)
+            def UsingOpenCV(placeholder):
+                st.markdown("""
+                            Well, here you adjust the values of histograms along with its bin values
+                            to look like x,y coordinates so that you can draw it using `cv.line()` or 
+                            `cv.polyline()` function to generate same image as above. This is already 
+                            available with OpenCV-Python2 official samples. Check the code at samples/python/hist.py.
+                            """)
             
             functions = {
-                "Using Matplotlib" : UsingMatplotlib(),
-                "Histogram Calculation with Numpy" : UsingOpenCV()
+                "Using Matplotlib" : UsingMatplotlib,
+                "Using OpenCV" : UsingOpenCV
             }
             
             with st.container(border=True):
@@ -3455,12 +3613,81 @@ class Histograms:
                                 options=list(functions.keys()),
                                 horizontal = True,
                                 label_visibility="collapsed")
-            
+                
+            placeholder = st.container()
             if options:
-                functions[options]
+                functions[options](placeholder)
         
         def ApplicationOfMask(self):
-            pass
+            st.header("Application of Mask")
+            st.markdown("""
+                        We used `cv.calcHist()` to find the histogram of the full image. 
+                        What if you want to find histograms of some regions of an image?
+                        Just create a mask image with white color on the region you want
+                        to find histogram and black otherwise. Then pass this as the mask.
+                        """)
+            
+            code_placeholder=st.empty()
+            
+            st.write("""See the result. In the histogram plot, blue line shows 
+                     histogram of full image while green line shows histogram 
+                     of masked region.""")
+            
+            h, w, _ = get_shape(self.img)
+            with st.container(border=True):
+                st.subheader("Parameters")
+                h1, h2 = st.slider(label="Mask height range", value=(100,300), min_value=0, max_value=h)
+                w1, w2 = st.slider(label="Mask width range", value=(100,300), min_value=0, max_value=h)
+                # st.write("Try Another Image:")
+                self.uploader(custom_msg="Try another image")
+            with code_placeholder:
+                st.code(f"""
+                    img = cv.imread('home.jpg', cv.IMREAD_GRAYSCALE)
+                    assert img is not None, "file could not be read, check with os.path.exists()"
+                    
+                    # create a mask
+                    mask = np.zeros(img.shape[:2], np.uint8)
+                    mask[{h1}:{h2}, {w1}:{w2}] = 255
+                    masked_img = cv.bitwise_and(img,img,mask = mask)
+                    
+                    # Calculate histogram with mask and without mask
+                    # Check third argument for mask
+                    hist_full = cv.calcHist([img],[0],None,[256],[0,256])
+                    hist_mask = cv.calcHist([img],[0],mask,[256],[0,256])
+                    
+                    plt.subplot(221), plt.imshow(img, 'gray')
+                    plt.subplot(222), plt.imshow(mask,'gray')
+                    plt.subplot(223), plt.imshow(masked_img, 'gray')
+                    plt.subplot(224), plt.plot(hist_full), plt.plot(hist_mask)
+                    plt.xlim([0,256])
+                    
+                    plt.show()
+                    """)
+            img, mask, masked_img, hist_full, hist_mask = AppOfMask(self.img, h1, h2, w1, w2)
+            fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(10, 10))
+
+            # Plot images and histograms
+            axes[0, 0].imshow(img, cmap='gray')
+            axes[0, 0].set_title('Original Image')
+            axes[0, 0].axis('off')
+
+            axes[0, 1].imshow(mask, cmap='gray')
+            axes[0, 1].set_title('Mask')
+            axes[0, 0].axis('off')
+
+            axes[1, 0].imshow(masked_img, cmap='gray')
+            axes[1, 0].set_title('Masked Image')
+            axes[1, 0].axis('off')
+
+            axes[1, 1].plot(hist_full, label='Full Image')
+            axes[1, 1].plot(hist_mask, label='Masked Image')
+            axes[1, 1].set_title('Histograms')
+            axes[1, 1].legend()
+            axes[1, 1].set_xlim([0, 256])
+
+            # Display the plot using Streamlit
+            st.pyplot(fig)
+            
     
     class Histograms2(ImageProcessing):
         def __init__(self):
