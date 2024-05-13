@@ -3451,6 +3451,29 @@ class Histograms:
         def CLAHE(self):
             pass
         
+    class Histograms3(ImageProcessing):
+        def __init__(self):
+            super().__init__()
+        
+        def Introduction(self):
+            pass
+        
+        def Histograms_2D_OpenCV(self):
+            pass 
+        
+        def Histograms_2D_Numpy(self):
+            pass
+        
+        def Plotting_2D_Histograms(self):
+            pass
+        
+            def Method1():
+                pass
+            def Method2():
+                pass
+            def Method3():
+                pass
+        
 class ImageTransformations(ImageProcessing):
     def __init__(self):
         super().__init__()
