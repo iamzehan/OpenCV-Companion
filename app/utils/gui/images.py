@@ -3388,7 +3388,34 @@ class Histograms:
             super().__init__()
         
         def Introduction(self):
-            pass
+            st.subheader("Goal")
+            st.markdown("""
+                        Learn to
+                        - Find histograms, using both OpenCV and Numpy functions
+                        - Plot histograms, using OpenCV and Matplotlib functions
+                        - You will see these functions : cv.calcHist(), np.histogram() etc.
+                        """)
+            st.subheader("Theory")
+            st.markdown("""
+                        So what is histogram ? You can consider histogram as a graph or plot, 
+                        which gives you an overall idea about the intensity distribution of an image.
+                        It is a plot with pixel values (ranging from 0 to 255, not always) in X-axis 
+                        and corresponding number of pixels in the image on Y-axis.
+                        
+                        It is just another way of understanding the image. By looking at the histogram 
+                        of an image, you get intuition about contrast, brightness, intensity distribution 
+                        etc of that image. Almost all image processing tools today, provides features on 
+                        histogram. Below is an image from Cambridge in Color website, and I recommend you 
+                        to visit the site for more details.
+                        """)
+            st.image("app/assets/Images/histogram_sample.jpg", use_column_width=True)
+            st.markdown("""
+                        You can see the image and its histogram. (Remember, this histogram is drawn for grayscale
+                        image, not color image). Left region of histogram shows the amount of darker pixels in image 
+                        and right region shows the amount of brighter pixels. From the histogram, you can see dark 
+                        region is more than brighter region, and amount of midtones (pixel values in mid-range, say 
+                        around 127) are very less.
+                        """)
         
         def FindHistogram(self):
             def HistogramCalculation():
