@@ -3434,6 +3434,22 @@ class Histograms:
         
         def ApplicationOfMask(self):
             pass
+    
+    class Histograms12(ImageProcessing):
+        def __init__(self):
+            super().__init__()
+        
+        def Introduction(self):
+            pass
+        
+        def Theory(self):
+            pass
+        
+        def HistogramsEqualization(self):
+            pass
+        
+        def CLAHE(self):
+            pass
         
 class ImageTransformations(ImageProcessing):
     def __init__(self):
