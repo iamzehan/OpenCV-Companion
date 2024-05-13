@@ -3473,7 +3473,36 @@ class Histograms:
                 pass
             def Method3():
                 pass
-
+            
+            functions = {
+                "Method 1" : Method1,
+                "Method 2" : Method2,
+                "Method 3" : Method3
+            }
+            
+            with st.container(border=True):
+                st.subheader("Subtopics")
+                options = st.radio(label="Options: ",
+                                options=list(functions.keys()),
+                                horizontal = True,
+                                label_visibility="collapsed")
+            
+            if options:
+                functions[options]()
+            
+    class Histograms4(ImageProcessing):
+        def __init__(self):
+            super().__init__()
+        
+        def Introduction(self):
+            pass
+        
+        def Algorithm_in_Numpy(self):
+            pass
+        
+        def Backprojection_in_OpenCV(self):
+            pass
+        
 class ImageTransformations(ImageProcessing):
     def __init__(self):
         super().__init__()
